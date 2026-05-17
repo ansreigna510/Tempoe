@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +13,7 @@
     .navbar { background-color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
     .navbar-brand h1 { font-size: 22px; font-weight: 800; color: #0073b1; letter-spacing: -0.5px; cursor: pointer; }
     .navbar-links { display: flex; gap: 20px; align-items: center; }
-    .navbar-links a { text-decoration: none; color: #555; font-weight: bold; font-size: 14px; transition: color 0.2s; position: relative; cursor: pointer; }
+    .navbar-links a { text-decoration: none; color: #555; font-weight: bold; font-size: 14px; transition: color 0.2s; position: relative; cursor: pointer; user-select: none; }
     .navbar-links a:hover, .navbar-links a.active { color: #0073b1; }
     
     /* Notification Badge */
@@ -23,19 +22,23 @@
     /* Layout */
     .main-container { display: flex; max-width: 1128px; margin: 20px auto; gap: 20px; padding: 0 15px; align-items: flex-start; }
     .left-sidebar { flex: 1; position: sticky; top: 80px; }
-    .main-feed { flex: 2; }
+    .main-feed { flex: 2; min-width: 0; }
     .right-sidebar { flex: 1; position: sticky; top: 80px; }
 
     /* Cards */
     .card { background-color: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px; transition: box-shadow 0.2s; }
     .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .post-image { width: 100%; border-radius: 8px; margin: 10px 0; object-fit: cover; }
-    .post-video { width: 100%; border-radius: 8px; margin: 10px 0; background-color: #000; max-height: 500px; }
 
     /* Forms & Inputs */
     .post-input-area { display: flex; flex-direction: column; gap: 10px; }
     textarea { width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 15px; resize: none; font-family: inherit; font-size: 14px; transition: border-color 0.2s; }
     textarea:focus { outline: none; border-color: #0073b1; }
+    
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .form-row { display: flex; gap: 10px; }
+    .input-field { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 14px; outline: none; width: 100%; }
+    .input-field:focus { border-color: #0073b1; }
     
     /* Buttons */
     .button { background-color: #0073b1; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
@@ -59,27 +62,30 @@
 
     hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
 
+    /* Messaging Workspace Layout */
+    .messaging-container { display: flex; background: white; border: 1px solid #ddd; border-radius: 8px; height: 520px; overflow: hidden; }
+    .inbox-list { width: 35%; border-right: 1px solid #ddd; overflow-y: auto; background: #fff; }
+    .inbox-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s; }
+    .inbox-item:hover, .inbox-item.active { background-color: rgba(0, 115, 177, 0.08); }
+    .inbox-item.active h4 { color: #0073b1; }
+    .chat-window { width: 65%; display: flex; flex-direction: column; background: #f9f9f9; }
+    .chat-header { padding: 15px; background: #fff; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 15px; }
+    .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .chat-bubble { max-width: 75%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
+    .chat-bubble.incoming { background: #e9e9eb; align-self: flex-start; color: #000; border-bottom-left-radius: 4px; }
+    .chat-bubble.outgoing { background: #0073b1; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .chat-input-area { padding: 12px 15px; background: #fff; border-top: 1px solid #ddd; display: flex; gap: 10px; align-items: center; }
+
+    /* View Controller Utilities */
+    .tab-content { display: block; }
+    .tab-content.hidden { display: none !important; }
+
     /* Toast Notification */
     .toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; pointer-events: none; }
     .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
-    /* =========================================================
-       NEW: LANDSCAPE ORIENTATION LOCK FOR MOBILE
-       ========================================================= */
-    #orientation-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background-color: #0073b1;
-      color: white;
-      z-index: 9999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 30px;
-    }
-
+    /* Landscape Orientation Lock Configuration */
+    #orientation-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #0073b1; color: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; }
     #orientation-overlay h2 { color: white; font-size: 28px; margin-bottom: 15px; }
     #orientation-overlay p { font-size: 16px; line-height: 1.5; max-width: 300px; }
     .device-icon { font-size: 60px; margin-bottom: 20px; animation: tilt 2s ease-in-out infinite; }
@@ -90,13 +96,11 @@
       100% { transform: rotate(0deg); }
     }
 
-    /* If it's a mobile device AND it is held vertically (portrait) */
     @media screen and (max-width: 768px) and (orientation: portrait) {
       #orientation-overlay { display: flex; }
-      body { overflow: hidden; } /* Locks scrolling while overlay is visible */
+      body { overflow: hidden; }
     }
 
-    /* Standard mobile stacking just in case viewport is extremely small even in landscape */
     @media screen and (max-width: 600px) {
       .main-container { flex-direction: column; }
       .left-sidebar, .main-feed, .right-sidebar { width: 100%; position: static; }
@@ -114,17 +118,18 @@
 
   <nav class="navbar">
     <div class="navbar-brand">
-      <h1>Tempoe</h1>
+      <h1 onclick="switchTab('home')">Tempoe</h1>
     </div>
     <div class="navbar-links">
-      <a class="nav-btn active" data-toast="Refreshing Home Feed...">Home</a>
-      <a class="nav-btn" data-toast="Loading Marketplace...">Market</a>
-      <a class="nav-btn" data-toast="Searching available gigs...">Gigs</a>
-      <a class="nav-btn" data-toast="Opening Inbox...">Messaging <span class="badge">3</span></a>
+      <a class="nav-btn active" id="nav-home" onclick="switchTab('home')">Home</a>
+      <a class="nav-btn" id="nav-market" onclick="switchTab('market')">Market</a>
+      <a class="nav-btn" id="nav-gigs" onclick="switchTab('gigs')">Gigs</a>
+      <a class="nav-btn" id="nav-messaging" onclick="switchTab('messaging')">Messaging <span class="badge" id="msg-badge">3</span></a>
     </div>
   </nav>
 
   <div class="main-container">
+    <!-- Left Profile Summary Sidebar -->
     <div class="left-sidebar">
       <div class="card" style="text-align: center;">
         <div style="background-color: #111; color: #fff; width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; line-height: 80px; font-size: 32px; font-weight: bold;">D</div>
@@ -138,70 +143,184 @@
       </div>
     </div>
 
+    <!-- Main Workspace Stream Content -->
     <div class="main-feed" id="feed-container">
       
-      <div class="card">
-        <div class="post-input-area">
-          <textarea id="new-post-text" rows="2" placeholder="Got a gig or studio update? Share it here..."></textarea>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
-            <div style="display: flex; gap: 15px; color: #555; font-weight: bold; font-size: 14px;">
-              <span class="action-btn gen-action" data-toast="Opening device camera roll...">📷 Media</span>
-              <span class="action-btn gen-action" data-toast="Selecting audio file...">🎵 Audio</span>
+      <!-- ==================== HOME VIEW CONTAINER ==================== -->
+      <div id="tab-home-view" class="tab-content">
+        <div class="card">
+          <div class="post-input-area">
+            <textarea id="new-post-text" rows="2" placeholder="Got a gig or studio update? Share it here..."></textarea>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+              <div style="display: flex; gap: 15px; color: #555; font-weight: bold; font-size: 14px;">
+                <span class="action-btn gen-action" data-toast="Opening device camera roll...">📷 Media</span>
+                <span class="action-btn gen-action" data-toast="Selecting audio file...">🎵 Audio</span>
+              </div>
+              <button class="button" id="submit-post-btn" disabled>Post</button>
             </div>
-            <button class="button" id="submit-post-btn" disabled>Post</button>
+          </div>
+        </div>
+
+        <div id="posts-wrapper">
+          <div class="card post-card">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+              <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
+              <div>
+                <h4>DRE4K</h4>
+                <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • 2h</span>
+              </div>
+            </div>
+            <p class="post-content">Getting everything dialed in for June 13th. We've got Keak da Sneak headlining CHI Lounge! Locking in the final promotions now. Pull up! 🔥</p>
+            <div class="post-stats">👍 <span class="like-counter">204</span> • 32 comments</div>
+            <div class="post-actions">
+              <span class="action-btn like-btn">Like</span>
+              <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
+              <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
+            </div>
+          </div>
+
+          <div class="card post-card">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+              <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
+              <div>
+                <h4>DRE4K</h4>
+                <span class="text-muted" style="margin-bottom: 0;">Music Producer • 1d</span>
+              </div>
+            </div>
+            <p class="post-content">Just wrapped up the fabrication on this custom 2-foot tall 3D-printed gramophone display on a wood base. Finished in gold paint. Shoutout to our private client on the project!</p>
+            <img class="post-image" src="gramophone.jpg" onerror="this.style.display='none'" alt="Gramophone Build">
+            <div class="post-stats">👍 <span class="like-counter">189</span> • 15 comments</div>
+            <div class="post-actions">
+              <span class="action-btn like-btn">Like</span>
+              <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
+              <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div id="posts-wrapper">
-        
-        <div class="card post-card">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
-            <div>
-              <h4>DRE4K</h4>
-              <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • 2h</span>
+      <!-- ==================== MARKETPLACE VIEW CONTAINER ==================== -->
+      <div id="tab-market-view" class="tab-content hidden">
+        <div class="card">
+          <h2>List an Item or Service</h2>
+          <span class="text-muted">Put your gear or technical studio production expertise up for lease/sale.</span>
+          <div class="form-group">
+            <input type="text" id="market-title" class="input-field" placeholder="Item or Service Name (e.g., Neumann U87 Ai)">
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <input type="text" id="market-price" class="input-field" placeholder="Price or Custom Quote">
+            </div>
+            <div class="form-group" style="flex: 2;">
+              <input type="text" id="market-desc" class="input-field" placeholder="Brief technical specifications...">
             </div>
           </div>
-          <p class="post-content">Getting everything dialed in for June 13th. We've got Keak da Sneak headlining CHI Lounge! Locking in the final promotions now. Pull up! 🔥</p>
-          <div class="post-stats">👍 <span class="like-counter">204</span> • 32 comments</div>
-          <div class="post-actions">
-            <span class="action-btn like-btn">Like</span>
-            <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
-            <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
-          </div>
+          <button class="button" id="submit-market-btn" style="width: 100%; margin-top: 5px;">Publish Listing</button>
         </div>
 
-        <div class="card post-card">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
-            <div>
-              <h4>DRE4K</h4>
-              <span class="text-muted" style="margin-bottom: 0;">Music Producer • 1d</span>
+        <div id="market-wrapper">
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <h4>"Dre Force Ones" Monitor Stands</h4>
+                <span class="text-muted" style="color: #0073b1; font-weight: bold; margin-top: 4px; font-size: 14px;">Custom Quote</span>
+              </div>
             </div>
+            <p class="post-content" style="margin-top: 10px;">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation. Custom CAD modeled, decoupled structural wood construction bases.</p>
+            <button class="button gen-action" style="width: 100%;" data-toast="Direct message thread created with specialized vendor.">Inquire Now</button>
           </div>
-          <p class="post-content">Just wrapped up the fabrication on this custom 2-foot tall 3D-printed gramophone display on a wood base. Finished in gold paint. Shoutout to our private client on the project!</p>
-          <img class="post-image" src="gramophone.jpg" alt="Gramophone Build">
-          <div class="post-stats">👍 <span class="like-counter">189</span> • 15 comments</div>
-          <div class="post-actions">
-            <span class="action-btn like-btn">Like</span>
-            <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
-            <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
+          
+          <div class="card">
+            <div>
+              <h4>Moog Matriarch Synthesizer Patching Unit</h4>
+              <span class="text-muted" style="color: #0073b1; font-weight: bold; margin-top: 4px; font-size: 14px;">$1,850</span>
+            </div>
+            <p class="post-content" style="margin-top: 10px;">Flawless condition dark edition analog architecture synth. Kept strictly inside clean environment smoke-free tracking rooms.</p>
+            <button class="button gen-action" style="width: 100%;" data-toast="Purchase request dispatched to seller asset queue.">Inquire Now</button>
           </div>
         </div>
-
       </div>
+
+      <!-- ==================== GIGS VIEW CONTAINER ==================== -->
+      <div id="tab-gigs-view" class="tab-content hidden">
+        <div class="card">
+          <h2>Post a Project Opportunity</h2>
+          <span class="text-muted">Find session instrumentalists, engineers, or sound designers for tracking projects.</span>
+          <div class="form-group">
+            <input type="text" id="gig-title" class="input-field" placeholder="Gig Title (e.g., Session Drummer Needed)">
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <input type="text" id="gig-pay" class="input-field" placeholder="Budget / Pay Rate">
+            </div>
+            <div class="form-group" style="flex: 2;">
+              <input type="text" id="gig-desc" class="input-field" placeholder="Requirements, timelines, and venue details...">
+            </div>
+          </div>
+          <button class="button" id="submit-gig-btn" style="width: 100%; margin-top: 5px;">Post Opportunity</button>
+        </div>
+
+        <div id="gigs-wrapper">
+          <div class="card gig-card">
+            <div style="display: flex; justify-content: space-between;">
+              <h4>CHI Lounge Weekend Resident DJ Set</h4>
+              <span style="color: #2e7d32; font-weight: bold; font-size: 13px;">$350 / Night</span>
+            </div>
+            <span class="text-muted">CHI Lounge • Open Booking</span>
+            <p class="post-content">Looking for a professional multi-genre DJ versatile in urban West Coast sets and deep house curation. Full hardware interface and monitoring setup provided on site.</p>
+            <button class="button apply-btn" style="width: 100%; background-color: transparent; color: #0073b1; border: 1px solid #0073b1;">Apply Now</button>
+          </div>
+
+          <div class="card gig-card">
+            <div style="display: flex; justify-content: space-between;">
+              <h4>EP Mixing & Mastering Engineer</h4>
+              <span style="color: #2e7d32; font-weight: bold; font-size: 13px;">$600 Flat Rate</span>
+            </div>
+            <span class="text-muted">Independent Project • Remote Tracking</span>
+            <p class="post-content">Need high-fidelity vocal standard dynamic processing for a 4-track acoustic EP. Timelines are roughly three weeks out from stems handoff.</p>
+            <button class="button apply-btn" style="width: 100%; background-color: transparent; color: #0073b1; border: 1px solid #0073b1;">Apply Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== MESSAGING VIEW CONTAINER ==================== -->
+      <div id="tab-messaging-view" class="tab-content hidden">
+        <div class="messaging-container">
+          <div class="inbox-list">
+            <div class="inbox-item active" id="thread-marcus" onclick="loadChat('marcus')">
+              <h4 style="font-size: 14px;">Marcus Thorne</h4>
+              <span class="text-muted" style="margin: 3px 0 0; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="preview-marcus">Let's link up next week to...</span>
+            </div>
+            <div class="inbox-item" id="thread-elias" onclick="loadChat('elias')">
+              <h4 style="font-size: 14px;">Elias Vance</h4>
+              <span class="text-muted" style="margin: 3px 0 0; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="preview-elias">Absolutely. Everything is...</span>
+            </div>
+          </div>
+          <div class="chat-window">
+            <div class="chat-header" id="chat-title">Marcus Thorne</div>
+            <div class="chat-messages" id="chat-stream">
+              <!-- Chat bubbles dynamically injected here -->
+            </div>
+            <div class="chat-input-area">
+              <input type="text" id="chat-input-field" class="chat-input" placeholder="Write a professional message...">
+              <button class="button" id="send-msg-btn" style="padding: 8px 20px;">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
+    <!-- Right Discovery Network Sidebar -->
     <div class="right-sidebar">
-      <div class="card">
+      <div class="card" id="context-panel">
         <h2>Marketplace Hub</h2>
         <span class="text-muted">Discover studio gear, engineering services, or rent space.</span>
         <hr>
         <h4>"Dre Force Ones" Monitor Stands</h4>
         <span class="text-muted" style="color: #0073b1; font-weight: bold;">Custom Quote</span>
         <p class="post-content">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation. Custom CAD modeled.</p>
-        <button class="button gen-action" data-toast="Direct message thread created with seller.">Inquire Now</button>
+        <button class="button" style="width:100%;" onclick="switchTab('market')">Browse Marketplace</button>
       </div>
 
       <div class="card">
@@ -230,32 +349,104 @@
   <div id="system-toast" class="toast">Action successful!</div>
 
   <script>
-    // 1. TOAST NOTIFICATION SYSTEM
+    // 1. DATA STRUCTURE FOR MESSAGING HUB
+    const chatData = {
+      marcus: {
+        name: "Marcus Thorne",
+        messages: [
+          { text: "Yo! Did you check out those custom studio monitor stands you built?", type: "incoming" },
+          { text: "Yeah, structural isolation is locked down perfectly. Appreciate you tracking that!", type: "outgoing" },
+          { text: "Let's link up next week to discuss vocal tracking sessions on my new single.", type: "incoming" }
+        ]
+      },
+      elias: {
+        name: "Elias Vance",
+        messages: [
+          { text: "Hey DRE4K, is Keak da Sneak definitely confirmed for June 13th?", type: "incoming" },
+          { text: "Absolutely. Everything is locked and signed. Promo kicks off over the weekend.", type: "outgoing" }
+        ]
+      }
+    };
+    let currentActiveChat = 'marcus';
+
+    // 2. TOAST SYSTEM NOTIFICATION ENGINE
     let toastTimeout;
     function showToast(message) {
       const toast = document.getElementById("system-toast");
       clearTimeout(toastTimeout);
       toast.innerText = message;
       toast.className = "toast show";
-      toastTimeout = setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+      toastTimeout = setTimeout(function(){ toast.className = "toast"; }, 3000);
     }
 
-    // Bind all generic action buttons and nav links to the toast system
-    document.querySelectorAll('.gen-action, .nav-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault(); // Stop links from jumping to top of page
-        
-        // If it's a nav link, update the active state
-        if(this.classList.contains('nav-btn')) {
-          document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
-          this.classList.add('active');
-        }
-
-        showToast(this.getAttribute('data-toast'));
+    // 3. CORE TAB TAB WORKSPACE CONTROLLER
+    function switchTab(tabName) {
+      // Hide all standard tab containers
+      document.querySelectorAll('.tab-content').forEach(element => {
+        element.classList.add('hidden');
       });
+      // Toggle nav header indicators
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Target current container view activation
+      const activeView = document.getElementById(`tab-${tabName}-view`);
+      const activeNav = document.getElementById(`nav-${tabName}`);
+      
+      if (activeView && activeNav) {
+        activeView.classList.remove('hidden');
+        activeNav.classList.add('active');
+      }
+
+      // Context changes based on active side panel operations
+      const contextPanel = document.getElementById('context-panel');
+      if (tabName === 'market') {
+        contextPanel.innerHTML = `
+          <h2>Marketplace Rules</h2>
+          <span class="text-muted">Safe dealing and secure handoffs.</span>
+          <hr>
+          <p class="post-content" style="font-size:12px; color:#555;">Verify hardware specs and check component configurations before concluding transactions. All listings are subject to studio infrastructure guidelines.</p>
+        `;
+      } else if (tabName === 'gigs') {
+        contextPanel.innerHTML = `
+          <h2>Hiring Board Guidelines</h2>
+          <span class="text-muted">Connecting audio professionals.</span>
+          <hr>
+          <p class="post-content" style="font-size:12px; color:#555;">Ensure specific clear audio formats (WAV/AIFF) and expected iteration feedback counts are stated inside tracking agreements.</p>
+        `;
+      } else if (tabName === 'messaging') {
+        contextPanel.innerHTML = `
+          <h2>Direct Encrypted Feed</h2>
+          <span class="text-muted">Secure professional networking.</span>
+          <hr>
+          <p class="post-content" style="font-size:12px; color:#555;">Chatting seamlessly with fellow studio coordinators and booking operators inside Tempoe secure channels.</p>
+        `;
+        // Clear navigation badges if clicked into messaging suite workspace
+        document.getElementById('msg-badge').style.display = 'none';
+        loadChat(currentActiveChat);
+      } else {
+        contextPanel.innerHTML = `
+          <h2>Marketplace Hub</h2>
+          <span class="text-muted">Discover studio gear, engineering services, or rent space.</span>
+          <hr>
+          <h4>"Dre Force Ones" Monitor Stands</h4>
+          <span class="text-muted" style="color: #0073b1; font-weight: bold;">Custom Quote</span>
+          <p class="post-content">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation. Custom CAD modeled.</p>
+          <button class="button" style="width:100%;" onclick="switchTab('market')">Browse Marketplace</button>
+        `;
+      }
+    }
+
+    // Bind generic events for dynamically configured elements
+    document.addEventListener('click', function(e) {
+      if(e.target && e.target.classList.contains('gen-action')) {
+        e.preventDefault();
+        showToast(e.target.getAttribute('data-toast'));
+      }
     });
 
-    // 2. NETWORK CONNECT BUTTONS
+    // 4. CONNECTION SYSTEM INTERACTION
     document.querySelectorAll('.connect-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         if(this.innerText === "Connect") {
@@ -268,7 +459,7 @@
       });
     });
 
-    // 3. POST CREATION ENGINE
+    // 5. POST SUBMISSION CREATION ENGINE
     const postInput = document.getElementById('new-post-text');
     const submitBtn = document.getElementById('submit-post-btn');
     const postsWrapper = document.getElementById('posts-wrapper');
@@ -299,33 +490,20 @@
           </div>
         </div>
       `;
-
       postsWrapper.insertAdjacentHTML('afterbegin', newPostHTML);
-      
       postInput.value = "";
       submitBtn.disabled = true;
       showToast("Post published to your network.");
-      
-      bindLikeButtons(); // Rebind likes for new post
-      
-      // Rebind toasts for new generated buttons
-      postsWrapper.firstElementChild.querySelectorAll('.gen-action').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          showToast(this.getAttribute('data-toast'));
-        });
-      });
+      bindLikeButtons();
     });
 
-    // 4. INTERACTIVE LIKE BUTTONS
+    // 6. INTERACTIVE POST ACTION LIKES SYSTEM
     function bindLikeButtons() {
-      const likeBtns = document.querySelectorAll('.like-btn');
-      const cloneBtns = Array.from(likeBtns).map(btn => {
-        const clone = btn.cloneNode(true);
-        btn.parentNode.replaceChild(clone, btn);
-        return clone;
-      });
+      document.querySelectorAll('.like-btn').forEach(btn => {
+        // Prevent stacking duplicate event tracking layers
+        if(btn.dataset.bound) return;
+        btn.dataset.bound = true;
 
-      cloneBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           this.classList.toggle('liked');
           const counterSpan = this.closest('.post-card').querySelector('.like-counter');
@@ -341,10 +519,129 @@
         });
       });
     }
-
     bindLikeButtons();
+
+    // 7. REAL-TIME MARKETPLACE HUB ENGINE
+    const marketTitle = document.getElementById('market-title');
+    const marketPrice = document.getElementById('market-price');
+    const marketDesc = document.getElementById('market-desc');
+    const submitMarketBtn = document.getElementById('submit-market-btn');
+    const marketWrapper = document.getElementById('market-wrapper');
+
+    submitMarketBtn.addEventListener('click', function() {
+      const title = marketTitle.value.trim();
+      const price = marketPrice.value.trim();
+      const desc = marketDesc.value.trim();
+
+      if (!title || !price || !desc) {
+        showToast("Please fully define listing configurations.");
+        return;
+      }
+
+      const newListingHTML = `
+        <div class="card" style="animation: fadeIn 0.5s;">
+          <div>
+            <h4>${title}</h4>
+            <span class="text-muted" style="color: #0073b1; font-weight: bold; margin-top: 4px; font-size: 14px;">${price}</span>
+          </div>
+          <p class="post-content" style="margin-top: 10px;">${desc}</p>
+          <button class="button gen-action" style="width: 100%;" data-toast="Inquiry dispatched to seller asset queue.">Inquire Now</button>
+        </div>
+      `;
+      marketWrapper.insertAdjacentHTML('afterbegin', newListingHTML);
+      marketTitle.value = ''; marketPrice.value = ''; marketDesc.value = '';
+      showToast("Listing published to marketplace channels.");
+    });
+
+    // 8. REAL-TIME GIG WORKSPACE JOB ENGINE
+    const gigTitle = document.getElementById('gig-title');
+    const gigPay = document.getElementById('gig-pay');
+    const gigDesc = document.getElementById('gig-desc');
+    const submitGigBtn = document.getElementById('submit-gig-btn');
+    const gigsWrapper = document.getElementById('gigs-wrapper');
+
+    submitGigBtn.addEventListener('click', function() {
+      const title = gigTitle.value.trim();
+      const pay = gigPay.value.trim();
+      const desc = gigDesc.value.trim();
+
+      if (!title || !pay || !desc) {
+        showToast("Please input valid gig workspace configurations.");
+        return;
+      }
+
+      const newGigHTML = `
+        <div class="card gig-card" style="animation: fadeIn 0.5s;">
+          <div style="display: flex; justify-content: space-between;">
+            <h4>${title}</h4>
+            <span style="color: #2e7d32; font-weight: bold; font-size: 13px;">${pay}</span>
+          </div>
+          <span class="text-muted">DRE4K Network • Open Booking</span>
+          <p class="post-content">${desc}</p>
+          <button class="button apply-btn" style="width: 100%; background-color: transparent; color: #0073b1; border: 1px solid #0073b1;">Apply Now</button>
+        </div>
+      `;
+      gigsWrapper.insertAdjacentHTML('afterbegin', newGigHTML);
+      gigTitle.value = ''; gigPay.value = ''; gigDesc.value = '';
+      showToast("Project tracking opportunity published live.");
+    });
+
+    // Dynamic Context Layer Delegation for "Apply Now" buttons
+    document.addEventListener('click', function(e) {
+      if (e.target && e.target.classList.contains('apply-btn')) {
+        const btn = e.target;
+        if(btn.innerText === "Apply Now") {
+          btn.innerText = "Applied ✓";
+          btn.style.backgroundColor = "#e8f5e9";
+          btn.style.color = "#2e7d32";
+          btn.style.border = "1px solid #2e7d32";
+          showToast("Studio submission portfolio dispatched successfully.");
+        }
+      }
+    });
+
+    // 9. MESSAGING INBOX CHAT LOADER ENGINE
+    function loadChat(key) {
+      currentActiveChat = key;
+      document.querySelectorAll('.inbox-item').forEach(item => item.classList.remove('active'));
+      document.getElementById(`thread-${key}`).classList.add('active');
+
+      const chat = chatData[key];
+      document.getElementById('chat-title').innerText = chat.name;
+
+      const stream = document.getElementById('chat-stream');
+      stream.innerHTML = '';
+
+      chat.messages.forEach(msg => {
+        const bubble = document.createElement('div');
+        bubble.className = `chat-bubble ${msg.type}`;
+        bubble.innerText = msg.text;
+        stream.appendChild(bubble);
+      });
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    // Transmission of Messaging Outputs
+    function transmitMsg() {
+      const field = document.getElementById('chat-input-field');
+      const text = field.value.trim();
+      if (!text) return;
+
+      // Update data system track arrays
+      chatData[currentActiveChat].messages.push({ text: text, type: "outgoing" });
+      
+      // Update snippet layouts inside lists components
+      document.getElementById(`preview-${currentActiveChat}`).innerText = text;
+
+      // Reload view tracks
+      loadChat(currentActiveChat);
+      field.value = '';
+    }
+
+    document.getElementById('send-msg-btn').addEventListener('click', transmitMsg);
+    document.getElementById('chat-input-field').addEventListener('keypress', function(e) {
+      if(e.key === 'Enter') transmitMsg();
+    });
   </script>
 </body>
 </html>
-
-```
