@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Tempoe — Professional Music Network & Marketplace</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* Tempoe Brand Colors from Logo */
+  /* Brand Colors */
   --brand-purple: #42207A;
   --brand-purple-light: rgba(66, 32, 122, 0.3);
   --brand-orange: #FF6600;
   --brand-orange-hover: #E65C00;
   --brand-orange-light: rgba(255, 102, 0, 0.15);
 
-  /* New, Wider Dark Mode Palette inspired by screenshots */
-  --bg: #0C0C0E; /* Deep studio black */
-  --surface: #141419; /* Sidebar & main cards */
-  --surface-2: #1E1E26; /* Secondary cards, inputs */
-  --surface-3: #2A2A34; /* Toggled states, hover */
+  /* Deep Dark Mode Palette */
+  --bg: #0C0C0E; 
+  --surface: #141419; 
+  --surface-2: #1E1E26; 
+  --surface-3: #2A2A34; 
   --border: rgba(255, 255, 255, 0.08); 
   --border-strong: rgba(255, 255, 255, 0.15);
   
@@ -36,27 +36,24 @@
 
   --radius: 12px; --radius-sm: 8px; --radius-pill: 99px;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+
+/* Bulletproof Font Fallbacks */
+body { 
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+  background: var(--bg); 
+  color: var(--text); 
+  min-height: 100vh; 
+  overflow-x: hidden; 
+}
+
 button { font-family: inherit; cursor: pointer; }
 input, textarea { font-family: inherit; color: var(--text); }
 
 /* ── LAYOUT ── */
-.shell { display: flex; width: 100%; height: 100vh; max-width: 1500px; margin: 0 auto; position: relative; overflow: hidden; background: var(--bg); }
+.shell { display: flex; width: 100%; height: 100vh; max-width: 1500px; margin: 0 auto; position: relative; background: var(--bg); }
 
-/* Expanded Desktop Sidebar with labels and expanded branding */
-.sidebar { width: 230px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px 16px; gap: 8px; position: sticky; top: 0; height: 100%; z-index: 100; flex-shrink: 0; }
-.logo-area { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; padding: 0 8px; }
-.logo-img { width: 48px; height: 48px; object-fit: contain; }
-.logo-text { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
-
-.nav-btn { width: 100%; height: 46px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: flex-start; gap: 14px; padding: 0 16px; color: var(--text-2); border: none; background: transparent; font-size: 15px; font-weight: 500; transition: all 0.15s; position: relative; }
-.nav-btn i { font-size: 20px; }
-.nav-btn:hover { background: var(--surface-2); color: var(--text); }
-.nav-btn.active { background: var(--brand-orange-light); color: var(--brand-orange); font-weight: 600; }
-.nav-btn .badge { position: absolute; top: 14px; right: 16px; width: 8px; height: 8px; background: var(--brand-orange); border-radius: 50%; }
-
-.nav-spacer { flex: 1; }
+/* Sidebar */
+.sidebar { width: 230px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px 16px; gap: 8px; position: sticky; top: 0; height: 100%; z-index: 1
