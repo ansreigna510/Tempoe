@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Tempoe — The Professional Network for Musicians</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,13 +23,13 @@
   --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 button { font-family: inherit; cursor: pointer; }
 input { font-family: inherit; }
 
 /* Layout */
-.shell { display: flex; min-height: 100vh; max-width: 1400px; margin: 0 auto; }
-.sidebar { width: 68px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 20px 0; gap: 6px; position: sticky; top: 0; height: 100vh; z-index: 100; }
+.shell { display: flex; height: 100vh; max-width: 1400px; margin: 0 auto; overflow: hidden; }
+.sidebar { width: 68px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 20px 0; gap: 6px; position: sticky; top: 0; height: 100vh; z-index: 100; flex-shrink: 0; }
 .logo { width: 40px; height: 40px; border-radius: 11px; background: var(--purple); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(83,74,183,0.3); }
 .logo i { color: white; font-size: 20px; }
 .nav-btn { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--text-3); border: none; background: transparent; font-size: 20px; transition: all 0.18s; position: relative; }
@@ -37,20 +37,22 @@ input { font-family: inherit; }
 .nav-btn.active { background: var(--purple-light); color: var(--purple); }
 .nav-btn .badge { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: #E53E3E; border-radius: 50%; border: 2px solid var(--surface); }
 .nav-spacer { flex: 1; }
-.nav-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--teal-light); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #085041; border: 2px solid #9FE1CB; cursor: pointer; }
+.nav-avatar { width: 34px; height: 34px; border-radius: 50%; background: #1A202C; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #FFF; border: 2px solid var(--surface); cursor: pointer; box-shadow: var(--shadow); }
 
 /* Pages */
-.page { display: none; flex: 1; flex-direction: column; min-width: 0; }
+.page { display: none; flex: 1; flex-direction: column; min-width: 0; height: 100vh; overflow-y: auto; }
 .page.active { display: flex; }
 .topbar { display: flex; align-items: center; gap: 12px; padding: 14px 28px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
-.search-box { flex: 1; max-width: 500px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 9px 16px; font-size: 14px; color: var(--text-3); display: flex; align-items: center; gap: 9px; }
+.search-box { flex: 1; max-width: 500px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 9px 16px; font-size: 14px; color: var(--text-3); display: flex; align-items: center; gap: 9px; transition: border-color 0.2s; }
+.search-box:focus-within { border-color: var(--purple); }
 .search-box input { border: none; background: transparent; font-size: 14px; color: var(--text); outline: none; flex: 1; font-family: inherit; }
-.icon-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-2); font-size: 18px; position: relative; }
-.icon-btn .badge { position: absolute; top: -1px; right: -1px; width: 16px; height: 16px; background: #E53E3E; border-radius: 50%; font-size: 10px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; border: 2px solid white; }
-.page-body { flex: 1; overflow-y: auto; }
-.two-col { display: flex; }
+.icon-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-2); font-size: 18px; position: relative; cursor: pointer; transition: background 0.15s; }
+.icon-btn:hover { background: var(--bg); }
+.icon-btn .badge { position: absolute; top: -2px; right: -2px; width: 16px; height: 16px; background: #E53E3E; border-radius: 50%; font-size: 10px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; border: 2px solid white; }
+.page-body { flex: 1; display: flex; flex-direction: column; }
+.two-col { display: flex; flex: 1; }
 .feed-col { flex: 1; padding: 24px 28px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-.right-col { width: 268px; flex-shrink: 0; border-left: 1px solid var(--border); padding: 20px 18px; display: flex; flex-direction: column; gap: 20px; position: sticky; top: 57px; height: calc(100vh - 57px); overflow-y: auto; background: var(--surface); }
+.right-col { width: 280px; flex-shrink: 0; border-left: 1px solid var(--border); padding: 20px 18px; display: flex; flex-direction: column; gap: 20px; background: var(--surface); position: sticky; top: 0; height: max-content; min-height: 100%; }
 
 /* Cards */
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
@@ -67,51 +69,45 @@ input { font-family: inherit; }
 .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
 
 /* Buttons */
-.btn { padding: 8px 18px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 500; border: none; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.btn { padding: 8px 18px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 500; border: none; cursor: pointer; transition: all 0.15s; font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .btn-primary { background: var(--purple); color: white; }
-.btn-primary:hover { background: #3C3489; }
+.btn-primary:hover { background: #3C3489; transform: translateY(-1px); }
 .btn-outline { background: transparent; border: 1px solid var(--border-strong); color: var(--text); }
 .btn-outline:hover { background: var(--bg); }
 .btn-sm { padding: 5px 13px; font-size: 12px; }
 
 /* Avatar */
-.avatar { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; }
+.avatar { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; object-fit: cover; }
 
 /* ── FEED PAGE ── */
 .post-header { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
-.post-meta .name { font-size: 14px; font-weight: 600; color: var(--text); }
+.post-meta .name { font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; }
+.post-meta .name:hover { text-decoration: underline; }
 .post-meta .role { font-size: 12px; color: var(--text-2); margin-top: 2px; }
 .post-meta .time { font-size: 11px; color: var(--text-3); margin-top: 2px; }
 .post-body { font-size: 14px; color: var(--text-2); line-height: 1.65; margin-bottom: 12px; }
 .audio-player { background: var(--bg); border-radius: var(--radius-sm); padding: 10px 14px; display: flex; align-items: center; gap: 12px; margin: 12px 0; border: 1px solid var(--border); }
-.play-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; border: none; flex-shrink: 0; box-shadow: 0 3px 8px rgba(83,74,183,0.3); }
+.play-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; border: none; flex-shrink: 0; box-shadow: 0 3px 8px rgba(83,74,183,0.3); transition: transform 0.1s; }
+.play-btn:active { transform: scale(0.95); }
 .play-btn i { color: white; font-size: 14px; margin-left: 2px; }
-.waveform { flex: 1; height: 28px; display: flex; align-items: center; gap: 2.5px; }
-.bar { width: 3px; border-radius: 2px; background: var(--purple-mid); }
-.track-info { font-size: 11px; text-align: right; }
+.waveform { flex: 1; height: 28px; display: flex; align-items: center; gap: 2.5px; overflow: hidden; }
+.bar { width: 3px; border-radius: 2px; background: var(--purple-mid); transition: height 0.2s; }
+.bar.active { background: var(--purple); }
+.track-info { font-size: 11px; text-align: right; white-space: nowrap; }
 .track-name { font-weight: 600; color: var(--text); }
 .track-dur { color: var(--text-3); }
 .post-actions { display: flex; gap: 4px; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
 .act-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px; color: var(--text-2); padding: 7px 4px; border-radius: var(--radius-sm); border: none; background: transparent; font-weight: 500; transition: background 0.15s; }
 .act-btn:hover { background: var(--bg); color: var(--text); }
 
-/* Gig card in feed */
-.gig-feed-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
-.gig-feed-card.featured { border-color: var(--purple); border-width: 1.5px; }
-.gig-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-.gig-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.gig-pay-badge { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: var(--radius-pill); background: var(--green-light); color: var(--green); white-space: nowrap; }
-.gig-loc { font-size: 12px; color: var(--text-2); margin-top: 4px; display: flex; align-items: center; gap: 4px; }
-.gig-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
-.gig-posted { font-size: 11px; color: var(--text-3); }
-
 /* Right panel items */
-.gig-mini { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.gig-mini { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+.gig-mini:hover .gt { color: var(--purple); }
 .gig-mini:last-child { border-bottom: none; }
 .date-chip { min-width: 38px; text-align: center; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 0; }
 .date-chip .mo { font-size: 9px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-.date-chip .dy { font-size: 17px; font-weight: 700; color: var(--purple); line-height: 1.1; }
-.gig-mini-info .gt { font-size: 12px; font-weight: 600; color: var(--text); }
+.date-chip .dy { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.1; }
+.gig-mini-info .gt { font-size: 12px; font-weight: 600; color: var(--text); transition: color 0.15s; }
 .gig-mini-info .gl { font-size: 11px; color: var(--text-2); margin-top: 1px; }
 .gig-mini-info .gp { font-size: 11px; color: var(--teal); font-weight: 600; margin-top: 3px; }
 
@@ -120,143 +116,197 @@ input { font-family: inherit; }
 .person-info { flex: 1; min-width: 0; }
 .person-name { font-size: 13px; font-weight: 600; color: var(--text); }
 .person-role { font-size: 11px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.conn-btn { font-size: 11px; padding: 4px 10px; border-radius: var(--radius-pill); border: 1px solid var(--purple); color: var(--purple); background: transparent; white-space: nowrap; }
+.conn-btn { font-size: 11px; padding: 4px 10px; border-radius: var(--radius-pill); border: 1px solid var(--purple); color: var(--purple); background: transparent; white-space: nowrap; cursor: pointer; transition: all 0.15s; }
 .conn-btn:hover { background: var(--purple); color: white; }
 
 .trend-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); }
 .trend-row:last-child { border-bottom: none; }
 .trend-tag { font-size: 13px; font-weight: 500; color: var(--purple); cursor: pointer; }
+.trend-tag:hover { text-decoration: underline; }
 .trend-ct { font-size: 11px; color: var(--text-3); }
 
 /* ── PROFILE PAGE ── */
-.profile-banner { height: 120px; background: linear-gradient(135deg, #534AB7, #3C3489 60%, #1D9E75); position: relative; overflow: hidden; }
-.profile-banner::after { content:''; position:absolute; inset:0; background: repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,0.03) 20px,rgba(255,255,255,0.03) 40px); }
+.profile-banner { height: 160px; background: linear-gradient(135deg, #1A202C, #2D3748 60%, #4A5568); position: relative; overflow: hidden; }
 .profile-identity { padding: 0 28px 20px; position: relative; }
-.profile-av-wrap { position: absolute; top: -48px; left: 28px; }
-.profile-av { width: 94px; height: 94px; border-radius: 50%; border: 4px solid var(--surface); box-shadow: var(--shadow-md); object-fit: cover; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 600; color: #3C3489; background: var(--purple-light); }
-.verified-dot { position: absolute; bottom: 4px; right: 4px; width: 24px; height: 24px; border-radius: 50%; background: var(--purple); border: 3px solid var(--surface); display: flex; align-items: center; justify-content: center; }
-.verified-dot i { color: white; font-size: 11px; }
+.profile-av-wrap { position: absolute; top: -56px; left: 28px; }
+.profile-av { width: 112px; height: 112px; border-radius: 50%; border: 4px solid var(--surface); box-shadow: var(--shadow-md); object-fit: cover; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 600; color: #FFF; background: #1A202C; }
+.verified-dot { position: absolute; bottom: 6px; right: 6px; width: 28px; height: 28px; border-radius: 50%; background: var(--purple); border: 3px solid var(--surface); display: flex; align-items: center; justify-content: center; }
+.verified-dot i { color: white; font-size: 14px; }
 .profile-actions { display: flex; justify-content: flex-end; gap: 8px; padding-top: 14px; margin-bottom: 8px; }
-.profile-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text); margin-top: 52px; }
-.profile-tagline { font-size: 14px; color: var(--text-2); margin-top: 4px; }
-.profile-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
-.meta-item { font-size: 12px; color: var(--text-2); display: flex; align-items: center; gap: 4px; }
+.profile-name { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--text); margin-top: 64px; }
+.profile-tagline { font-size: 15px; color: var(--text-2); margin-top: 4px; font-weight: 500; }
+.profile-meta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; }
+.meta-item { font-size: 13px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
 .stat-row { display: flex; border-top: 1px solid var(--border); }
-.stat-item { flex: 1; padding: 12px; text-align: center; border-right: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
+.stat-item { flex: 1; padding: 14px; text-align: center; border-right: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
 .stat-item:last-child { border-right: none; }
 .stat-item:hover { background: var(--bg); }
 .stat-num { font-size: 18px; font-weight: 600; color: var(--text); }
-.stat-lbl { font-size: 10px; color: var(--text-3); margin-top: 1px; }
+.stat-lbl { font-size: 11px; color: var(--text-3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
 
-.profile-section { border-top: 1px solid var(--border); padding: 18px 20px; }
-.profile-section-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
-.track-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.profile-section { border-top: 1px solid var(--border); padding: 22px 20px; }
+.profile-section-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
+.track-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); transition: background 0.15s; border-radius: var(--radius-sm); }
+.track-row:hover { background: var(--bg); padding-left: 8px; padding-right: 8px; margin: 0 -8px; }
 .track-row:last-child { border-bottom: none; }
-.credit-row { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.credit-row { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
 .credit-row:last-child { border-bottom: none; }
-.credit-art { width: 44px; height: 44px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-.credit-title { font-size: 13px; font-weight: 600; color: var(--text); }
-.credit-sub { font-size: 12px; color: var(--text-2); margin-top: 2px; }
-.credit-endorsed { font-size: 11px; color: var(--teal); margin-top: 4px; display: flex; align-items: center; gap: 3px; }
+.credit-art { width: 48px; height: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.credit-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.credit-sub { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+.credit-endorsed { font-size: 11px; color: var(--teal); margin-top: 6px; display: flex; align-items: center; gap: 4px; font-weight: 500; }
 .exp-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
 .exp-item:last-child { border-bottom: none; }
 .exp-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--purple); margin-top: 5px; flex-shrink: 0; }
-.exp-role { font-size: 13px; font-weight: 600; color: var(--text); }
-.exp-org { font-size: 13px; color: var(--text-2); }
-.exp-date { font-size: 11px; color: var(--text-3); margin-top: 3px; }
-.skill-wrap { margin-bottom: 9px; }
-.skill-label-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 3px; }
-.skill-label-row span:first-child { color: var(--text-2); }
-.skill-label-row span:last-child { color: var(--purple); font-weight: 500; }
-.skill-track { height: 4px; background: var(--bg); border-radius: 2px; overflow: hidden; border: 1px solid var(--border); }
-.skill-fill { height: 100%; background: var(--purple); border-radius: 2px; }
-.rate-row { display: flex; justify-content: space-between; font-size: 13px; padding: 7px 0; border-bottom: 1px solid var(--border); }
-.rate-row:last-child { border-bottom: none; }
-.rate-lbl { color: var(--text-2); }
-.rate-val { font-weight: 600; color: var(--text); }
-.avail-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: var(--radius-pill); background: var(--green-light); color: var(--green); }
-.avail-dot { width: 8px; height: 8px; border-radius: 50%; background: #38A169; }
+.exp-role { font-size: 14px; font-weight: 600; color: var(--text); }
+.exp-org { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+.exp-date { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+.skill-wrap { margin-bottom: 12px; }
+.skill-label-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+.skill-label-row span:first-child { color: var(--text-2); font-weight: 500; }
+.skill-label-row span:last-child { color: var(--purple); font-weight: 600; font-size: 11px; text-transform: uppercase; }
+.skill-track { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
+.skill-fill { height: 100%; background: var(--purple); border-radius: 3px; }
 
 /* ── GIGS PAGE ── */
-.filter-bar { display: flex; gap: 8px; padding: 12px 28px; border-bottom: 1px solid var(--border); background: var(--surface); overflow-x: auto; align-items: center; }
-.filter-chip { padding: 6px 14px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 500; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); white-space: nowrap; cursor: pointer; transition: all 0.15s; }
+.filter-bar { display: flex; gap: 8px; padding: 12px 28px; border-bottom: 1px solid var(--border); background: var(--surface); overflow-x: auto; align-items: center; -ms-overflow-style: none; scrollbar-width: none; }
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-chip { padding: 6px 16px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 500; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); white-space: nowrap; cursor: pointer; transition: all 0.15s; }
 .filter-chip.active { background: var(--purple); color: white; border-color: var(--purple); }
 .filter-chip:hover:not(.active) { border-color: var(--purple); color: var(--purple); }
-.gig-list { padding: 20px 28px; display: flex; flex-direction: column; gap: 12px; }
-.gig-card-full { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); border-left: 3px solid var(--purple); transition: box-shadow 0.15s; cursor: pointer; }
-.gig-card-full:hover { box-shadow: var(--shadow-md); }
+.gig-list { padding: 20px 28px; display: flex; flex-direction: column; gap: 14px; }
+.gig-card-full { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); border-left: 4px solid var(--purple); transition: box-shadow 0.15s, transform 0.1s; cursor: pointer; }
+.gig-card-full:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 .gig-card-full.teal { border-left-color: var(--teal); }
 .gig-card-full.amber { border-left-color: var(--amber); }
 .gig-card-full.coral { border-left-color: var(--coral); }
+.gig-card-full.blue { border-left-color: var(--blue); }
 
 /* ── MESSAGES PAGE ── */
-.msg-layout { display: flex; flex: 1; overflow: hidden; }
-.msg-list { width: 240px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--surface); }
-.msg-header { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 15px; font-weight: 600; color: var(--text); }
-.msg-search { padding: 8px 12px; border-bottom: 1px solid var(--border); }
-.msg-search input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 6px 12px; font-size: 12px; color: var(--text); outline: none; }
-.msg-item { display: flex; gap: 9px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.12s; }
+.msg-layout { display: flex; flex: 1; height: 100%; overflow: hidden; }
+.msg-list { width: 300px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--surface); flex-shrink: 0; }
+.msg-header { padding: 16px 20px; border-bottom: 1px solid var(--border); font-size: 16px; font-weight: 600; color: var(--text); display: flex; justify-content: space-between; align-items: center; }
+.msg-search { padding: 10px 14px; border-bottom: 1px solid var(--border); background: var(--bg); }
+.msg-search input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 8px 14px; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.2s; }
+.msg-search input:focus { border-color: var(--purple); }
+.msg-items-container { flex: 1; overflow-y: auto; }
+.msg-item { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.12s; }
 .msg-item:hover { background: var(--bg); }
-.msg-item.active { background: var(--purple-light); border-left: 2px solid var(--purple); }
+.msg-item.active { background: var(--purple-light); border-left: 3px solid var(--purple); padding-left: 13px; }
 .msg-item-info { flex: 1; min-width: 0; }
-.msg-name { font-size: 13px; font-weight: 600; color: var(--text); }
-.msg-preview { font-size: 11px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
-.msg-item.active .msg-preview { color: var(--purple); }
-.msg-time { font-size: 10px; color: var(--text-3); }
-.msg-thread { flex: 1; display: flex; flex-direction: column; background: var(--bg); }
-.msg-thread-header { padding: 12px 18px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
-.msg-thread-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.msg-thread-status { font-size: 11px; color: var(--teal); }
-.msg-thread-actions { margin-left: auto; display: flex; gap: 6px; }
-.msg-bubbles { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
-.bubble-wrap { display: flex; gap: 8px; align-items: flex-end; }
+.msg-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.msg-preview { font-size: 12px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.msg-item.active .msg-preview { color: var(--purple); font-weight: 500; }
+.msg-time { font-size: 11px; color: var(--text-3); }
+.msg-thread { flex: 1; display: flex; flex-direction: column; background: var(--bg); min-width: 0; }
+.msg-thread-header { padding: 14px 20px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+.msg-thread-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.msg-thread-status { font-size: 12px; color: var(--teal); font-weight: 500; margin-top: 2px; }
+.msg-thread-actions { margin-left: auto; display: flex; gap: 8px; }
+.msg-bubbles { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.bubble-wrap { display: flex; gap: 10px; align-items: flex-end; }
 .bubble-wrap.mine { flex-direction: row-reverse; }
-.bubble { padding: 10px 14px; border-radius: 14px; max-width: 280px; font-size: 13px; line-height: 1.55; }
-.bubble.them { background: var(--surface); border: 1px solid var(--border); border-radius: 14px 14px 14px 3px; color: var(--text); }
-.bubble.mine { background: var(--purple); color: white; border-radius: 14px 14px 3px 14px; }
-.bubble-time { font-size: 10px; margin-top: 4px; }
+.bubble { padding: 12px 16px; border-radius: 16px; max-width: 75%; font-size: 14px; line-height: 1.55; position: relative; }
+.bubble.them { background: var(--surface); border: 1px solid var(--border); border-radius: 16px 16px 16px 4px; color: var(--text); box-shadow: var(--shadow); }
+.bubble.mine { background: var(--purple); color: white; border-radius: 16px 16px 4px 16px; box-shadow: 0 2px 8px rgba(83,74,183,0.25); }
+.bubble-time { font-size: 10px; margin-top: 6px; text-align: right; }
 .bubble.them .bubble-time { color: var(--text-3); }
-.bubble.mine .bubble-time { color: rgba(255,255,255,0.6); }
-.msg-compose { padding: 10px 16px; background: var(--surface); border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
-.msg-compose input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 9px 16px; font-size: 13px; color: var(--text); outline: none; font-family: inherit; }
-.msg-compose input:focus { border-color: var(--purple); }
-.send-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--purple); border: none; color: white; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.bubble.mine .bubble-time { color: rgba(255,255,255,0.7); }
+.msg-compose { padding: 14px 20px; background: var(--surface); border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+.msg-compose input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 12px 18px; font-size: 14px; color: var(--text); outline: none; font-family: inherit; transition: border-color 0.2s; }
+.msg-compose input:focus { border-color: var(--purple); background: var(--surface); }
+.send-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--purple); border: none; color: white; font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.1s, background 0.15s; }
+.send-btn:active { transform: scale(0.95); }
+.send-btn:hover { background: #3C3489; }
 
 /* ── NETWORK PAGE ── */
-.network-grid { padding: 24px 28px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
-.network-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); text-align: center; transition: box-shadow 0.15s; }
-.network-card:hover { box-shadow: var(--shadow-md); }
-.network-av { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; margin: 0 auto 10px; }
-.network-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.network-role { font-size: 12px; color: var(--text-2); margin-top: 3px; }
-.network-loc { font-size: 11px; color: var(--text-3); margin-top: 3px; display: flex; align-items: center; justify-content: center; gap: 3px; }
-.network-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; margin: 10px 0; }
-.network-actions { display: flex; gap: 6px; justify-content: center; margin-top: 10px; }
+.network-grid { padding: 24px 28px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.network-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); text-align: center; transition: box-shadow 0.15s, transform 0.1s; }
+.network-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.network-av { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; margin: 0 auto 12px; }
+.network-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.network-role { font-size: 13px; color: var(--text-2); margin-top: 4px; }
+.network-loc { font-size: 12px; color: var(--text-3); margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.network-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin: 14px 0; }
+.network-actions { display: flex; gap: 8px; justify-content: center; margin-top: 14px; }
 
-/* Notification badge */
-.notif-badge { background: #E53E3E; color: white; font-size: 10px; font-weight: 600; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+/* ── MODALS & ALERTS ── */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.2s; }
+.modal-overlay.active { display: flex; opacity: 1; }
+.modal-content { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 450px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transform: translateY(20px); transition: transform 0.2s; }
+.modal-overlay.active .modal-content { transform: translateY(0); }
+.modal-header { font-size: 18px; font-weight: 600; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+.modal-close { background: none; border: none; font-size: 20px; color: var(--text-3); cursor: pointer; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 500; color: var(--text-2); margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--purple); }
+
+/* ── RESPONSIVE DESIGN (MOBILE) ── */
+@media (max-width: 768px) {
+  .shell { flex-direction: column; }
+  
+  /* Transform Sidebar to Bottom Tab Bar */
+  .sidebar { 
+    width: 100%; height: 65px; flex-direction: row; justify-content: space-between; 
+    padding: 0 12px; border-right: none; border-top: 1px solid var(--border); 
+    position: fixed; top: auto; bottom: 0; z-index: 100; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); 
+  }
+  .logo, .nav-spacer { display: none; }
+  .nav-btn { flex: 1; border-radius: 0; height: 100%; display: flex; flex-direction: column; gap: 4px; color: var(--text-3); }
+  .nav-btn.active { background: transparent; color: var(--purple); border-top: 2px solid var(--purple); }
+  .nav-btn i { font-size: 22px; }
+  .nav-avatar { margin-left: 10px; margin-right: 10px; width: 32px; height: 32px; font-size: 11px; align-self: center; }
+  
+  /* Page Adjustments */
+  .page { padding-bottom: 65px; height: 100%; }
+  .topbar { padding: 12px 16px; }
+  
+  /* Stacking Columns */
+  .two-col { flex-direction: column; display: block; }
+  .feed-col, .gig-list { padding: 16px; }
+  .right-col { width: 100%; height: auto; position: static; border-left: none; border-top: 1px solid var(--border); padding: 24px 16px; border-bottom: 1px solid var(--border); }
+  
+  /* Profile Tweaks */
+  .profile-banner { height: 120px; }
+  .profile-identity { padding: 0 16px 16px; }
+  .profile-av-wrap { left: 16px; top: -48px; }
+  .profile-av { width: 96px; height: 96px; font-size: 30px; }
+  .profile-name { font-size: 22px; margin-top: 52px; }
+  .profile-section { padding: 16px; }
+  .stat-item { padding: 12px 8px; }
+  .stat-num { font-size: 16px; }
+  
+  /* Network Tweaks */
+  .network-grid { padding: 16px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  
+  /* Message Layout - Stacked */
+  .msg-layout { flex-direction: column; overflow: visible; }
+  .msg-list { width: 100%; height: 35vh; border-right: none; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .msg-thread { height: calc(65vh - 65px); flex-shrink: 0; } /* minus tab bar */
+  .bubble { max-width: 85%; }
+}
 </style>
 </head>
 <body>
 <div class="shell">
 
-<!-- SIDEBAR -->
+<!-- SIDEBAR / BOTTOM NAV -->
 <nav class="sidebar">
   <div class="logo"><i class="ti ti-music" aria-hidden="true"></i></div>
   <button class="nav-btn active" data-page="feed" title="Feed"><i class="ti ti-home" aria-hidden="true"></i></button>
-  <button class="nav-btn" data-page="profile" title="My Profile"><i class="ti ti-user" aria-hidden="true"></i></button>
+  <button class="nav-btn" data-page="network" title="Network"><i class="ti ti-users" aria-hidden="true"></i></button>
   <button class="nav-btn" data-page="gigs" title="Gig Board"><i class="ti ti-calendar-event" aria-hidden="true"></i></button>
   <button class="nav-btn" data-page="messages" title="Messages"><i class="ti ti-message-circle" aria-hidden="true"></i><div class="badge"></div></button>
-  <button class="nav-btn" data-page="network" title="Network"><i class="ti ti-users" aria-hidden="true"></i></button>
   <div class="nav-spacer"></div>
-  <div class="nav-avatar" data-page="profile" title="My Profile">SI</div>
+  <div class="nav-avatar" data-page="profile" title="My Profile">D4</div>
 </nav>
 
 <!-- ══════════ FEED PAGE ══════════ -->
 <div class="page active" id="page-feed">
   <div class="topbar">
-    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input placeholder="Search musicians, credits, gigs…" /></div>
-    <button class="icon-btn"><i class="ti ti-bell" aria-hidden="true"></i><div class="badge">3</div></button>
+    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input id="global-search" placeholder="Search musicians, credits, gigs…" /></div>
+    <button class="icon-btn" onclick="alert('No new notifications')"><i class="ti ti-bell" aria-hidden="true"></i><div class="badge">3</div></button>
   </div>
   <div class="page-body">
     <div class="two-col">
@@ -265,25 +315,24 @@ input { font-family: inherit; }
         <!-- Post 1 -->
         <div class="card">
           <div class="post-header">
-            <div class="avatar" style="width:42px;height:42px;background:var(--purple-light);color:#3C3489;font-size:14px;font-weight:600;">SR</div>
+            <div class="avatar" style="width:42px;height:42px;background:var(--purple-light);color:#3C3489;font-size:14px;">ST</div>
             <div class="post-meta">
-              <div class="name" style="cursor:pointer;" onclick="navigate('profile')">Sofia Reyes</div>
-              <div class="role">Session Violinist · LA Philharmonic</div>
+              <div class="name" onclick="navigate('profile')">Shan Taylor</div>
+              <div class="role">Artist / Producer · Bay Area</div>
               <div class="time">2 hours ago</div>
             </div>
           </div>
-          <div class="post-body">Just wrapped a 3-day string session for an upcoming cinematic sci-fi score. Massive gratitude to the crew at Sunset Sound. Here's a snippet from the final take 🎻</div>
+          <div class="post-body">Need a tight mix on this new hyphy track. Who has time this week to run some stems through some analog gear? Looking for that classic slap. Hit my DMs. 🔥</div>
           <div class="audio-player">
-            <button class="play-btn" onclick="togglePlay(this)"><i class="ti ti-player-play" aria-hidden="true"></i></button>
+            <button class="play-btn" onclick="togglePlay(this, 'wv1')"><i class="ti ti-player-play" aria-hidden="true"></i></button>
             <div class="waveform" id="wv1"></div>
-            <div class="track-info"><div class="track-name">Strings_Take4_Final.wav</div><div class="track-dur">0:47</div></div>
+            <div class="track-info"><div class="track-name">Mani_Moe_Rough_Mix.wav</div><div class="track-dur">1:12</div></div>
           </div>
-          <div class="tag-row"><span class="tag tag-p">#SessionWork</span><span class="tag tag-t">#FilmScore</span><span class="tag tag-a">#Strings</span></div>
+          <div class="tag-row"><span class="tag tag-p">#Mixing</span><span class="tag tag-t">#Hyphy</span><span class="tag tag-a">#BayArea</span></div>
           <div class="post-actions">
-            <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:15px" aria-hidden="true"></i> 84</button>
-            <button class="act-btn"><i class="ti ti-message-circle" style="font-size:15px" aria-hidden="true"></i> 12</button>
+            <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:15px" aria-hidden="true"></i> 14</button>
+            <button class="act-btn"><i class="ti ti-message-circle" style="font-size:15px" aria-hidden="true"></i> 3</button>
             <button class="act-btn" onclick="navigate('messages')"><i class="ti ti-send" style="font-size:15px" aria-hidden="true"></i> Message</button>
-            <button class="act-btn"><i class="ti ti-bookmark" style="font-size:15px" aria-hidden="true"></i> Save</button>
           </div>
         </div>
 
@@ -293,99 +342,68 @@ input { font-family: inherit; }
             <span class="tag tag-p" style="font-size:11px;">Gig opportunity</span>
             <span style="font-size:11px;color:var(--text-3);">Posted 5h ago</span>
           </div>
-          <div class="gig-name" style="font-size:15px;">Jazz Quartet — Weekend Residency</div>
-          <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> The Blue Room · San Francisco · Fri–Sat nights</div>
-          <div class="tag-row" style="margin-top:10px;"><span class="tag tag-b">#Jazz</span><span class="tag tag-c">#Piano</span><span class="tag tag-c">#Bass</span><span class="tag tag-c">#Drums</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
-            <span style="font-size:14px;font-weight:600;color:var(--green);">$400/night per musician</span>
-            <button class="btn btn-primary btn-sm" onclick="navigate('gigs')">View on Gig Board →</button>
+          <div class="gig-name" style="font-size:15px; font-weight: 600;">Custom Studio Fabrication — Trophy Mount</div>
+          <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> Remote / Local SF</div>
+          <div class="tag-row" style="margin-top:10px;"><span class="tag tag-b">#3DPrinting</span><span class="tag tag-c">#CAD</span><span class="tag tag-c">#Fabrication</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;">
+            <span style="font-size:14px;font-weight:600;color:var(--green);">Negotiable Quote</span>
+            <button class="btn btn-primary btn-sm" onclick="navigate('gigs')">View Details →</button>
           </div>
         </div>
 
         <!-- Post 2 -->
         <div class="card">
           <div class="post-header">
-            <div class="avatar" style="width:42px;height:42px;background:var(--amber-light);color:#633806;font-size:14px;font-weight:600;">DK</div>
+            <div class="avatar" style="width:42px;height:42px;background:var(--amber-light);color:#633806;font-size:14px;">JJ</div>
             <div class="post-meta">
-              <div class="name">David Kim</div>
-              <div class="role">Music Producer · Freelance</div>
+              <div class="name">Jourdan Jade</div>
+              <div class="role">Event Promoter · SF</div>
               <div class="time">Yesterday</div>
             </div>
           </div>
-          <div class="post-body">Looking for a vocalist and lead guitarist for an indie-folk EP this summer. Remote-friendly, LA-area preferred for final tracking. DM me with your reel!</div>
-          <div class="tag-row"><span class="tag tag-p">#Collab</span><span class="tag tag-t">#IndieFolk</span><span class="tag tag-a">#VocalistWanted</span></div>
+          <div class="post-body">Just finalized the flyer for the Lit in Chinese rave! Huge shoutout to the team for pulling this together. CHI Lounge is going to be insane on May 23rd. Ticket link in bio! 🪩✨</div>
+          <div class="tag-row"><span class="tag tag-p">#Rave</span><span class="tag tag-t">#CHILounge</span><span class="tag tag-a">#SanFrancisco</span></div>
           <div class="post-actions">
-            <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:15px" aria-hidden="true"></i> 41</button>
-            <button class="act-btn"><i class="ti ti-message-circle" style="font-size:15px" aria-hidden="true"></i> 27</button>
+            <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:15px" aria-hidden="true"></i> 89</button>
+            <button class="act-btn"><i class="ti ti-message-circle" style="font-size:15px" aria-hidden="true"></i> 12</button>
             <button class="act-btn" onclick="navigate('messages')"><i class="ti ti-send" style="font-size:15px" aria-hidden="true"></i> Message</button>
-            <button class="act-btn"><i class="ti ti-bookmark" style="font-size:15px" aria-hidden="true"></i> Save</button>
-          </div>
-        </div>
-
-        <!-- Post 3 -->
-        <div class="card">
-          <div class="post-header">
-            <div class="avatar" style="width:42px;height:42px;background:var(--teal-light);color:#085041;font-size:14px;font-weight:600;">RN</div>
-            <div class="post-meta">
-              <div class="name">Rita Nkosi</div>
-              <div class="role">Vocalist · R&B / Soul</div>
-              <div class="time">2 days ago</div>
-            </div>
-          </div>
-          <div class="post-body">Just got my first sync placement on a Netflix series 🎉 Two years of grinding session work and building credits finally paid off. For all the vocalists out there — keep going, put everything on your profile, those credits matter.</div>
-          <div class="tag-row"><span class="tag tag-t">#SyncLicense</span><span class="tag tag-p">#Netflix</span><span class="tag tag-a">#VocalWork</span></div>
-          <div class="post-actions">
-            <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:15px" aria-hidden="true"></i> 312</button>
-            <button class="act-btn"><i class="ti ti-message-circle" style="font-size:15px" aria-hidden="true"></i> 64</button>
-            <button class="act-btn" onclick="navigate('messages')"><i class="ti ti-send" style="font-size:15px" aria-hidden="true"></i> Message</button>
-            <button class="act-btn"><i class="ti ti-bookmark" style="font-size:15px" aria-hidden="true"></i> Save</button>
           </div>
         </div>
 
       </div>
       <div class="right-col">
         <div>
-          <div class="sec-label">Upcoming gigs near you</div>
-          <div class="gig-mini">
-            <div class="date-chip"><div class="mo">Jun</div><div class="dy">7</div></div>
-            <div class="gig-mini-info"><div class="gt">The Fillmore, SF</div><div class="gl">Opening act · Rock</div><div class="gp">$250/set</div></div>
+          <div class="sec-label">Upcoming events</div>
+          <div class="gig-mini" onclick="navigate('profile')">
+            <div class="date-chip"><div class="mo">May</div><div class="dy">23</div></div>
+            <div class="gig-mini-info"><div class="gt">Lit in Chinese Rave</div><div class="gl">CHI Lounge · Promoter</div><div class="gp">Confirmed</div></div>
           </div>
           <div class="gig-mini">
-            <div class="date-chip"><div class="mo">Jun</div><div class="dy">14</div></div>
-            <div class="gig-mini-info"><div class="gt">Napa Estate Gala</div><div class="gl">Private event · Classical</div><div class="gp">$600 flat</div></div>
+            <div class="date-chip"><div class="mo">Jun</div><div class="dy">13</div></div>
+            <div class="gig-mini-info"><div class="gt">Keak da Sneak Show</div><div class="gl">Production Manager</div><div class="gp">Planning Phase</div></div>
           </div>
-          <div class="gig-mini">
-            <div class="date-chip"><div class="mo">Jun</div><div class="dy">21</div></div>
-            <div class="gig-mini-info"><div class="gt">DNA Lounge · SF</div><div class="gl">Live jazz night</div><div class="gp">$180/set</div></div>
-          </div>
-          <button class="btn btn-outline btn-sm" style="width:100%;margin-top:10px;" onclick="navigate('gigs')">Browse all gigs →</button>
+          <button class="btn btn-outline btn-sm" style="width:100%;margin-top:10px;" onclick="navigate('gigs')">Browse Gig Board →</button>
         </div>
+        
         <div>
-          <div class="sec-label">People to connect</div>
+          <div class="sec-label">Network Suggestions</div>
           <div class="person-row">
-            <div class="avatar" style="width:32px;height:32px;background:var(--coral-light);color:#712B13;font-size:11px;">MT</div>
-            <div class="person-info"><div class="person-name">Maya Torres</div><div class="person-role">Flutist · Orchestral</div></div>
+            <div class="avatar" style="width:32px;height:32px;background:var(--coral-light);color:#712B13;font-size:11px;">NK</div>
+            <div class="person-info"><div class="person-name">Nicole Kuhar</div><div class="person-role">Event Coordinator</div></div>
             <button class="conn-btn" onclick="connectPerson(this)">+ Connect</button>
           </div>
           <div class="person-row">
-            <div class="avatar" style="width:32px;height:32px;background:var(--blue-light);color:var(--blue);font-size:11px;">AL</div>
-            <div class="person-info"><div class="person-name">Alex Liu</div><div class="person-role">Sound Engineer</div></div>
+            <div class="avatar" style="width:32px;height:32px;background:var(--blue-light);color:var(--blue);font-size:11px;">BW</div>
+            <div class="person-info"><div class="person-name">Brandon Wynn</div><div class="person-role">Artist Management</div></div>
             <button class="conn-btn" onclick="connectPerson(this)">+ Connect</button>
           </div>
-          <div class="person-row">
-            <div class="avatar" style="width:32px;height:32px;background:var(--teal-light);color:#085041;font-size:11px;">RN</div>
-            <div class="person-info"><div class="person-name">Rita Nkosi</div><div class="person-role">Vocalist · R&B / Soul</div></div>
-            <button class="conn-btn" onclick="connectPerson(this)">+ Connect</button>
-          </div>
-          <button class="btn btn-outline btn-sm" style="width:100%;margin-top:10px;" onclick="navigate('network')">View all →</button>
         </div>
+
         <div>
-          <div class="sec-label">Trending</div>
-          <div class="trend-row"><span class="trend-tag">#SessionWork</span><span class="trend-ct">2.1k posts</span></div>
-          <div class="trend-row"><span class="trend-tag">#FilmScore</span><span class="trend-ct">1.4k posts</span></div>
-          <div class="trend-row"><span class="trend-tag">#GigAlert</span><span class="trend-ct">980 posts</span></div>
-          <div class="trend-row"><span class="trend-tag">#JazzCollective</span><span class="trend-ct">730 posts</span></div>
-          <div class="trend-row"><span class="trend-tag">#StudioLife</span><span class="trend-ct">640 posts</span></div>
+          <div class="sec-label">Trending in Bay Area</div>
+          <div class="trend-row"><span class="trend-tag">#HyphyMovement</span><span class="trend-ct">1.2k posts</span></div>
+          <div class="trend-row"><span class="trend-tag">#FLStudio</span><span class="trend-ct">980 posts</span></div>
+          <div class="trend-row"><span class="trend-tag">#LivewireENT</span><span class="trend-ct">450 posts</span></div>
         </div>
       </div>
     </div>
@@ -401,92 +419,84 @@ input { font-family: inherit; }
           <div class="profile-banner"></div>
           <div class="profile-identity">
             <div class="profile-av-wrap">
-              <div class="profile-av">SR</div>
+              <div class="profile-av">D4</div>
               <div class="verified-dot"><i class="ti ti-check" aria-hidden="true"></i></div>
             </div>
             <div class="profile-actions">
-              <button class="btn btn-primary">+ Book Me</button>
-              <button class="btn btn-outline" onclick="navigate('messages')">Message</button>
-              <button class="icon-btn" style="width:36px;height:36px;"><i class="ti ti-dots" aria-hidden="true"></i></button>
+              <button class="btn btn-primary" onclick="alert('Edit Profile mode activated')"><i class="ti ti-pencil"></i> Edit Profile</button>
+              <button class="icon-btn" style="width:36px;height:36px;"><i class="ti ti-share" aria-hidden="true"></i></button>
             </div>
-            <div class="profile-name">Sofia Reyes</div>
-            <div class="profile-tagline">Session Violinist · Orchestral Contractor · Composer</div>
+            <div class="profile-name">DRE4K</div>
+            <div class="profile-tagline">Music Producer · Manager @ CHI Lounge · Founder</div>
             <div class="profile-meta">
-              <span class="meta-item"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> Los Angeles, CA</span>
-              <span class="meta-item"><i class="ti ti-building" style="font-size:13px" aria-hidden="true"></i> LA Philharmonic</span>
-              <span class="meta-item" style="color:var(--teal);"><i class="ti ti-circle-check" style="font-size:13px" aria-hidden="true"></i> AFM Member</span>
+              <span class="meta-item"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i> San Francisco, CA</span>
+              <span class="meta-item"><i class="ti ti-building" style="font-size:14px" aria-hidden="true"></i> MoxengineeringSF</span>
+              <span class="meta-item" style="color:var(--purple);"><i class="ti ti-headphones" style="font-size:14px" aria-hidden="true"></i> Audio Engineer</span>
             </div>
-            <div class="tag-row" style="margin-top:12px;padding-bottom:18px;">
-              <span class="tag tag-p">Violin</span><span class="tag tag-p">Viola</span><span class="tag tag-t">Film Score</span><span class="tag tag-t">Orchestral</span><span class="tag tag-a">Session Work</span><span class="tag tag-b">Remote Recording</span><span class="tag tag-c">Arrangements</span>
+            <div class="tag-row" style="margin-top:14px;padding-bottom:18px;">
+              <span class="tag tag-p">Hip-Hop Production</span><span class="tag tag-p">Mixing</span><span class="tag tag-t">Event Promotion</span><span class="tag tag-b">3D CAD</span><span class="tag tag-a">Venue Management</span>
             </div>
           </div>
           <div class="stat-row">
-            <div class="stat-item"><div class="stat-num">1.4k</div><div class="stat-lbl">Connections</div></div>
-            <div class="stat-item"><div class="stat-num">312</div><div class="stat-lbl">Credits</div></div>
-            <div class="stat-item"><div class="stat-num">58</div><div class="stat-lbl">Endorsements</div></div>
-            <div class="stat-item"><div class="stat-num">24</div><div class="stat-lbl">Gigs this year</div></div>
+            <div class="stat-item"><div class="stat-num">3.2k</div><div class="stat-lbl">Network</div></div>
+            <div class="stat-item"><div class="stat-num">47</div><div class="stat-lbl">Produced Tracks</div></div>
+            <div class="stat-item"><div class="stat-num">12</div><div class="stat-lbl">Events Hosted</div></div>
           </div>
         </div>
 
         <div class="card" style="border-radius:0;border-left:none;border-right:none;border-top:none;box-shadow:none;margin-top:10px;">
           <div class="profile-section-title">About</div>
-          <p style="font-size:14px;color:var(--text-2);line-height:1.7;">Professional violinist with 15+ years of experience in orchestral, session, and live performance. Based in Los Angeles, I specialize in film and TV scoring, having contributed to over 80 projects. I also offer string arrangements and contractor services.</p>
-          <p style="font-size:14px;color:var(--text-2);line-height:1.7;margin-top:10px;">Available for in-studio recording, remote sessions (Sessionwire / Source Connect), live dates, and custom arrangements.</p>
+          <p style="font-size:14px;color:var(--text-2);line-height:1.7;">Bay Area based music producer, audio engineer, and event manager. I specialize in Hip-Hop / Hyphy production, high-end mixing, and mastering using FL Studio and Waveform.</p>
+          <p style="font-size:14px;color:var(--text-2);line-height:1.7;margin-top:10px;">Currently managing event contracts and operations at CHI Lounge in SF Chinatown, and driving custom engineering solutions (like the Dre Force Ones tensegrity monitor stands) via MoxengineeringSF.</p>
         </div>
 
         <div class="card" style="border-radius:0;border-left:none;border-right:none;border-top:none;box-shadow:none;margin-top:10px;">
           <div class="profile-section">
-            <div class="profile-section-title">Audio reel</div>
+            <div class="profile-section-title">Audio Reel</div>
             <div id="profile-tracks"></div>
           </div>
+          
           <div class="profile-section">
-            <div class="profile-section-title">Credits</div>
+            <div class="profile-section-title">Recent Event Credits</div>
             <div class="credit-row">
-              <div class="credit-art" style="background:var(--purple-light);">🎬</div>
-              <div><div class="credit-title">Dune: Part Three (2026)</div><div class="credit-sub">Session Violinist · Hans Zimmer</div><div class="credit-endorsed"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i> Endorsed by 12 collaborators</div></div>
+              <div class="credit-art" style="background:var(--purple-light);">🎤</div>
+              <div><div class="credit-title">Keak da Sneak Showcase</div><div class="credit-sub">Production Manager · Upcoming (June 2026)</div><div class="credit-endorsed"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i> Contract Confirmed</div></div>
             </div>
             <div class="credit-row">
-              <div class="credit-art" style="background:var(--teal-light);">📺</div>
-              <div><div class="credit-title">The Crown — Season 6 OST</div><div class="credit-sub">String Section Lead · Netflix</div><div class="credit-endorsed"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i> Endorsed by 8 collaborators</div></div>
+              <div class="credit-art" style="background:var(--teal-light);">🪩</div>
+              <div><div class="credit-title">Lit in Chinese Rave</div><div class="credit-sub">Co-Promoter (w/ Nicole Kuhar) · May 2026</div><div class="credit-endorsed"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i> CHI Lounge, SF</div></div>
             </div>
             <div class="credit-row">
-              <div class="credit-art" style="background:var(--amber-light);">🎵</div>
-              <div><div class="credit-title">Olivia Rodrigo — GUTS Tour</div><div class="credit-sub">Touring Violinist · 2023–24</div><div class="credit-endorsed"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i> Endorsed by 5 collaborators</div></div>
+              <div class="credit-art" style="background:var(--amber-light);">🎶</div>
+              <div><div class="credit-title">J. Stalin & San Quinn Show</div><div class="credit-sub">Event Booking / Manager · April 3, 2026</div><div class="credit-endorsed"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i> Sold Out</div></div>
             </div>
           </div>
+
           <div class="profile-section">
             <div class="profile-section-title">Experience</div>
-            <div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Principal 2nd Violin</div><div class="exp-org">LA Philharmonic</div><div class="exp-date">Sep 2018 – Present · 7 yrs</div></div></div>
-            <div class="exp-item"><div class="exp-dot" style="background:var(--teal);"></div><div><div class="exp-role">Freelance Session Violinist</div><div class="exp-org">Warner, Sony, Universal</div><div class="exp-date">2013 – Present · 12 yrs</div></div></div>
-            <div class="exp-item"><div class="exp-dot" style="background:var(--purple-mid);"></div><div><div class="exp-role">Section Violinist</div><div class="exp-org">San Francisco Symphony</div><div class="exp-date">2010 – 2018 · 8 yrs</div></div></div>
+            <div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Manager & Event Promoter</div><div class="exp-org">CHI Lounge</div><div class="exp-date">2026 – Present</div></div></div>
+            <div class="exp-item"><div class="exp-dot" style="background:var(--teal);"></div><div><div class="exp-role">Founder / Lead Engineer</div><div class="exp-org">MoxengineeringSF</div><div class="exp-date">2026 – Present</div></div></div>
+            <div class="exp-item"><div class="exp-dot" style="background:var(--amber);"></div><div><div class="exp-role">Music Producer / Engineer</div><div class="exp-org">DRE4K Productions</div><div class="exp-date">2020 – Present</div></div></div>
           </div>
         </div>
       </div>
 
       <div class="right-col">
-        <div><div class="avail-badge"><div class="avail-dot"></div> Open to bookings</div><p style="font-size:12px;color:var(--text-2);line-height:1.6;margin-top:10px;">Responds within 24h. Available for sessions, live dates, and remote projects.</p></div>
-        <div>
-          <div class="sec-label">Rates</div>
-          <div class="rate-row"><span class="rate-lbl">Session (studio)</span><span class="rate-val">$250/hr</span></div>
-          <div class="rate-row"><span class="rate-lbl">Remote session</span><span class="rate-val">$180/hr</span></div>
-          <div class="rate-row"><span class="rate-lbl">Live performance</span><span class="rate-val">$400/set</span></div>
-          <div class="rate-row"><span class="rate-lbl">Arrangement</span><span class="rate-val">$120/min</span></div>
-          <div style="font-size:11px;color:var(--text-3);margin-top:8px;">AFM scale rates honored.</div>
-        </div>
         <div>
           <div class="sec-label">Skills</div>
-          <div class="skill-wrap"><div class="skill-label-row"><span>Violin (classical)</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:97%"></div></div></div>
-          <div class="skill-wrap"><div class="skill-label-row"><span>Film scoring sessions</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:93%"></div></div></div>
-          <div class="skill-wrap"><div class="skill-label-row"><span>String arrangement</span><span>Advanced</span></div><div class="skill-track"><div class="skill-fill" style="width:82%"></div></div></div>
-          <div class="skill-wrap"><div class="skill-label-row"><span>Sight-reading</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:99%"></div></div></div>
+          <div class="skill-wrap"><div class="skill-label-row"><span>FL Studio</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:98%"></div></div></div>
+          <div class="skill-wrap"><div class="skill-label-row"><span>Mixing & Mastering</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:92%"></div></div></div>
+          <div class="skill-wrap"><div class="skill-label-row"><span>Event Management</span><span>Advanced</span></div><div class="skill-track"><div class="skill-fill" style="width:88%"></div></div></div>
+          <div class="skill-wrap"><div class="skill-label-row"><span>Fusion 360 / CAD</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
         </div>
-        <div>
-          <div class="sec-label">Gear & setup</div>
-          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text);">
-            <div>🎻 1897 German workshop violin</div>
-            <div>🎙 Neumann KM 184</div>
-            <div>💻 Pro Tools, Logic Pro</div>
-            <div>🌐 Source Connect Pro</div>
+        
+        <div style="margin-top:20px;">
+          <div class="sec-label">Studio Gear & Setup</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text);">
+            <div>🎛 FL Studio Producer Edition</div>
+            <div>🔉 Dre Force Ones (Tensegrity Stands)</div>
+            <div>🎚 Waveform DAW</div>
+            <div>📺 Sony CRT (Retro Gaming breaks)</div>
           </div>
         </div>
       </div>
@@ -497,75 +507,48 @@ input { font-family: inherit; }
 <!-- ══════════ GIGS PAGE ══════════ -->
 <div class="page" id="page-gigs">
   <div class="topbar">
-    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input placeholder="Search gigs by genre, city, instrument…" /></div>
-    <button class="btn btn-primary btn-sm"><i class="ti ti-plus" style="font-size:14px" aria-hidden="true"></i> Post a gig</button>
+    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input id="gig-search" placeholder="Search by genre, city, or role…" onkeyup="filterGigSearch()" /></div>
+    <button class="btn btn-primary btn-sm" onclick="document.getElementById('postGigModal').classList.add('active')"><i class="ti ti-plus" style="font-size:14px" aria-hidden="true"></i> Post a gig</button>
   </div>
   <div class="filter-bar">
     <span class="filter-chip active" onclick="filterGigs(this)">All gigs</span>
-    <span class="filter-chip" onclick="filterGigs(this)">Session work</span>
-    <span class="filter-chip" onclick="filterGigs(this)">Live performance</span>
-    <span class="filter-chip" onclick="filterGigs(this)">Remote</span>
-    <span class="filter-chip" onclick="filterGigs(this)">Collaboration</span>
-    <span class="filter-chip" onclick="filterGigs(this)">Composer wanted</span>
+    <span class="filter-chip" onclick="filterGigs(this)">Production</span>
+    <span class="filter-chip" onclick="filterGigs(this)">Live Venues</span>
+    <span class="filter-chip" onclick="filterGigs(this)">Engineering</span>
+    <span class="filter-chip" onclick="filterGigs(this)">Promoters</span>
   </div>
   <div class="two-col" style="align-items:flex-start;">
-    <div class="gig-list" style="flex:1;">
-      <div class="gig-card-full">
-        <div class="gig-title-row"><div class="gig-name">Jazz Quartet — Weekend Residency</div><span class="gig-pay-badge">$400/night</span></div>
-        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> The Blue Room · San Francisco</div>
-        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-b">#Jazz</span><span class="tag tag-c">#Piano</span><span class="tag tag-c">#Bass</span><span class="tag tag-c">#Drums</span></div>
-        <div class="gig-footer"><span class="gig-posted">Fri–Sat nights · Jun 7 – Sep · Posted 3h ago</span><button class="btn btn-primary btn-sm">Apply →</button></div>
+    <div class="gig-list" id="gig-list-container" style="flex:1;">
+      <div class="gig-card-full blue gig-item">
+        <div class="gig-title-row"><div class="gig-name">Custom Studio Fabrication — Trophy Mount</div><span class="gig-pay-badge" style="background:var(--blue-light); color:var(--blue);">Quote Required</span></div>
+        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> Remote / Local SF</div>
+        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-b">#3DPrinting</span><span class="tag tag-c">#CAD</span><span class="tag tag-c">#Fabrication</span></div>
+        <div class="gig-footer"><span class="gig-posted">Client: Brandon Wynn · Posted 3h ago</span><button class="btn btn-primary btn-sm" style="background:var(--blue);">Apply →</button></div>
       </div>
-      <div class="gig-card-full teal">
-        <div class="gig-title-row"><div class="gig-name">Film Score — Violin session (remote)</div><span class="gig-pay-badge">$280/hr</span></div>
-        <div class="gig-loc"><i class="ti ti-wifi" style="font-size:13px" aria-hidden="true"></i> Remote · Source Connect required</div>
-        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-t">#FilmScore</span><span class="tag tag-a">#Violin</span><span class="tag tag-b">#Remote</span></div>
-        <div class="gig-footer"><span class="gig-posted">Jun 14–15 · 2-day session · Posted 1d ago</span><button class="btn btn-primary btn-sm" style="background:var(--teal);">Apply →</button></div>
+      
+      <div class="gig-card-full teal gig-item">
+        <div class="gig-title-row"><div class="gig-name">Mix Engineer Needed — EP Project</div><span class="gig-pay-badge">$300 / track</span></div>
+        <div class="gig-loc"><i class="ti ti-wifi" style="font-size:13px" aria-hidden="true"></i> Remote</div>
+        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-t">#Mixing</span><span class="tag tag-a">#HipHop</span><span class="tag tag-b">#Remote</span></div>
+        <div class="gig-footer"><span class="gig-posted">5 Track EP · Posted 1d ago</span><button class="btn btn-primary btn-sm" style="background:var(--teal);">Apply →</button></div>
       </div>
-      <div class="gig-card-full amber">
-        <div class="gig-title-row"><div class="gig-name">Indie Folk EP — Vocalist & Lead Guitar</div><span class="gig-pay-badge">Negotiable</span></div>
-        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> Los Angeles or Remote</div>
-        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-p">#Collaboration</span><span class="tag tag-a">#IndieFolk</span><span class="tag tag-a">#VocalistWanted</span></div>
-        <div class="gig-footer"><span class="gig-posted">Recording in July · Posted 2d ago</span><button class="btn btn-primary btn-sm" style="background:var(--amber);">Apply →</button></div>
-      </div>
-      <div class="gig-card-full coral">
-        <div class="gig-title-row"><div class="gig-name">Wedding Ceremony — String Duo</div><span class="gig-pay-badge">$600 flat</span></div>
-        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> Napa Estate · Private event</div>
-        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-c">#Classical</span><span class="tag tag-c">#Violin</span><span class="tag tag-c">#Cello</span></div>
-        <div class="gig-footer"><span class="gig-posted">Jun 21 · 3hrs · Posted 5h ago</span><button class="btn btn-primary btn-sm" style="background:var(--coral);">Apply →</button></div>
-      </div>
-      <div class="gig-card-full">
-        <div class="gig-title-row"><div class="gig-name">Studio Session — Hip-Hop / Neo Soul Keys</div><span class="gig-pay-badge">$200/hr</span></div>
-        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> Sunset Sound · Los Angeles</div>
-        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-p">#HipHop</span><span class="tag tag-p">#NeoSoul</span><span class="tag tag-c">#Keys</span><span class="tag tag-a">#SessionWork</span></div>
-        <div class="gig-footer"><span class="gig-posted">Jun 10 · 4hr session · Posted 6h ago</span><button class="btn btn-primary btn-sm">Apply →</button></div>
+
+      <div class="gig-card-full coral gig-item">
+        <div class="gig-title-row"><div class="gig-name">Nightclub DJ slot opening</div><span class="gig-pay-badge">$250 / night</span></div>
+        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> Downtown SF</div>
+        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-c">#DJ</span><span class="tag tag-p">#Club</span><span class="tag tag-a">#Live</span></div>
+        <div class="gig-footer"><span class="gig-posted">Friday Nights · Posted 2d ago</span><button class="btn btn-primary btn-sm" style="background:var(--coral);">Apply →</button></div>
       </div>
     </div>
     <div class="right-col">
       <div>
-        <div class="sec-label">Your applications</div>
+        <div class="sec-label">Your Active Listings</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="padding:9px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);">
-            <div style="font-size:12px;font-weight:600;color:var(--text);">The Fillmore — Rock opener</div>
-            <div style="font-size:11px;color:var(--teal);margin-top:2px;">Under review</div>
-          </div>
-          <div style="padding:9px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);">
-            <div style="font-size:12px;font-weight:600;color:var(--text);">LA session — Sci-fi score</div>
-            <div style="font-size:11px;color:var(--purple);margin-top:2px;">Shortlisted ✓</div>
+          <div style="padding:12px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);">
+            <div style="font-size:13px;font-weight:600;color:var(--text);">Opening Act - CHI Lounge</div>
+            <div style="font-size:11px;color:var(--teal);margin-top:4px;">3 Applications pending</div>
           </div>
         </div>
-      </div>
-      <div>
-        <div class="sec-label">Gig alerts</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div style="font-size:11px;padding:8px;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-2);">New: 4 violin gigs near LA</div>
-          <div style="font-size:11px;padding:8px;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-2);">New: 2 remote session posts</div>
-          <div style="font-size:11px;padding:8px;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-2);">Saved gig deadline tomorrow</div>
-        </div>
-      </div>
-      <div>
-        <div class="sec-label">Rate guide</div>
-        <div style="font-size:11px;color:var(--text-2);line-height:1.7;">AFM minimums for 2025:<br>Studio session: $180/hr<br>Live performance: $285/set<br>Film scoring: $220/hr</div>
       </div>
     </div>
   </div>
@@ -575,59 +558,63 @@ input { font-family: inherit; }
 <div class="page" id="page-messages">
   <div class="msg-layout">
     <div class="msg-list">
-      <div class="msg-header">Messages</div>
-      <div class="msg-search"><input placeholder="Search conversations…" /></div>
-      <div class="msg-item active" onclick="openThread(this,'David Kim','Producer · LA','#faeeda','#633806','DK')">
-        <div class="avatar" style="width:34px;height:34px;background:#faeeda;color:#633806;font-size:12px;font-weight:600;flex-shrink:0;">DK</div>
-        <div class="msg-item-info"><div class="msg-name">David Kim</div><div class="msg-preview">Are you free Jun 14?</div></div>
-        <div class="msg-time">2m</div>
-      </div>
-      <div class="msg-item" onclick="openThread(this,'Sofia Reyes','Session Violinist','#eeedfe','#3C3489','SR')">
-        <div class="avatar" style="width:34px;height:34px;background:#eeedfe;color:#3C3489;font-size:12px;font-weight:600;flex-shrink:0;">SR</div>
-        <div class="msg-item-info"><div class="msg-name">Sofia Reyes</div><div class="msg-preview">Loved the session, thanks!</div></div>
-        <div class="msg-time">1h</div>
-      </div>
-      <div class="msg-item" onclick="openThread(this,'Alex Liu','Sound Engineer','#faece7','#712B13','AL')">
-        <div class="avatar" style="width:34px;height:34px;background:#faece7;color:#712B13;font-size:12px;font-weight:600;flex-shrink:0;">AL</div>
-        <div class="msg-item-info"><div class="msg-name">Alex Liu</div><div class="msg-preview">Mix is ready for review</div></div>
-        <div class="msg-time">3h</div>
-      </div>
-      <div class="msg-item" onclick="openThread(this,'Maya Torres','Flutist · SF Jazz','#e1f5ee','#085041','MT')">
-        <div class="avatar" style="width:34px;height:34px;background:#e1f5ee;color:#085041;font-size:12px;font-weight:600;flex-shrink:0;">MT</div>
-        <div class="msg-item-info"><div class="msg-name">Maya Torres</div><div class="msg-preview">Can you send your rate card?</div></div>
-        <div class="msg-time">Yesterday</div>
-      </div>
-      <div class="msg-item" onclick="openThread(this,'Rita Nkosi','Vocalist · R&B','#f3e8ff','#5b21b6','RN')">
-        <div class="avatar" style="width:34px;height:34px;background:#f3e8ff;color:#5b21b6;font-size:12px;font-weight:600;flex-shrink:0;">RN</div>
-        <div class="msg-item-info"><div class="msg-name">Rita Nkosi</div><div class="msg-preview">Congrats on the Netflix sync!</div></div>
-        <div class="msg-time">2d</div>
+      <div class="msg-header">Messages <i class="ti ti-edit" style="font-size:18px; cursor:pointer; color:var(--text-3);" aria-hidden="true"></i></div>
+      <div class="msg-search"><input placeholder="Search conversations…" onkeyup="filterMessages(this)" /></div>
+      <div class="msg-items-container" id="msg-inbox">
+        <div class="msg-item active" onclick="openThread(this,'Shan Taylor','Artist / Producer','#eeedfe','#3C3489','ST')">
+          <div class="avatar" style="width:40px;height:40px;background:#eeedfe;color:#3C3489;font-size:13px;flex-shrink:0;">ST</div>
+          <div class="msg-item-info"><div class="msg-name">Shan Taylor</div><div class="msg-preview">Did you get those stems?</div></div>
+          <div class="msg-time">10m</div>
+        </div>
+        <div class="msg-item" onclick="openThread(this,'Jourdan Jade','Event Promoter','#faeeda','#633806','JJ')">
+          <div class="avatar" style="width:40px;height:40px;background:#faeeda;color:#633806;font-size:13px;flex-shrink:0;">JJ</div>
+          <div class="msg-item-info"><div class="msg-name">Jourdan Jade</div><div class="msg-preview">Rave flyer looks fire!</div></div>
+          <div class="msg-time">2h</div>
+        </div>
+        <div class="msg-item" onclick="openThread(this,'Nicole Kuhar','Event Coordinator','#faece7','#712B13','NK')">
+          <div class="avatar" style="width:40px;height:40px;background:#faece7;color:#712B13;font-size:13px;flex-shrink:0;">NK</div>
+          <div class="msg-item-info"><div class="msg-name">Nicole Kuhar</div><div class="msg-preview">Contract looks good to me.</div></div>
+          <div class="msg-time">Yesterday</div>
+        </div>
+        <div class="msg-item" onclick="openThread(this,'Brandon Wynn','Artist Management','#e1f5ee','#085041','BW')">
+          <div class="avatar" style="width:40px;height:40px;background:#e1f5ee;color:#085041;font-size:13px;flex-shrink:0;">BW</div>
+          <div class="msg-item-info"><div class="msg-name">Brandon Wynn</div><div class="msg-preview">Quote approved for the 3D print.</div></div>
+          <div class="msg-time">May 12</div>
+        </div>
       </div>
     </div>
+    
     <div class="msg-thread" id="msg-thread">
       <div class="msg-thread-header">
-        <div class="avatar" id="thread-av" style="width:36px;height:36px;background:#faeeda;color:#633806;font-size:13px;font-weight:600;flex-shrink:0;">DK</div>
-        <div><div class="msg-thread-name" id="thread-name">David Kim</div><div class="msg-thread-status">Online now</div></div>
+        <div class="avatar" id="thread-av" style="width:40px;height:40px;background:#eeedfe;color:#3C3489;font-size:14px;flex-shrink:0;">ST</div>
+        <div><div class="msg-thread-name" id="thread-name">Shan Taylor</div><div class="msg-thread-status">Active now</div></div>
         <div class="msg-thread-actions">
-          <button class="icon-btn" style="width:34px;height:34px;"><i class="ti ti-phone" aria-hidden="true"></i></button>
-          <button class="icon-btn" style="width:34px;height:34px;" onclick="navigate('profile')"><i class="ti ti-user" aria-hidden="true"></i></button>
+          <button class="icon-btn" style="width:36px;height:36px;"><i class="ti ti-phone" aria-hidden="true"></i></button>
+          <button class="icon-btn" style="width:36px;height:36px;" onclick="navigate('profile')"><i class="ti ti-info-circle" aria-hidden="true"></i></button>
         </div>
       </div>
+      
       <div class="msg-bubbles" id="msg-bubbles">
         <div class="bubble-wrap">
-          <div class="avatar" style="width:26px;height:26px;background:#faeeda;color:#633806;font-size:10px;font-weight:600;flex-shrink:0;">DK</div>
-          <div class="bubble them">Hey! I'm producing an indie folk EP this summer. Would love to have you on strings.<div class="bubble-time">10:42 AM</div></div>
+          <div class="avatar" style="width:28px;height:28px;background:#eeedfe;color:#3C3489;font-size:10px;flex-shrink:0;" id="bubble-av-1">ST</div>
+          <div class="bubble them">Yo Dre, need you to work your magic on this new track. Going for that heavy bay sound.<div class="bubble-time">10:42 AM</div></div>
         </div>
         <div class="bubble-wrap mine">
-          <div class="bubble mine">That sounds amazing! I'd love to hear more. What's the timeline?<div class="bubble-time">10:44 AM</div></div>
+          <div class="bubble mine">I got you. Send over the stems, I'll load them into FL right now.<div class="bubble-time">10:44 AM</div></div>
         </div>
         <div class="bubble-wrap">
-          <div class="avatar" style="width:26px;height:26px;background:#faeeda;color:#633806;font-size:10px;font-weight:600;flex-shrink:0;">DK</div>
-          <div class="bubble them">Recording in July. Are you free Jun 14 for a pre-production session?<div class="bubble-time">10:46 AM</div></div>
+          <div class="avatar" style="width:28px;height:28px;background:#eeedfe;color:#3C3489;font-size:10px;flex-shrink:0;" id="bubble-av-2">ST</div>
+          <div class="bubble them">Just dropped the Dropbox link. Let me know when you pull them down.<div class="bubble-time">10:46 AM</div></div>
+        </div>
+        <div class="bubble-wrap">
+          <div class="avatar" style="width:28px;height:28px;background:#eeedfe;color:#3C3489;font-size:10px;flex-shrink:0;" id="bubble-av-3">ST</div>
+          <div class="bubble them">Did you get those stems?<div class="bubble-time">10:55 AM</div></div>
         </div>
       </div>
+      
       <div class="msg-compose">
-        <button class="icon-btn" style="width:34px;height:34px;flex-shrink:0;"><i class="ti ti-paperclip" aria-hidden="true"></i></button>
-        <input id="msg-input" placeholder="Reply to David…" onkeydown="sendMsg(event)" />
+        <button class="icon-btn" style="width:40px;height:40px;flex-shrink:0;"><i class="ti ti-paperclip" aria-hidden="true"></i></button>
+        <input id="msg-input" placeholder="Message Shan…" onkeydown="sendMsg(event)" autocomplete="off" />
         <button class="send-btn" onclick="sendMsgBtn()"><i class="ti ti-send" aria-hidden="true"></i></button>
       </div>
     </div>
@@ -637,122 +624,186 @@ input { font-family: inherit; }
 <!-- ══════════ NETWORK PAGE ══════════ -->
 <div class="page" id="page-network">
   <div class="topbar">
-    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input placeholder="Search musicians, producers, venues…" /></div>
+    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input placeholder="Search producers, artists, promoters…" /></div>
   </div>
-  <div style="padding:16px 28px 8px;border-bottom:1px solid var(--border);display:flex;gap:8px;background:var(--surface);">
-    <span class="filter-chip active">All</span>
-    <span class="filter-chip">Musicians</span>
+  <div class="filter-bar" style="padding-top:16px;">
+    <span class="filter-chip active">All Connections</span>
+    <span class="filter-chip">Bay Area Local</span>
     <span class="filter-chip">Producers</span>
-    <span class="filter-chip">Engineers</span>
-    <span class="filter-chip">Venues</span>
-    <span class="filter-chip">Nearby</span>
+    <span class="filter-chip">Promoters</span>
+    <span class="filter-chip">Artists</span>
   </div>
   <div class="network-grid">
     <div class="network-card">
-      <div class="network-av" style="background:#eeedfe;color:#3C3489;">SR</div>
-      <div class="network-name">Sofia Reyes</div>
-      <div class="network-role">Session Violinist</div>
-      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> Los Angeles, CA</div>
-      <div class="network-tags"><span class="tag tag-p" style="font-size:10px;">Violin</span><span class="tag tag-t" style="font-size:10px;">Film Score</span></div>
-      <div class="network-actions"><button class="btn btn-outline btn-sm" onclick="navigate('profile')">View profile</button><button class="conn-btn" onclick="connectPerson(this)">+ Connect</button></div>
-    </div>
-    <div class="network-card">
-      <div class="network-av" style="background:#faeeda;color:#633806;">DK</div>
-      <div class="network-name">David Kim</div>
-      <div class="network-role">Music Producer</div>
-      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> Los Angeles, CA</div>
-      <div class="network-tags"><span class="tag tag-a" style="font-size:10px;">IndieFolk</span><span class="tag tag-p" style="font-size:10px;">Producer</span></div>
-      <div class="network-actions"><button class="btn btn-outline btn-sm">View profile</button><button class="conn-btn" onclick="navigate('messages')">Message</button></div>
-    </div>
-    <div class="network-card">
-      <div class="network-av" style="background:#e1f5ee;color:#085041;">MT</div>
-      <div class="network-name">Maya Torres</div>
-      <div class="network-role">Concert Flutist</div>
-      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> San Francisco, CA</div>
-      <div class="network-tags"><span class="tag tag-c" style="font-size:10px;">Flute</span><span class="tag tag-t" style="font-size:10px;">Orchestral</span></div>
-      <div class="network-actions"><button class="btn btn-outline btn-sm">View profile</button><button class="conn-btn" onclick="connectPerson(this)">+ Connect</button></div>
-    </div>
-    <div class="network-card">
-      <div class="network-av" style="background:#faece7;color:#712B13;">AL</div>
-      <div class="network-name">Alex Liu</div>
-      <div class="network-role">Sound Engineer</div>
+      <div class="network-av" style="background:#eeedfe;color:#3C3489;">ST</div>
+      <div class="network-name">Shan Taylor</div>
+      <div class="network-role">Artist / Producer</div>
       <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> Oakland, CA</div>
-      <div class="network-tags"><span class="tag tag-b" style="font-size:10px;">Mixing</span><span class="tag tag-b" style="font-size:10px;">Mastering</span></div>
-      <div class="network-actions"><button class="btn btn-outline btn-sm">View profile</button><button class="conn-btn" onclick="connectPerson(this)">+ Connect</button></div>
+      <div class="network-tags"><span class="tag tag-p" style="font-size:10px;">HipHop</span><span class="tag tag-t" style="font-size:10px;">Hyphy</span></div>
+      <div class="network-actions"><button class="btn btn-outline btn-sm">Profile</button><button class="conn-btn" onclick="navigate('messages')">Message</button></div>
     </div>
     <div class="network-card">
-      <div class="network-av" style="background:#f3e8ff;color:#5b21b6;">RN</div>
-      <div class="network-name">Rita Nkosi</div>
-      <div class="network-role">Vocalist · R&B / Soul</div>
+      <div class="network-av" style="background:#faeeda;color:#633806;">JJ</div>
+      <div class="network-name">Jourdan Jade</div>
+      <div class="network-role">Event Promoter</div>
       <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> San Francisco, CA</div>
-      <div class="network-tags"><span class="tag tag-p" style="font-size:10px;">Vocals</span><span class="tag tag-p" style="font-size:10px;">R&B</span></div>
-      <div class="network-actions"><button class="btn btn-outline btn-sm">View profile</button><button class="conn-btn" onclick="connectPerson(this)">+ Connect</button></div>
+      <div class="network-tags"><span class="tag tag-a" style="font-size:10px;">Events</span><span class="tag tag-p" style="font-size:10px;">Promoter</span></div>
+      <div class="network-actions"><button class="btn btn-outline btn-sm">Profile</button><button class="conn-btn" onclick="navigate('messages')">Message</button></div>
     </div>
     <div class="network-card">
-      <div class="network-av" style="background:var(--blue-light);color:var(--blue);">JC</div>
-      <div class="network-name">James Chen</div>
-      <div class="network-role">Composer · Film & TV</div>
-      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> Burbank, CA</div>
-      <div class="network-tags"><span class="tag tag-t" style="font-size:10px;">FilmScore</span><span class="tag tag-b" style="font-size:10px;">Composer</span></div>
-      <div class="network-actions"><button class="btn btn-outline btn-sm">View profile</button><button class="conn-btn" onclick="connectPerson(this)">+ Connect</button></div>
+      <div class="network-av" style="background:#faece7;color:#712B13;">NK</div>
+      <div class="network-name">Nicole Kuhar</div>
+      <div class="network-role">Event Coordinator</div>
+      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> San Francisco, CA</div>
+      <div class="network-tags"><span class="tag tag-c" style="font-size:10px;">Logistics</span><span class="tag tag-t" style="font-size:10px;">Nightlife</span></div>
+      <div class="network-actions"><button class="btn btn-outline btn-sm">Profile</button><button class="conn-btn" onclick="connectPerson(this)">+ Connect</button></div>
+    </div>
+    <div class="network-card">
+      <div class="network-av" style="background:#e1f5ee;color:#085041;">BW</div>
+      <div class="network-name">Brandon Wynn</div>
+      <div class="network-role">Artist Management</div>
+      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> Los Angeles, CA</div>
+      <div class="network-tags"><span class="tag tag-b" style="font-size:10px;">Management</span><span class="tag tag-b" style="font-size:10px;">A&R</span></div>
+      <div class="network-actions"><button class="btn btn-outline btn-sm">Profile</button><button class="conn-btn" onclick="navigate('messages')">Message</button></div>
     </div>
   </div>
 </div>
 
 </div><!-- end shell -->
 
+<!-- Post Gig Modal -->
+<div class="modal-overlay" id="postGigModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span>Post a New Gig</span>
+      <button class="modal-close" onclick="closeModal('postGigModal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="form-group">
+      <label>Gig Title</label>
+      <input type="text" placeholder="e.g. Need DJ for Friday night..." />
+    </div>
+    <div class="form-group">
+      <label>Location / Venue</label>
+      <input type="text" placeholder="e.g. CHI Lounge, SF" />
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea rows="3" placeholder="Details about the gig..."></textarea>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <button class="btn btn-outline" onclick="closeModal('postGigModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('postGigModal'); alert('Gig posted successfully!');">Post Gig</button>
+    </div>
+  </div>
+</div>
+
 <script>
+// Main Navigation
 function navigate(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  const btn = document.querySelector('[data-page="' + page + '"]');
+  
+  const pageEl = document.getElementById('page-' + page);
+  if (pageEl) {
+    pageEl.classList.add('active');
+    // Scroll page body to top
+    pageEl.scrollTop = 0;
+  }
+  
+  const btn = document.querySelector('.nav-btn[data-page="' + page + '"]');
   if (btn) btn.classList.add('active');
+  
+  // Mobile specific: if body is scrolled, bring it back
   window.scrollTo(0,0);
 }
 
+// Bind Navigation
 document.querySelectorAll('.nav-btn[data-page], .nav-avatar').forEach(btn => {
   btn.addEventListener('click', () => navigate(btn.dataset.page));
 });
 
-function togglePlay(btn) {
+// Audio Player Mock
+function togglePlay(btn, waveId) {
   const icon = btn.querySelector('i');
+  const bars = document.querySelectorAll(`#${waveId} .bar`);
+  
   if (icon.classList.contains('ti-player-play')) {
     icon.classList.replace('ti-player-play','ti-player-pause');
+    bars.forEach(b => b.classList.add('active'));
   } else {
     icon.classList.replace('ti-player-pause','ti-player-play');
+    bars.forEach(b => b.classList.remove('active'));
   }
 }
 
+// Social Actions
 function likePost(btn) {
   const parts = btn.innerHTML.split(' ');
-  const count = parseInt(parts[1]) + 1;
+  const count = parseInt(parts[parts.length - 1]) + 1;
   btn.style.color = '#E53E3E';
   btn.innerHTML = btn.innerHTML.replace(/\d+/, count);
+  btn.style.pointerEvents = 'none'; // Prevent multi-click
 }
 
 function connectPerson(btn) {
-  btn.textContent = '✓ Connected';
+  btn.innerHTML = '<i class="ti ti-check"></i> Connected';
   btn.style.background = 'var(--purple)';
   btn.style.color = 'white';
   btn.style.borderColor = 'var(--purple)';
   btn.disabled = true;
 }
 
+// Gig Board Filtering
 function filterGigs(chip) {
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('#page-gigs .filter-chip').forEach(c => c.classList.remove('active'));
   chip.classList.add('active');
 }
 
+function filterGigSearch() {
+  const input = document.getElementById('gig-search').value.toLowerCase();
+  const items = document.querySelectorAll('.gig-item');
+  items.forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(input) ? '' : 'none';
+  });
+}
+
+// Messaging System
+function filterMessages(input) {
+  const query = input.value.toLowerCase();
+  const items = document.querySelectorAll('#msg-inbox .msg-item');
+  items.forEach(item => {
+    const name = item.querySelector('.msg-name').textContent.toLowerCase();
+    item.style.display = name.includes(query) ? '' : 'none';
+  });
+}
+
 function openThread(item, name, role, bg, color, initials) {
+  // Mobile View Logic: Scroll to thread if on mobile
+  if(window.innerWidth <= 768) {
+    document.getElementById('msg-thread').scrollIntoView({ behavior: 'smooth' });
+  }
+
   document.querySelectorAll('.msg-item').forEach(i => i.classList.remove('active'));
   item.classList.add('active');
   document.getElementById('thread-name').textContent = name;
+  
   const av = document.getElementById('thread-av');
   av.textContent = initials;
   av.style.background = bg;
   av.style.color = color;
-  document.getElementById('msg-input').placeholder = 'Reply to ' + name.split(' ')[0] + '…';
+  
+  // Update existing dummy bubbles to match the new person
+  document.getElementById('bubble-av-1').textContent = initials;
+  document.getElementById('bubble-av-2').textContent = initials;
+  document.getElementById('bubble-av-3').textContent = initials;
+  
+  document.getElementById('bubble-av-1').style.background = bg; document.getElementById('bubble-av-1').style.color = color;
+  document.getElementById('bubble-av-2').style.background = bg; document.getElementById('bubble-av-2').style.color = color;
+  document.getElementById('bubble-av-3').style.background = bg; document.getElementById('bubble-av-3').style.color = color;
+
+  document.getElementById('msg-input').placeholder = 'Message ' + name.split(' ')[0] + '…';
+  document.getElementById('msg-input').focus();
 }
 
 function sendMsg(e) {
@@ -763,39 +814,69 @@ function sendMsgBtn() {
   const input = document.getElementById('msg-input');
   const text = input.value.trim();
   if (!text) return;
+  
   const bubbles = document.getElementById('msg-bubbles');
   const now = new Date();
-  const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0') + ' ' + (now.getHours() < 12 ? 'AM' : 'PM');
+  let hours = now.getHours();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+  const time = hours + ':' + String(now.getMinutes()).padStart(2,'0') + ' ' + ampm;
+  
   const div = document.createElement('div');
   div.className = 'bubble-wrap mine';
   div.innerHTML = `<div class="bubble mine">${text}<div class="bubble-time">${time}</div></div>`;
   bubbles.appendChild(div);
+  
   input.value = '';
   bubbles.scrollTop = bubbles.scrollHeight;
+  
+  // Update sidebar preview
+  const activeChat = document.querySelector('.msg-item.active .msg-preview');
+  if(activeChat) activeChat.textContent = "You: " + text;
 }
 
-const waveHeights = [10,16,22,18,12,24,20,14,8,20,26,18,12,22,16,24,14,8,22,20,16,24,12,18,26,22,14,20,16,10];
-['wv1'].forEach(id => {
-  const el = document.getElementById(id);
-  if (!el) return;
-  waveHeights.forEach(h => {
-    const b = document.createElement('div');
-    b.className = 'bar'; b.style.height = h + 'px';
-    el.appendChild(b);
-  });
-});
+// Modals
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
 
-const profileTracks = [
-  { name: 'Adagio for Strings — demo', meta: 'Film score · 2024', dur: '2:14' },
-  { name: 'Neo-soul string quartet', meta: 'Session work · Indie label', dur: '1:47' },
-  { name: 'Solo violin — Celtic folk', meta: 'Live recording · The Fillmore', dur: '3:02' },
-];
-const trackEl = document.getElementById('profile-tracks');
-if (trackEl) profileTracks.forEach(t => {
-  const row = document.createElement('div');
-  row.className = 'track-row';
-  row.innerHTML = `<button class="play-btn" onclick="togglePlay(this)" style="width:32px;height:32px;"><i class="ti ti-player-play" style="font-size:12px;margin-left:2px;" aria-hidden="true"></i></button><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--text);">${t.name}</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">${t.meta}</div></div><div style="font-size:11px;color:var(--text-3);">${t.dur}</div>`;
-  trackEl.appendChild(row);
+// Initialization Scripts (Waveforms & Profile Tracks)
+document.addEventListener('DOMContentLoaded', () => {
+  // Generate random waveforms
+  const waveHeights = [10,16,22,18,12,24,20,14,10,20,26,18,12,22,16,24,14,10,22,20,16,24,12,18,26,22,14,20,16,12,18];
+  ['wv1'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    waveHeights.forEach(h => {
+      const b = document.createElement('div');
+      b.className = 'bar'; 
+      b.style.height = h + 'px';
+      el.appendChild(b);
+    });
+  });
+
+  // Load Profile Tracks
+  const profileTracks = [
+    { name: 'Bay Area Slapper — Demo Mix', meta: 'DRE4K Prod · 2026', dur: '2:45' },
+    { name: 'CHI Lounge Ambience Loop', meta: 'Event Audio · SF', dur: '1:30' },
+    { name: 'Heavy Bass / Synth Master', meta: 'Client Work · FL Studio', dur: '3:12' },
+  ];
+  const trackEl = document.getElementById('profile-tracks');
+  if (trackEl) profileTracks.forEach(t => {
+    const row = document.createElement('div');
+    row.className = 'track-row';
+    row.innerHTML = `
+      <button class="play-btn" onclick="togglePlay(this, 'wv_dummy')" style="width:36px;height:36px;">
+        <i class="ti ti-player-play" style="font-size:14px;margin-left:2px;" aria-hidden="true"></i>
+      </button>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:14px;font-weight:600;color:var(--text);">${t.name}</div>
+        <div style="font-size:12px;color:var(--text-3);margin-top:3px;">${t.meta}</div>
+      </div>
+      <div style="font-size:12px;font-weight:500;color:var(--text-3);">${t.dur}</div>
+    `;
+    trackEl.appendChild(row);
+  });
 });
 </script>
 </body>
