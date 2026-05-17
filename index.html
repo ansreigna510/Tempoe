@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Companion Studio Player</title>
+  <title>Studio Track Monitor & Live Companion</title>
   <style>
-    /* --- CORE STYLING (Dark Studio Aesthetic) --- */
+    /* --- ROCK SOLID BASE LAYOUT --- */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -16,14 +16,15 @@
       background-color: #0d0e12;
       color: #e2e8f0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      padding: 40px;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
       min-height: 100vh;
-      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow: hidden; /* Prevents stray scrollbars during cat movement */
     }
 
+    /* --- AUDIO PLAYER CONTAINER --- */
     .player-container {
       background: #13141c;
       border: 1px solid #222533;
@@ -31,8 +32,9 @@
       width: 100%;
       max-width: 600px;
       padding: 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      z-index: 10;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      position: relative;
+      z-index: 10; /* Keeps player safely beneath or above floating elements */
     }
 
     .header {
@@ -54,7 +56,7 @@
       margin-top: 4px;
     }
 
-    /* --- TRACKLIST LAYOUT --- */
+    /* --- TRACK ROWS --- */
     .tracklist {
       display: flex;
       flex-direction: column;
@@ -120,11 +122,11 @@
       margin-top: 2px;
     }
 
-    /* --- ORIGINAL ERROR TOAST --- */
+    /* --- NATIVE SYSTEM TOAST --- */
     #error-toast {
       position: fixed;
       bottom: 30px;
-      left: 40px;
+      left: 30px;
       background: #1c1316;
       border: 1px solid #4a1a24;
       color: #ff4d6d;
@@ -132,23 +134,27 @@
       border-radius: 8px;
       font-size: 13px;
       font-weight: 500;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       display: none;
       z-index: 10000;
-      animation: fadeIn 0.3s ease;
+      animation: toastPop 0.3s ease;
     }
 
-    /* --- LIVE FLOATING COMPANION WIDGET --- */
+    @keyframes toastPop {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- ISOLATED LIVE CAT WIDGET --- */
     #studio-cat-widget {
       position: fixed;
-      bottom: 100px;
-      right: 100px;
       z-index: 9999;
       display: flex;
       flex-direction: column;
       align-items: center;
-      /* Smooth transitions for autonomous roaming */
-      transition: left 2.5s ease-in-out, top 2.5s ease-in-out; 
+      width: 220px;
+      pointer-events: none; /* Allows clicks to pass through container margins */
+      transition: left 2s ease-in-out, top 2s ease-in-out;
     }
 
     #cat-bubble {
@@ -158,11 +164,11 @@
       padding: 12px 16px;
       border-radius: 12px;
       margin-bottom: 12px;
-      width: 200px;
+      width: 100%;
       font-size: 12px;
       line-height: 1.4;
       text-align: center;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
       position: relative;
       opacity: 0;
       transform: translateY(5px);
@@ -192,22 +198,26 @@
       flex-direction: column;
       align-items: center;
       cursor: pointer;
+      pointer-events: auto; /* Re-enables clicking directly on the avatar elements */
     }
 
-    /* Base Live Idle Animation (Breathing/Floating) */
     #cat-avatar {
       font-size: 36px;
       background: #13141c;
       border: 2px solid #31354b;
-      width: 76px;
-      height: 76px;
+      width: 74px;
+      height: 74px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      animation: catIdle 3s ease-in-out infinite;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+      animation: catLiveBreath 3s ease-in-out infinite;
       transition: border-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .cat-avatar-container:hover #cat-avatar {
+      transform: scale(1.06);
     }
 
     #cat-name-badge {
@@ -221,38 +231,34 @@
       margin-top: -10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       letter-spacing: 0.8px;
+      transition: background 0.3s ease;
     }
 
-    /* --- LIVE STATES (CSS ANIMATION ENGINE) --- */
+    /* --- ANIMATION PHYSICS STATES --- */
     
-    /* 1. Idle Breath */
-    @keyframes catIdle {
+    /* 1. Normal Micro-movement Idle */
+    @keyframes catLiveBreath {
       0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-6px) scale(1.02); }
+      50% { transform: translateY(-5px) scale(1.02); }
     }
 
-    /* 2. Audio Vibe Dance (Triggered on Play) */
+    /* 2. Audio Tracking / Sync Sync Dynamic Dance */
     .vibe-active {
-      animation: catVibe 0.45s infinite alternate linear !important;
+      animation: catStudioVibe 0.4s infinite alternate linear !important;
     }
-    @keyframes catVibe {
-      0% { transform: translateY(0) scale(1) rotate(-3deg); }
-      100% { transform: translateY(-12px) scale(0.98) rotate(3deg); border-color: #00e676; }
+    @keyframes catStudioVibe {
+      0% { transform: translateY(0) scale(1) rotate(-4deg); }
+      100% { transform: translateY(-10px) scale(0.97) rotate(4deg); border-color: #00e676; }
     }
 
-    /* 3. Error Shock Shaking (Triggered on Broken Path) */
+    /* 3. Crash / Missing Assets Shock Response */
     .shock-active {
-      animation: catShock 0.1s infinite alternate linear !important;
+      animation: catHardwareShock 0.08s infinite alternate linear !important;
       border-color: #ff3366 !important;
     }
-    @keyframes catShock {
+    @keyframes catHardwareShock {
       0% { transform: translate(2px, 1px) rotate(0deg); }
-      100% { transform: translate(-2px, -2px) rotate(-2deg); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      100% { transform: translate(-2px, -2px) rotate(-3deg); }
     }
   </style>
 </head>
@@ -296,7 +302,7 @@
   </div>
 
   <div id="studio-cat-widget">
-    <div id="cat-bubble" class="visible">Yo! Drop some stems into the audio folder and let's lock in.</div>
+    <div id="cat-bubble" class="visible">Drop stems into the audio folder and let's run it.</div>
     <div class="cat-avatar-container" id="cat-toggle-action">
       <div id="cat-avatar">👑</div>
       <div id="cat-name-badge">Sheikh El-Cat</div>
@@ -304,7 +310,7 @@
   </div>
 
   <script>
-    const CAT_ROSTER = [
+    const CONFIG_ROSTER = [
       {
         name: "Sheikh El-Cat",
         emoji: "👑",
@@ -335,12 +341,12 @@
       }
     ];
 
-    let activeCatIndex = 0;
+    let currentCatIdx = 0;
     let currentAudio = null;
     let activePlayButton = null;
     let toastTimeout = null;
     let bubbleTimeout = null;
-    let wanderInterval = null;
+    let wanderTimeoutEngine = null;
 
     const widget = document.getElementById('studio-cat-widget');
     const errorToast = document.getElementById('error-toast');
@@ -348,78 +354,78 @@
     const catAvatar = document.getElementById('cat-avatar');
     const catNameBadge = document.getElementById('cat-name-badge');
 
-    // --- LIVE MOVEMENT ENGINE (Wandering Logic) ---
-    function startWandering() {
-      if (wanderInterval) clearInterval(wanderInterval);
+    // --- AUTONOMOUS POSITION ENGINE ---
+    function executeSafeWander() {
+      if (wanderTimeoutEngine) clearInterval(wanderTimeoutEngine);
       
-      wanderInterval = setInterval(() => {
-        // Only wander if the cat isn't actively dancing or in shock
-        if (!catAvatar.classList.contains('vibe-active') && !catAvatar.classList.contains('shock-active')) {
-          // Calculate safe boundaries within the browser window
-          const pad = 120;
-          const randomX = Math.random() * (window.innerWidth - pad * 2) + pad;
-          const randomY = Math.random() * (window.innerHeight - pad * 2) + pad;
+      // Seed fallback initialization values
+      widget.style.left = `${window.innerWidth - 260}px`;
+      widget.style.top = `${window.innerHeight - 240}px`;
+
+      wanderTimeoutEngine = setInterval(() => {
+        const isDancing = catAvatar.classList.contains('vibe-active');
+        const isShaking = catAvatar.classList.contains('shock-active');
+        
+        // Only trigger roaming if the asset is in a passive state
+        if (!isDancing && !isShaking) {
+          const buffer = 80;
+          const maxW = window.innerWidth - 240 - buffer;
+          const maxH = window.innerHeight - 200 - buffer;
           
-          widget.style.left = `${randomX}px`;
-          widget.style.top = `${randomY}px`;
+          const targetX = Math.max(buffer, Math.floor(Math.random() * maxW));
+          const targetY = Math.max(buffer, Math.floor(Math.random() * maxH));
+          
+          widget.style.left = `${targetX}px`;
+          widget.style.top = `${targetY}px`;
         }
-      }, 5000); // Moves every 5 seconds
+      }, 6000); // Transitions to a new target coordinates every 6 seconds
     }
 
-    // Set absolute position baseline for widget movement
-    widget.style.left = `${window.innerWidth - 260}px`;
-    widget.style.top = `${window.innerHeight - 240}px`;
-
-    function updateCompanionCharacter() {
-      const cat = CAT_ROSTER[activeCatIndex];
-      catAvatar.textContent = cat.emoji;
-      catNameBadge.textContent = cat.name;
-      catNameBadge.style.backgroundColor = cat.badgeColor;
-      catAvatar.style.borderColor = cat.badgeColor;
+    function switchActiveProfile() {
+      const profile = CONFIG_ROSTER[currentCatIdx];
+      catAvatar.textContent = profile.emoji;
+      catNameBadge.textContent = profile.name;
+      catNameBadge.style.backgroundColor = profile.badgeColor;
+      catAvatar.style.borderColor = profile.badgeColor;
     }
 
-    function triggerCatReaction(eventType) {
-      const cat = CAT_ROSTER[activeCatIndex];
-      const pool = eventType === 'play' ? cat.onPlay : cat.onError;
-      const randomLine = pool[Math.floor(Math.random() * pool.length)];
+    function runEngineFeedback(type) {
+      const profile = CONFIG_ROSTER[currentCatIdx];
+      const lines = type === 'play' ? profile.onPlay : profile.onError;
+      const selectedString = lines[Math.floor(Math.random() * lines.length)];
       
-      // Update animation classes based on action
       catAvatar.classList.remove('vibe-active', 'shock-active');
       
-      if (eventType === 'play') {
+      if (type === 'play') {
         catAvatar.classList.add('vibe-active');
-      } else if (eventType === 'error') {
+      } else if (type === 'error') {
         catAvatar.classList.add('shock-active');
-        setTimeout(() => {
-          catAvatar.classList.remove('shock-active');
-        }, 1200); // Shake for 1.2s then calm down
+        setTimeout(() => { catAvatar.classList.remove('shock-active'); }, 1400);
       }
 
-      catBubble.textContent = randomLine;
+      catBubble.textContent = selectedString;
       catBubble.classList.add('visible');
       
       clearTimeout(bubbleTimeout);
-      bubbleTimeout = setTimeout(() => {
-        catBubble.classList.remove('visible');
-      }, 6000);
+      bubbleTimeout = setTimeout(() => { catBubble.classList.remove('visible'); }, 5500);
     }
 
-    // Manual Character Hot-Swapping
+    // Toggle active profile engine on component click
     document.getElementById('cat-toggle-action').addEventListener('click', () => {
-      activeCatIndex = (activeCatIndex + 1) % CAT_ROSTER.length;
-      updateCompanionCharacter();
+      currentCatIdx = (currentCatIdx + 1) % CONFIG_ROSTER.length;
+      switchActiveProfile();
       catAvatar.classList.remove('vibe-active', 'shock-active');
-      catBubble.textContent = `Switched to ${CAT_ROSTER[activeCatIndex].name}!`;
+      catBubble.textContent = `Switched to ${CONFIG_ROSTER[currentCatIdx].name}!`;
       catBubble.classList.add('visible');
-      setTimeout(() => catBubble.classList.remove('visible'), 3000);
+      setTimeout(() => catBubble.classList.remove('visible'), 2500);
     });
 
-    // Native Audio Controls
-    document.querySelectorAll('.play-btn').forEach(button => {
-      button.addEventListener('click', function() {
-        const audioSrc = this.getAttribute('data-src');
+    // Native Local Playback Engine Interceptor
+    document.querySelectorAll('.play-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const targetSrc = this.getAttribute('data-src');
 
-        if (currentAudio && currentAudio.src === window.location.origin + '/' + audioSrc) {
+        if (currentAudio && currentAudio.src === window.location.origin + '/' + targetSrc) {
           if (!currentAudio.paused) {
             currentAudio.pause();
             this.textContent = '▶';
@@ -427,7 +433,7 @@
             catAvatar.classList.remove('vibe-active');
             return;
           } else {
-            attemptPlayback(this);
+            firePlaybackSequence(this);
             return;
           }
         }
@@ -441,37 +447,37 @@
           }
         }
 
-        currentAudio = new Audio(audioSrc);
-        attemptPlayback(this);
+        currentAudio = new Audio(targetSrc);
+        firePlaybackSequence(this);
       });
     });
 
-    function attemptPlayback(button) {
-      activePlayButton = button;
+    function firePlaybackSequence(btn) {
+      activePlayButton = btn;
       
       currentAudio.play()
         .then(() => {
-          button.textContent = '⏸';
-          button.classList.add('playing');
+          btn.textContent = '⏸';
+          btn.classList.add('playing');
           errorToast.style.display = 'none';
-          triggerCatReaction('play');
+          runEngineFeedback('play');
         })
-        .catch(error => {
-          console.error(error);
-          button.textContent = '▶';
-          button.classList.remove('playing');
+        .catch(err => {
+          console.warn("Context thread intercepted error state:", err);
+          btn.textContent = '▶';
+          btn.classList.remove('playing');
 
           errorToast.style.display = 'block';
           clearTimeout(toastTimeout);
           toastTimeout = setTimeout(() => { errorToast.style.display = 'none'; }, 6000);
 
-          triggerCatReaction('error');
+          runEngineFeedback('error');
         });
     }
 
-    // Initialize Engines
-    updateCompanionCharacter();
-    startWandering();
+    // Initialization Callbacks
+    switchActiveProfile();
+    executeSafeWander();
   </script>
 </body>
 </html>
