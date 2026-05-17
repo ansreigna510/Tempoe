@@ -259,7 +259,7 @@ input { font-family: inherit; }
   /* Convert Sidebar to Bottom Tab Navigation */
   .sidebar { 
     width: 100%; 
-    height: calc(65px + env(safe-area-inset-bottom)); /* Accommodate iPhone home bar */
+    height: calc(65px + env(safe-area-inset-bottom)); 
     flex-direction: row; 
     justify-content: space-around; 
     padding: 0 10px env(safe-area-inset-bottom) 10px; 
@@ -336,7 +336,7 @@ input { font-family: inherit; }
   <button class="nav-btn" data-page="gigs" title="Gig Board"><i class="ti ti-calendar-event" aria-hidden="true"></i></button>
   <button class="nav-btn" data-page="messages" title="Messages"><i class="ti ti-message-circle" aria-hidden="true"></i><div class="badge"></div></button>
   <div class="nav-spacer"></div>
-  <div class="nav-avatar" data-page="profile" title="My Profile">D4</div>
+  <div class="nav-avatar" data-page="profile" title="My Profile">AB</div>
 </nav>
 
 <!-- ══════════ FEED PAGE ══════════ -->
@@ -352,20 +352,20 @@ input { font-family: inherit; }
         <!-- Post 1 -->
         <div class="card">
           <div class="post-header">
-            <div class="avatar" style="width:42px;height:42px;background:var(--purple-light);color:#3C3489;font-size:14px;">ST</div>
+            <div class="avatar" style="width:42px;height:42px;background:var(--purple-light);color:#3C3489;font-size:14px;">MV</div>
             <div class="post-meta">
-              <div class="name" onclick="navigate('profile')">Shan Taylor</div>
-              <div class="role">Artist / Producer · Bay Area</div>
+              <div class="name" onclick="navigate('profile')">Marcus Vance</div>
+              <div class="role">Artist / Producer · LA</div>
               <div class="time">2 hours ago</div>
             </div>
           </div>
-          <div class="post-body">Need a tight mix on this new hyphy track. Who has time this week to run some stems through some analog gear? Looking for that classic slap. Hit my DMs. 🔥</div>
+          <div class="post-body">Need a tight mix on this new track. Who has time this week to run some stems through some analog gear? Looking for that classic slap. Hit my DMs. 🔥</div>
           <div class="audio-player">
             <button class="play-btn" onclick="togglePlay(this, 'wv1')"><i class="ti ti-player-play" aria-hidden="true"></i></button>
             <div class="waveform" id="wv1"></div>
-            <div class="track-info"><div class="track-name">Mani_Moe_Rough_Mix.wav</div><div class="track-dur">1:12</div></div>
+            <div class="track-info"><div class="track-name">Vance_Rough_Mix.wav</div><div class="track-dur">1:12</div></div>
           </div>
-          <div class="tag-row"><span class="tag tag-p">#Mixing</span><span class="tag tag-t">#Hyphy</span><span class="tag tag-a">#BayArea</span></div>
+          <div class="tag-row"><span class="tag tag-p">#Mixing</span><span class="tag tag-t">#Production</span><span class="tag tag-a">#Studio</span></div>
           <div class="post-actions">
             <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:16px" aria-hidden="true"></i> 14</button>
             <button class="act-btn"><i class="ti ti-message-circle" style="font-size:16px" aria-hidden="true"></i> 3</button>
@@ -380,7 +380,7 @@ input { font-family: inherit; }
             <span style="font-size:11px;color:var(--text-3);">Posted 5h ago</span>
           </div>
           <div class="gig-name" style="font-size:16px; font-weight: 600; margin-bottom: 4px;">Custom Studio Fabrication</div>
-          <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i> Remote / Local SF</div>
+          <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i> Remote / Local</div>
           <div class="tag-row" style="margin-top:12px;"><span class="tag tag-b">#3DPrinting</span><span class="tag tag-c">#CAD</span><span class="tag tag-c">#Fabrication</span></div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;">
             <span style="font-size:14px;font-weight:600;color:var(--green);">Negotiable Quote</span>
@@ -391,15 +391,15 @@ input { font-family: inherit; }
         <!-- Post 2 -->
         <div class="card">
           <div class="post-header">
-            <div class="avatar" style="width:42px;height:42px;background:var(--amber-light);color:#633806;font-size:14px;">JJ</div>
+            <div class="avatar" style="width:42px;height:42px;background:var(--amber-light);color:#633806;font-size:14px;">ER</div>
             <div class="post-meta">
-              <div class="name">Jourdan Jade</div>
-              <div class="role">Event Promoter · SF</div>
+              <div class="name">Elena Rodriguez</div>
+              <div class="role">Event Promoter</div>
               <div class="time">Yesterday</div>
             </div>
           </div>
-          <div class="post-body">Just finalized the flyer for the Lit in Chinese rave! Huge shoutout to the team for pulling this together. CHI Lounge is going to be insane on May 23rd. Ticket link in bio! 🪩✨</div>
-          <div class="tag-row"><span class="tag tag-p">#Rave</span><span class="tag tag-t">#CHILounge</span><span class="tag tag-a">#SanFrancisco</span></div>
+          <div class="post-body">Just finalized the flyer for the Neon Nights rave! Huge shoutout to the team for pulling this together. The Echo Lounge is going to be insane on May 23rd. Ticket link in bio! 🪩✨</div>
+          <div class="tag-row"><span class="tag tag-p">#Rave</span><span class="tag tag-t">#EchoLounge</span><span class="tag tag-a">#LiveEvents</span></div>
           <div class="post-actions">
             <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:16px" aria-hidden="true"></i> 89</button>
             <button class="act-btn"><i class="ti ti-message-circle" style="font-size:16px" aria-hidden="true"></i> 12</button>
@@ -413,11 +413,11 @@ input { font-family: inherit; }
           <div class="sec-label">Upcoming events</div>
           <div class="gig-mini" onclick="navigate('profile')">
             <div class="date-chip"><div class="mo">May</div><div class="dy">23</div></div>
-            <div class="gig-mini-info"><div class="gt">Lit in Chinese Rave</div><div class="gl">CHI Lounge · Promoter</div><div class="gp">Confirmed</div></div>
+            <div class="gig-mini-info"><div class="gt">Neon Nights Rave</div><div class="gl">The Echo Lounge · Promoter</div><div class="gp">Confirmed</div></div>
           </div>
           <div class="gig-mini">
             <div class="date-chip"><div class="mo">Jun</div><div class="dy">13</div></div>
-            <div class="gig-mini-info"><div class="gt">Keak da Sneak Show</div><div class="gl">Production Manager</div><div class="gp">Planning Phase</div></div>
+            <div class="gig-mini-info"><div class="gt">Summer Indie Showcase</div><div class="gl">Production Manager</div><div class="gp">Planning Phase</div></div>
           </div>
           <button class="btn btn-outline btn-sm" style="width:100%;margin-top:10px; height: 38px;" onclick="navigate('gigs')">Browse Gig Board →</button>
         </div>
@@ -425,13 +425,13 @@ input { font-family: inherit; }
         <div>
           <div class="sec-label">Network Suggestions</div>
           <div class="person-row">
-            <div class="avatar" style="width:36px;height:36px;background:var(--coral-light);color:#712B13;font-size:12px;">NK</div>
-            <div class="person-info"><div class="person-name">Nicole Kuhar</div><div class="person-role">Event Coordinator</div></div>
+            <div class="avatar" style="width:36px;height:36px;background:var(--coral-light);color:#712B13;font-size:12px;">SJ</div>
+            <div class="person-info"><div class="person-name">Sarah Jenkins</div><div class="person-role">Event Coordinator</div></div>
             <button class="conn-btn" onclick="connectPerson(this)">+ Connect</button>
           </div>
           <div class="person-row">
-            <div class="avatar" style="width:36px;height:36px;background:var(--blue-light);color:var(--blue);font-size:12px;">BW</div>
-            <div class="person-info"><div class="person-name">Brandon Wynn</div><div class="person-role">Artist Management</div></div>
+            <div class="avatar" style="width:36px;height:36px;background:var(--teal-light);color:#085041;font-size:12px;">DC</div>
+            <div class="person-info"><div class="person-name">David Chen</div><div class="person-role">Artist Management</div></div>
             <button class="conn-btn" onclick="connectPerson(this)">+ Connect</button>
           </div>
         </div>
@@ -449,21 +449,21 @@ input { font-family: inherit; }
           <div class="profile-banner"></div>
           <div class="profile-identity">
             <div class="profile-av-wrap">
-              <div class="profile-av">D4</div>
+              <div class="profile-av">AB</div>
               <div class="verified-dot"><i class="ti ti-check" aria-hidden="true"></i></div>
             </div>
             <div class="profile-actions">
               <button class="btn btn-primary" onclick="alert('Edit Profile mode activated')"><i class="ti ti-pencil"></i> Edit</button>
               <button class="icon-btn" style="width:36px;height:36px;"><i class="ti ti-share" aria-hidden="true"></i></button>
             </div>
-            <div class="profile-name">DRE4K</div>
-            <div class="profile-tagline">Music Producer · Manager @ CHI Lounge · Founder</div>
+            <div class="profile-name">Alex Beats</div>
+            <div class="profile-tagline">Music Producer · Manager @ The Echo Lounge · Founder</div>
             <div class="profile-meta">
-              <span class="meta-item"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i> San Francisco, CA</span>
-              <span class="meta-item"><i class="ti ti-building" style="font-size:14px" aria-hidden="true"></i> MoxengineeringSF</span>
+              <span class="meta-item"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i> Los Angeles, CA</span>
+              <span class="meta-item"><i class="ti ti-building" style="font-size:14px" aria-hidden="true"></i> SonicWave Studios</span>
             </div>
             <div class="tag-row" style="margin-top:14px;padding-bottom:18px;">
-              <span class="tag tag-p">Hip-Hop Production</span><span class="tag tag-p">Mixing</span><span class="tag tag-t">Event Promotion</span><span class="tag tag-b">3D CAD</span>
+              <span class="tag tag-p">Production</span><span class="tag tag-p">Mixing</span><span class="tag tag-t">Event Promotion</span><span class="tag tag-b">3D CAD</span>
             </div>
           </div>
           <div class="stat-row">
@@ -475,7 +475,7 @@ input { font-family: inherit; }
 
         <div class="card" style="border-radius:0;border-left:none;border-right:none;border-top:none;box-shadow:none;margin-top:10px;">
           <div class="profile-section-title">About</div>
-          <p style="font-size:14px;color:var(--text-2);line-height:1.7;">Bay Area based music producer, audio engineer, and event manager. I specialize in Hip-Hop / Hyphy production, high-end mixing, and mastering using FL Studio and Waveform.</p>
+          <p style="font-size:14px;color:var(--text-2);line-height:1.7;">Based music producer, audio engineer, and event manager. I specialize in music production, high-end mixing, and mastering using standard DAW workflows.</p>
         </div>
 
         <div class="card" style="border-radius:0;border-left:none;border-right:none;border-top:none;box-shadow:none;margin-top:10px;">
@@ -488,11 +488,11 @@ input { font-family: inherit; }
             <div class="profile-section-title">Recent Event Credits</div>
             <div class="credit-row">
               <div class="credit-art" style="background:var(--purple-light);">🎤</div>
-              <div><div class="credit-title">Keak da Sneak Showcase</div><div class="credit-sub">Production Manager · Upcoming</div></div>
+              <div><div class="credit-title">Summer Indie Showcase</div><div class="credit-sub">Production Manager · Upcoming</div></div>
             </div>
             <div class="credit-row">
               <div class="credit-art" style="background:var(--teal-light);">🪩</div>
-              <div><div class="credit-title">Lit in Chinese Rave</div><div class="credit-sub">Co-Promoter (w/ Nicole Kuhar)</div></div>
+              <div><div class="credit-title">Neon Nights Rave</div><div class="credit-sub">Co-Promoter (w/ Sarah Jenkins)</div></div>
             </div>
           </div>
         </div>
@@ -500,7 +500,7 @@ input { font-family: inherit; }
       <div class="right-col">
         <div>
           <div class="sec-label">Skills</div>
-          <div class="skill-wrap"><div class="skill-label-row"><span>FL Studio</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:98%"></div></div></div>
+          <div class="skill-wrap"><div class="skill-label-row"><span>Audio Production</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:98%"></div></div></div>
           <div class="skill-wrap"><div class="skill-label-row"><span>Mixing & Mastering</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:92%"></div></div></div>
         </div>
       </div>
@@ -524,12 +524,12 @@ input { font-family: inherit; }
     <div class="gig-list" id="gig-list-container" style="flex:1;">
       <div class="gig-card-full blue gig-item">
         <div class="gig-title-row">
-          <div class="gig-name">Custom Studio Fabrication — Trophy Mount</div>
+          <div class="gig-name">Custom Studio Fabrication</div>
           <span class="gig-pay-badge" style="background:var(--blue-light); color:var(--blue);">Quote Req</span>
         </div>
-        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i> Remote / Local SF</div>
+        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i> Remote / Local</div>
         <div class="tag-row" style="margin-top:10px;"><span class="tag tag-b">#3DPrinting</span><span class="tag tag-c">#CAD</span></div>
-        <div class="gig-footer"><span class="gig-posted">Client: Brandon Wynn</span><button class="btn btn-primary btn-sm" style="background:var(--blue);">Apply</button></div>
+        <div class="gig-footer"><span class="gig-posted">Client: David Chen</span><button class="btn btn-primary btn-sm" style="background:var(--blue);">Apply</button></div>
       </div>
       
       <div class="gig-card-full teal gig-item">
@@ -538,7 +538,7 @@ input { font-family: inherit; }
           <span class="gig-pay-badge" style="background:var(--teal-light); color:var(--teal);">$300/trk</span>
         </div>
         <div class="gig-loc"><i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i> Remote</div>
-        <div class="tag-row" style="margin-top:10px;"><span class="tag tag-t">#Mixing</span><span class="tag tag-a">#HipHop</span></div>
+        <div class="tag-row" style="margin-top:10px;"><span class="tag tag-t">#Mixing</span><span class="tag tag-a">#Production</span></div>
         <div class="gig-footer"><span class="gig-posted">5 Track EP</span><button class="btn btn-primary btn-sm" style="background:var(--teal);">Apply</button></div>
       </div>
     </div>
@@ -552,19 +552,19 @@ input { font-family: inherit; }
       <div class="msg-header">Messages <i class="ti ti-edit" style="font-size:18px; cursor:pointer; color:var(--text-3);" aria-hidden="true"></i></div>
       <div class="msg-search"><input placeholder="Search conversations…" onkeyup="filterMessages(this)" /></div>
       <div class="msg-items-container" id="msg-inbox">
-        <div class="msg-item active" onclick="openThread(this,'Shan Taylor','Artist / Producer','#eeedfe','#3C3489','ST')">
-          <div class="avatar" style="width:46px;height:46px;background:#eeedfe;color:#3C3489;font-size:14px;flex-shrink:0;">ST</div>
-          <div class="msg-item-info"><div class="msg-name">Shan Taylor</div><div class="msg-preview">Did you get those stems?</div></div>
+        <div class="msg-item active" onclick="openThread(this,'Marcus Vance','Artist / Producer','#eeedfe','#3C3489','MV')">
+          <div class="avatar" style="width:46px;height:46px;background:#eeedfe;color:#3C3489;font-size:14px;flex-shrink:0;">MV</div>
+          <div class="msg-item-info"><div class="msg-name">Marcus Vance</div><div class="msg-preview">Did you get those stems?</div></div>
           <div class="msg-time">10m</div>
         </div>
-        <div class="msg-item" onclick="openThread(this,'Jourdan Jade','Event Promoter','#faeeda','#633806','JJ')">
-          <div class="avatar" style="width:46px;height:46px;background:#faeeda;color:#633806;font-size:14px;flex-shrink:0;">JJ</div>
-          <div class="msg-item-info"><div class="msg-name">Jourdan Jade</div><div class="msg-preview">Rave flyer looks fire!</div></div>
+        <div class="msg-item" onclick="openThread(this,'Elena Rodriguez','Event Promoter','#faeeda','#633806','ER')">
+          <div class="avatar" style="width:46px;height:46px;background:#faeeda;color:#633806;font-size:14px;flex-shrink:0;">ER</div>
+          <div class="msg-item-info"><div class="msg-name">Elena Rodriguez</div><div class="msg-preview">Flyer looks fire!</div></div>
           <div class="msg-time">2h</div>
         </div>
-        <div class="msg-item" onclick="openThread(this,'Nicole Kuhar','Event Coordinator','#faece7','#712B13','NK')">
-          <div class="avatar" style="width:46px;height:46px;background:#faece7;color:#712B13;font-size:14px;flex-shrink:0;">NK</div>
-          <div class="msg-item-info"><div class="msg-name">Nicole Kuhar</div><div class="msg-preview">Contract looks good to me.</div></div>
+        <div class="msg-item" onclick="openThread(this,'Sarah Jenkins','Event Coordinator','#faece7','#712B13','SJ')">
+          <div class="avatar" style="width:46px;height:46px;background:#faece7;color:#712B13;font-size:14px;flex-shrink:0;">SJ</div>
+          <div class="msg-item-info"><div class="msg-name">Sarah Jenkins</div><div class="msg-preview">Contract looks good to me.</div></div>
           <div class="msg-time">1d</div>
         </div>
       </div>
@@ -573,8 +573,8 @@ input { font-family: inherit; }
     <div class="msg-thread" id="msg-thread">
       <div class="msg-thread-header">
         <button class="msg-back-btn" onclick="closeThread()"><i class="ti ti-chevron-left"></i></button>
-        <div class="avatar" id="thread-av" style="width:38px;height:38px;background:#eeedfe;color:#3C3489;font-size:14px;flex-shrink:0;">ST</div>
-        <div style="margin-left:4px;"><div class="msg-thread-name" id="thread-name">Shan Taylor</div><div class="msg-thread-status">Active now</div></div>
+        <div class="avatar" id="thread-av" style="width:38px;height:38px;background:#eeedfe;color:#3C3489;font-size:14px;flex-shrink:0;">MV</div>
+        <div style="margin-left:4px;"><div class="msg-thread-name" id="thread-name">Marcus Vance</div><div class="msg-thread-status">Active now</div></div>
         <div class="msg-thread-actions">
           <button class="icon-btn" style="width:36px;height:36px;"><i class="ti ti-info-circle" aria-hidden="true"></i></button>
         </div>
@@ -582,21 +582,21 @@ input { font-family: inherit; }
       
       <div class="msg-bubbles" id="msg-bubbles">
         <div class="bubble-wrap">
-          <div class="avatar" style="width:28px;height:28px;background:#eeedfe;color:#3C3489;font-size:10px;flex-shrink:0;" id="bubble-av-1">ST</div>
-          <div class="bubble them">Yo Dre, need you to work your magic on this new track. Going for that heavy bay sound.<div class="bubble-time">10:42 AM</div></div>
+          <div class="avatar" style="width:28px;height:28px;background:#eeedfe;color:#3C3489;font-size:10px;flex-shrink:0;" id="bubble-av-1">MV</div>
+          <div class="bubble them">Yo, need you to work your magic on this new track.<div class="bubble-time">10:42 AM</div></div>
         </div>
         <div class="bubble-wrap mine">
-          <div class="bubble mine">I got you. Send over the stems, I'll load them into FL right now.<div class="bubble-time">10:44 AM</div></div>
+          <div class="bubble mine">I got you. Send over the stems, I'll load them into the DAW right now.<div class="bubble-time">10:44 AM</div></div>
         </div>
         <div class="bubble-wrap">
-          <div class="avatar" style="width:28px;height:28px;background:#eeedfe;color:#3C3489;font-size:10px;flex-shrink:0;" id="bubble-av-2">ST</div>
+          <div class="avatar" style="width:28px;height:28px;background:#eeedfe;color:#3C3489;font-size:10px;flex-shrink:0;" id="bubble-av-2">MV</div>
           <div class="bubble them">Just dropped the Dropbox link. Let me know when you pull them down.<div class="bubble-time">10:46 AM</div></div>
         </div>
       </div>
       
       <div class="msg-compose">
         <button class="icon-btn" style="width:40px;height:40px;flex-shrink:0;"><i class="ti ti-paperclip" aria-hidden="true"></i></button>
-        <input id="msg-input" placeholder="Message Shan…" onkeydown="sendMsg(event)" autocomplete="off" />
+        <input id="msg-input" placeholder="Message Marcus…" onkeydown="sendMsg(event)" autocomplete="off" />
         <button class="send-btn" onclick="sendMsgBtn()"><i class="ti ti-send" aria-hidden="true"></i></button>
       </div>
     </div>
@@ -610,25 +610,25 @@ input { font-family: inherit; }
   </div>
   <div class="filter-bar" style="padding-top:16px;">
     <span class="filter-chip active">All Connections</span>
-    <span class="filter-chip">Bay Area Local</span>
+    <span class="filter-chip">Local</span>
     <span class="filter-chip">Producers</span>
   </div>
   <div class="network-grid">
     <div class="network-card">
-      <div class="network-av" style="background:#eeedfe;color:#3C3489;">ST</div>
-      <div class="network-name">Shan Taylor</div>
+      <div class="network-av" style="background:#eeedfe;color:#3C3489;">MV</div>
+      <div class="network-name">Marcus Vance</div>
       <div class="network-role">Artist / Producer</div>
-      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> Oakland, CA</div>
+      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> Los Angeles, CA</div>
       <div class="network-actions">
         <button class="btn btn-outline btn-sm" style="flex:1;">Profile</button>
         <button class="btn btn-primary btn-sm" style="flex:1;" onclick="navigate('messages')">Message</button>
       </div>
     </div>
     <div class="network-card">
-      <div class="network-av" style="background:#faeeda;color:#633806;">JJ</div>
-      <div class="network-name">Jourdan Jade</div>
+      <div class="network-av" style="background:#faeeda;color:#633806;">ER</div>
+      <div class="network-name">Elena Rodriguez</div>
       <div class="network-role">Event Promoter</div>
-      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> San Francisco, CA</div>
+      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> Los Angeles, CA</div>
       <div class="network-actions">
          <button class="btn btn-outline btn-sm" style="flex:1;">Profile</button>
          <button class="btn btn-primary btn-sm" style="flex:1;" onclick="navigate('messages')">Message</button>
@@ -652,7 +652,7 @@ input { font-family: inherit; }
     </div>
     <div class="form-group">
       <label>Location / Venue</label>
-      <input type="text" placeholder="e.g. CHI Lounge, SF" />
+      <input type="text" placeholder="e.g. The Echo Lounge" />
     </div>
     <div class="form-group">
       <label>Description</label>
@@ -820,8 +820,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const profileTracks = [
-    { name: 'Bay Area Slapper — Demo Mix', meta: 'DRE4K Prod', dur: '2:45' },
-    { name: 'CHI Lounge Ambience Loop', meta: 'Event Audio', dur: '1:30' }
+    { name: 'Slapper — Demo Mix', meta: 'Audio Prod', dur: '2:45' },
+    { name: 'Live Ambience Loop', meta: 'Event Audio', dur: '1:30' }
   ];
   const trackEl = document.getElementById('profile-tracks');
   if (trackEl) profileTracks.forEach(t => {
