@@ -6,7 +6,9 @@
   <title>Tempoe — Professional Music Network</title>
 
   <style>
-    /* 1. PREMIUM HIGH-FIDELITY DESIGN VARIABLES */
+    /* ==========================================================================
+       DESIGN VARIABLES & VARIABLE THEME ENGINE
+       ========================================================================== */
     :root {
       --bg-main: #f8fafc;
       --bg-card: #ffffff;
@@ -14,25 +16,25 @@
       --text-main: #0f172a;
       --text-muted: #64748b;
       --border-color: #e2e8f0;
-      --primary: #6366f1; /* Vibrant Indigo/Purple */
+      --primary: #6366f1;
       --primary-hover: #4f46e5;
       --primary-light: #eef2ff;
       --accent-orange: #f97316;
       --success: #10b981;
-      --sidebar-width: 90px;
+      --sidebar-width: 95px;
       --radius-lg: 20px;
       --radius-md: 12px;
       --shadow-sm: 0 2px 8px rgba(0,0,0,0.02);
-      --shadow-md: 0 10px 30px rgba(99, 102, 241, 0.05);
+      --shadow-md: 0 12px 30px rgba(99, 102, 241, 0.06);
     }
 
     body.dark-mode {
-      --bg-main: #0b0f19; /* Deep Slate Midnight */
-      --bg-card: #151d30;
-      --bg-input: #1f293d;
-      --text-main: #f8fafc;
+      --bg-main: #090d16;
+      --bg-card: #131b2e;
+      --bg-input: #1e293b;
+      --text-main: #f1f5f9;
       --text-muted: #94a3b8;
-      --border-color: #22314d;
+      --border-color: #1e293b;
       --primary: #818cf8;
       --primary-hover: #6366f1;
       --primary-light: rgba(99, 102, 241, 0.15);
@@ -42,134 +44,138 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-main); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; transition: background-color 0.3s, color 0.3s; }
 
-    /* =========================================
-       GLOBAL APP LAYOUT FRAMEWORK
-       ========================================= */
+    /* Custom App Scrollbar Typography */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    /* ==========================================================================
+       SIDEBAR NAVIGATION DESIGN LAYOUT
+       ========================================================================== */
+    .app-sidebar { width: var(--sidebar-width); background-color: var(--bg-card); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; padding: 25px 0; justify-content: space-between; z-index: 100; transition: all 0.3s; }
+    .brand-container { display: flex; flex-direction: column; align-items: center; gap: 35px; width: 100%; }
     
-    /* Left Navigation Sidebar (Mockup Style) */
-    .app-sidebar { width: var(--sidebar-width); background-color: var(--bg-card); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; padding: 25px 0; justify-content: space-between; z-index: 100; transition: background-color 0.3s, border-color 0.3s; }
-    .brand-container { display: flex; flex-direction: column; align-items: center; gap: 30px; width: 100%; }
-    
-    /* Precision Tempo Gauge Brand Icon */
-    .brand-logo { width: 52px; height: 52px; background: linear-gradient(135deg, #312e81, #4c1d95); border: 2px solid #6366f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 0 15px rgba(99,102,241,0.4); cursor: pointer; }
+    .brand-logo { width: 52px; height: 52px; background: linear-gradient(135deg, #1e1b4b, #4c1d95); border: 2px solid #6366f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 0 15px rgba(99,102,241,0.3); cursor: pointer; }
     .brand-logo::after { content: ''; position: absolute; width: 18px; height: 2px; background: var(--accent-orange); top: 50%; left: 50%; transform-origin: left center; transform: translate(-2px, -1px) rotate(-45deg); border-radius: 2px; }
 
-    .nav-items { display: flex; flex-direction: column; gap: 20px; width: 100%; align-items: center; }
-    .sidebar-btn { width: 50px; height: 50px; border-radius: var(--radius-md); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 20px; color: var(--text-muted); cursor: pointer; transition: all 0.2s; position: relative; text-decoration: none; }
-    .sidebar-btn span class="label" { font-size: 9px; font-weight: 700; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .sidebar-btn:hover { color: var(--primary); background-color: var(--primary-light); }
-    .sidebar-btn.active { color: var(--primary); background-color: var(--primary-light); border-left: 4px solid var(--primary); border-radius: 0 var(--radius-md) var(--radius-md) 0; width: 100%; }
-    .badge { position: absolute; top: 4px; right: 4px; background: #ef4444; color: white; font-size: 10px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; border: 2px solid var(--bg-card); }
-
-    /* Main Container Content Canvas */
-    .app-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .nav-items { display: flex; flex-direction: column; gap: 15px; width: 100%; align-items: center; }
+    .sidebar-btn { width: 75px; height: 65px; border-radius: var(--radius-md); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 18px; color: var(--text-muted); cursor: pointer; transition: all 0.2s; position: relative; text-decoration: none; border: 1px solid transparent; }
     
-    /* Top Global Application Header */
-    .app-header { height: 80px; background-color: var(--bg-card); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--border-color); transition: background-color 0.3s, border-color 0.3s; }
-    .search-container { display: flex; align-items: center; background-color: var(--bg-input); border-radius: 24px; padding: 10px 20px; width: 450px; border: 1px solid transparent; transition: all 0.2s; }
+    /* FIXED: Cleaned up invalid CSS rule syntax */
+    .sidebar-btn .label { font-size: 9px; font-weight: 700; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: block; }
+    
+    .sidebar-btn:hover { color: var(--primary); background-color: var(--primary-light); }
+    .sidebar-btn.active { color: var(--primary); background-color: var(--primary-light); border-color: var(--border-color); box-shadow: var(--shadow-sm); }
+    .badge { position: absolute; top: 4px; right: 8px; background: #ef4444; color: white; font-size: 10px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; }
+
+    /* Core Layout Foundations */
+    .app-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+    .app-header { height: 80px; background-color: var(--bg-card); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--border-color); z-index: 90; transition: background-color 0.3s; }
+    .search-container { display: flex; align-items: center; background-color: var(--bg-input); border-radius: 24px; padding: 10px 20px; width: 450px; border: 1px solid transparent; }
     .search-container:focus-within { border-color: var(--primary); background-color: var(--bg-card); box-shadow: var(--shadow-md); }
     .search-container input { background: transparent; border: none; outline: none; width: 100%; color: var(--text-main); font-size: 14px; margin-left: 10px; font-family: inherit; }
     .header-right { display: flex; align-items: center; gap: 20px; }
+    
+    .app-content { flex: 1; overflow-y: auto; padding: 35px 40px; display: flex; flex-direction: column; position: relative; }
+    .app-view { display: none; gap: 30px; width: 100%; max-width: 1200px; margin: 0 auto; }
+    .app-view.active { display: flex; animation: fadeView 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    @keyframes fadeView { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Content Canvas Window Wrapper */
-    .app-content { flex: 1; overflow-y: auto; padding: 35px 40px; display: flex; flex-direction: column; }
-    .app-view { display: none; gap: 30px; width: 100%; max-width: 1200px; margin: 0 auto; animation: fadeView 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-    .app-view.active { display: flex; }
-    @keyframes fadeView { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Dynamic Column System Layouts */
     .primary-canvas { flex: 2; display: flex; flex-direction: column; gap: 25px; }
     .secondary-panel { flex: 1; min-width: 320px; max-width: 360px; display: flex; flex-direction: column; gap: 25px; }
 
-    /* =========================================
-       UI MODULE DESIGN SYSTEM
-       ========================================= */
-    .module-card { background-color: var(--bg-card); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: background-color 0.3s, border-color 0.3s, box-shadow 0.2s; }
-    .module-card:hover { box-shadow: var(--shadow-md); }
-    
-    /* Typography Rules */
+    /* Module Structural Cards */
+    .module-card { background-color: var(--bg-card); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); position: relative; }
     h2 { font-size: 20px; font-weight: 700; color: var(--text-main); letter-spacing: -0.3px; }
     h3 { font-size: 16px; font-weight: 600; color: var(--text-main); }
     h4 { font-size: 14px; font-weight: 600; color: var(--text-main); }
     .text-muted { color: var(--text-muted); font-size: 13px; line-height: 1.4; }
-    
-    /* Interactive Pills Layout */
-    .filter-pills-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 5px; scrollbar-width: none; }
-    .filter-pills-row::-webkit-scrollbar { display: none; }
-    .pill { padding: 8px 18px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; user-select: none; }
-    .pill:hover { border-color: var(--primary); color: var(--primary); }
-    .pill.active { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+    p { font-size: 14px; line-height: 1.5; color: var(--text-main); }
 
-    /* Buttons Component Styles */
+    /* Control Elements */
+    .filter-pills-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 5px; scrollbar-width: none; }
+    .pill { padding: 8px 18px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; user-select: none; }
+    .pill:hover, .pill.active { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
     .action-button { background-color: var(--primary); color: white; border: none; padding: 10px 22px; border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; user-select: none; }
     .action-button:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
     .action-button.outline { background-color: transparent; color: var(--primary); border: 1px solid var(--primary); }
     .action-button.outline:hover { background-color: var(--primary-light); }
     .action-button:disabled { background-color: var(--border-color); color: var(--text-muted); cursor: not-allowed; transform: none; }
 
-    /* Mini Dashboard Widget Elements */
+    /* Widgets Panels */
     .widget-title-header { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-    .logistics-card-item { display: flex; gap: 15px; margin-bottom: 15px; background: var(--bg-input); padding: 12px; border-radius: var(--radius-md); }
+    .logistics-card-item { display: flex; gap: 15px; margin-bottom: 15px; background: var(--bg-input); padding: 12px; border-radius: var(--radius-md); align-items: center; }
     .calendar-badge-box { background: var(--bg-card); border-radius: 8px; width: 45px; height: 45px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--border-color); flex-shrink: 0; }
     .calendar-badge-box span:first-child { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
     .calendar-badge-box span:last-child { font-size: 15px; font-weight: 800; color: var(--text-main); }
-    
     .connection-row-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
-    .avatar-circle-badge { width: 38px; height: 38px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
 
-    /* =========================================
-       HIGH FIDELITY SCREEN SPECIFIC STYLES
-       ========================================= */
+    /* MODAL SLIDE HOUSING SYSTEMS */
+    .app-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-container { background: var(--bg-card); border: 1px solid var(--border-color); width: 100%; max-width: 480px; border-radius: var(--radius-lg); padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 20px; animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes modalPop { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+    .modal-header-container { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+    .close-modal-trigger { font-size: 20px; cursor: pointer; color: var(--text-muted); }
+
+    /* SCREEN 1: POST DRAWER ARCHITECTURE */
+    .post-composer-box { display: flex; flex-direction: column; gap: 15px; }
+    .post-textarea { width: 100%; background: var(--bg-input); border: 1px solid transparent; border-radius: var(--radius-md); padding: 15px; color: var(--text-main); font-family: inherit; font-size: 14px; resize: none; transition: all 0.2s; }
+    .post-textarea:focus { background: var(--bg-card); border-color: var(--primary); outline: none; }
+    .timeline-post-card { display: flex; flex-direction: column; gap: 15px; }
+    .post-actions-panel { display: flex; gap: 20px; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 10px 5px; }
+    .post-action-node { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-muted); user-select: none; }
+    .post-action-node.liked { color: var(--primary); }
     
-    /* SCREEN: MARKETPLACE GRID VIEW */
+    /* FIXED: Defaulted comment drawer to display none for toggle mechanics */
+    .comment-drawer { background: var(--bg-input); padding: 15px; border-radius: var(--radius-md); display: none; flex-direction: column; gap: 10px; }
+    .mini-comment-input-row { display: flex; gap: 10px; }
+    .mini-comment-input-row input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 8px 15px; color: var(--text-main); font-family: inherit; font-size: 13px; outline: none; }
+
+    /* SCREEN 2: ASSET DESIGN MARKETS */
     .marketplace-display-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .product-listing-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-    
-    /* Integrated Audio Waveform Graphic Component */
-    .custom-waveform-player { background: var(--bg-main); border-radius: 30px; padding: 12px 18px; display: flex; align-items: center; gap: 15px; margin-top: 5px; }
+    .market-header { display: flex; gap: 12px; align-items: center; }
+    .market-img-avatar { width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--bg-input); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .custom-waveform-player { background: var(--bg-main); border-radius: 30px; padding: 10px 18px; display: flex; align-items: center; gap: 15px; }
     .audio-play-trigger { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 11px; user-select: none; }
-    .waveform-visual-bars { display: flex; gap: 3px; align-items: center; height: 26px; flex-grow: 1; }
-    .bar-node { width: 3px; background: var(--border-color); border-radius: 2px; height: 10px; transition: background-color 0.2s; }
+    .waveform-visual-bars { display: flex; gap: 3px; align-items: center; height: 24px; flex-grow: 1; }
+    .bar-node { width: 3px; background: var(--border-color); border-radius: 2px; height: 10px; transition: background-color 0.2s, height 0.2s; }
     .bar-node.active { background: var(--primary); }
 
-    /* SCREEN: REELS & TRACK SCOUTING FEED */
+    /* SCREEN 3: SCOUT VIDEO DECK */
     .reels-immersive-container { display: flex; gap: 20px; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-color); padding: 25px; min-height: 520px; }
-    .reel-video-stage-wrapper { flex: 1.4; background: linear-gradient(135deg, #1e1b4b, #311042); border-radius: var(--radius-md); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: inset 0 0 100px rgba(0,0,0,0.6); }
-    .reel-video-placeholder-graphic { display: flex; flex-direction: column; align-items: center; gap: 15px; color: white; text-align: center; z-index: 2; }
-    .reel-center-play-ring { width: 70px; height: 70px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); transition: transform 0.2s; }
-    .reel-center-play-ring:hover { transform: scale(1.08); }
-    
-    .reel-overlay-bottom-metadata { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; display: flex; flex-direction: column; gap: 8px; }
+    .reel-video-stage-wrapper { flex: 1.5; background: linear-gradient(135deg, #0f172a, #1e1b4b); border-radius: var(--radius-md); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: inset 0 0 80px rgba(0,0,0,0.8); border: 1px solid var(--border-color); }
+    .reel-center-play-ring { width: 64px; height: 64px; background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); transition: transform 0.2s; color: white; }
+    .reel-center-play-ring:hover { transform: scale(1.06); }
+    .reel-overlay-bottom-metadata { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); color: white; display: flex; flex-direction: column; gap: 6px; }
     .reel-overlay-action-rail { position: absolute; right: 20px; top: 40%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 20px; align-items: center; z-index: 5; color: white; }
-    .reel-rail-icon-node { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 20px; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .reel-rail-icon-node { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 18px; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
     .reel-showcase-sidebar { flex: 1; display: flex; flex-direction: column; gap: 15px; border-left: 1px solid var(--border-color); padding-left: 20px; overflow-y: auto; }
-    .thumbnail-track-row { display: flex; gap: 12px; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-color); cursor: pointer; transition: background-color 0.2s; }
-    .thumbnail-track-row:hover { background-color: var(--bg-input); }
-    .thumbnail-media-box { width: 55px; height: 55px; border-radius: 8px; background: var(--bg-input); flex-shrink: 0; background-size: cover; background-position: center; }
+    .thumbnail-track-row { display: flex; gap: 12px; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s; background: var(--bg-card); }
+    .thumbnail-track-row:hover, .thumbnail-track-row.active { background-color: var(--bg-input); border-color: var(--primary); }
+    .thumbnail-media-box { width: 50px; height: 50px; border-radius: 8px; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
 
-    /* SCREEN: MUSICIAN INDUSTRIAL TIMELINE PROFILE */
-    .profile-hero-card-header { position: relative; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 25px; border: 1px solid var(--border-color); background: var(--bg-card); }
-    .profile-cover-canvas-strip { height: 140px; background: linear-gradient(135deg, var(--primary), #818cf8); }
-    .profile-avatar-placement-axis { display: flex; padding: 0 30px; transform: translateY(-40px); align-items: flex-end; gap: 20px; justify-content: space-between; }
-    .profile-identity-avatar-frame { width: 110px; height: 110px; border-radius: 50%; background: #111; color: white; border: 5px solid var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 42px; font-weight: 800; box-shadow: var(--shadow-sm); }
-    
+    /* SCREEN 4: TIMELINE METRICS */
+    .profile-hero-card-header { position: relative; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); background: var(--bg-card); }
+    .profile-cover-canvas-strip { height: 130px; background: linear-gradient(135deg, var(--primary), #818cf8); }
+    .profile-avatar-placement-axis { display: flex; padding: 0 30px; transform: translateY(-35px); align-items: flex-end; gap: 20px; justify-content: space-between; }
+    .profile-identity-avatar-frame { width: 100px; height: 100px; border-radius: 50%; background: #0f172a; color: white; border: 4px solid var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 38px; font-weight: 800; box-shadow: var(--shadow-sm); }
     .industrial-credentials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
     .credential-badge-capsule { border: 1px solid var(--border-color); padding: 15px; border-radius: var(--radius-md); background: var(--bg-input); display: flex; gap: 12px; align-items: center; }
     .credential-icon-shield { width: 36px; height: 36px; background: var(--primary-light); color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-    
     .experience-chain-node { position: relative; padding-left: 30px; margin-bottom: 25px; }
     .experience-chain-node::before { content: ''; position: absolute; left: 6px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--primary); border: 2px solid var(--bg-card); z-index: 2; }
     .experience-chain-node::after { content: ''; position: absolute; left: 11px; top: 12px; width: 2px; height: calc(100% + 20px); background: var(--border-color); z-index: 1; }
     .experience-chain-node:last-child::after { display: none; }
 
-    /* Global System Toast System Alert */
-    .toast { visibility: hidden; min-width: 280px; background-color: var(--text-main); color: var(--bg-main); text-align: center; border-radius: 30px; padding: 12px 24px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 13px; font-weight: 600; opacity: 0; transition: opacity 0.3s, bottom 0.3s; box-shadow: 0 8px 24px rgba(0,0,0,0.15); pointer-events: none; }
+    /* Toast System Panel Alert */
+    .toast { visibility: hidden; min-width: 280px; background-color: var(--text-main); color: var(--bg-main); text-align: center; border-radius: 30px; padding: 12px 24px; position: fixed; z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 13px; font-weight: 600; opacity: 0; transition: opacity 0.3s, bottom 0.3s; box-shadow: 0 8px 24px rgba(0,0,0,0.15); pointer-events: none; }
     .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
-    /* Responsive Phone Orientation Shield Overlay */
     #orientation-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #4b3e99; color: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; }
     #orientation-overlay h2 { color: white; font-size: 28px; margin-bottom: 15px; }
-    @keyframes tilt { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-90deg); } }
 
     @media screen and (max-width: 768px) and (orientation: portrait) {
       #orientation-overlay { display: flex; }
@@ -194,154 +200,163 @@
 
   <div id="orientation-overlay">
     <div style="font-size: 60px; margin-bottom: 20px; animation: tilt 2s ease-in-out infinite;">📱</div>
-    <h2>Turn Your Phone</h2>
-    <p>Tempoe is optimized for panoramic production control desks. Please switch to landscape orientation.</p>
+    <h2>Turn Your Phone Sideways</h2>
+    <p>Tempoe is designed for a panoramic dashboard studio view. Please rotate your phone landscape.</p>
   </div>
 
   <nav class="app-sidebar">
     <div class="brand-container">
-      <div class="brand-logo" title="Tempoe Precision Gauge"></div>
+      <div class="brand-logo" title="Tempoe Production Engine"></div>
       <div class="nav-items">
-        <div class="sidebar-btn nav-link" data-target="view-home" title="Home Feed">🏠<span style="font-size:8px; font-weight:700;">Feed</span></div>
-        <div class="sidebar-btn nav-link active" data-target="view-market" title="Marketplace">🏪<span style="font-size:8px; font-weight:700;">Market</span></div>
-        <div class="sidebar-btn nav-link" data-target="view-scout" title="Track Scouting">📹<span style="font-size:8px; font-weight:700;">Scout</span><span class="badge">!</span></div>
-        <div class="sidebar-btn nav-link" data-target="view-profile" title="Musician Profile">👤<span style="font-size:8px; font-weight:700;">Profile</span></div>
+        <div class="sidebar-btn nav-link active" data-target="view-home"><span class="icon">🏠</span><span class="label">Feed</span></div>
+        <div class="sidebar-btn nav-link" data-target="view-market"><span class="icon">🏪</span><span class="label">Market</span></div>
+        <div class="sidebar-btn nav-link" data-target="view-scout"><span class="icon">📹</span><span class="label">Scout</span><span class="badge">!</span></div>
+        <div class="sidebar-btn nav-link" data-target="view-profile"><span class="icon">👤</span><span class="label">Profile</span></div>
       </div>
     </div>
-    <div class="avatar-circle-badge" style="background-color: var(--text-main); color: var(--bg-card); cursor: pointer;" title="Account Settings">SI</div>
+    <div class="avatar-circle-badge" style="background-color: var(--text-main); color: var(--bg-card); cursor: pointer; font-weight: bold;" title="Account Matrix">D4K</div>
   </nav>
 
   <div class="app-main">
-    
     <header class="app-header">
       <div class="search-container">
         <span>🔍</span>
-        <input type="text" placeholder="Search tracks, audio engineers, logistics agents...">
+        <input type="text" placeholder="Search unreleased tracks, design layouts, verified personnel...">
       </div>
       <div class="header-right">
         <button id="theme-toggle" class="theme-btn">🌙 Dark Mode</button>
-        <div class="sidebar-btn gen-action" data-toast="System logs synchronized." style="width: 40px; height: 40px;">🔔</div>
+        <div class="sidebar-btn gen-action" data-toast="System state index up to date." style="width: 40px; height: 40px;">🔔</div>
       </div>
     </header>
 
     <div class="app-content">
 
-      <div id="view-market" class="app-view active">
+      <div id="view-home" class="app-view active">
         <div class="primary-canvas">
-          
-          <div class="module-card" style="background: linear-gradient(135deg, #3b3378, #5b21b6); color: white; padding: 30px; border: none; position: relative; overflow: hidden;">
-            <h2 style="color: white; font-size: 24px; margin-bottom: 8px;">Tempoe Marketplace</h2>
-            <p style="color: rgba(255,255,255,0.85); font-size: 14px; max-width: 650px;">Post your audio reel. Find paid gids. Get credited for your work. Tempoe is the professional network made for session musicians, producers, composers, and everyone in between.</p>
+          <div class="module-card">
+            <div class="post-composer-box">
+              <textarea class="post-textarea" id="timeline-composer" rows="2" placeholder="Announce a showcase project, unreleased stems layout, or localized booking slot..."></textarea>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; gap: 15px;">
+                  <span class="action-button outline gen-action" data-toast="Asset browser mounted." style="padding: 6px 14px;">📷 Media</span>
+                  <span class="action-button outline gen-action" data-toast="Stems router synchronized." style="padding: 6px 14px;">🎵 Audio</span>
+                </div>
+                <button class="action-button" id="dispatch-post-trigger" disabled>Publish</button>
+              </div>
+            </div>
           </div>
 
-          <div class="filter-pills-row" id="market-pills">
-            <div class="pill active">All Assets</div>
-            <div class="pill">Beats</div>
-            <div class="pill">Gear & Instrumentation</div>
-            <div class="pill">Engineering Services</div>
-            <div class="pill">Studio Facilities</div>
-          </div>
-
-          <div class="marketplace-display-grid">
-            
-            <div class="product-listing-card">
-              <div class="market-header">
-                <div class="market-img" style="background: linear-gradient(45deg, #1e1b4b, #4338ca); color: white;">🎧</div>
-                <div style="margin-left: 12px;">
-                  <h3>Cinematic Sci-Fi Beat Package</h3>
-                  <div class="text-muted">by Verified Producer</div>
+          <div id="timeline-posts-anchor" style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="module-card timeline-post-card">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="avatar-circle-badge">D4K</div>
+                <div>
+                  <h4>Dre4000</h4>
+                  <span class="text-muted">Manager @ Underground Lounge Network • 2h</span>
                 </div>
               </div>
-              <div style="font-size: 16px; font-weight: 700; color: var(--primary);">$250.00 Exclusive</div>
-              <p class="text-muted">110 BPM, D Minor, Full Stems included. Exclusive rights transfer contract included.</p>
+              <p>Finalizing production layouts and tracking constraints for the June 13th event showcase. Stems arrangements and routing configurations are finalized. Doors secure at 21:00. Pull up! ⚡</p>
+              <div class="text-muted" style="font-size: 12px;">👍 <span class="like-metric-counter">142</span> likes • <span class="comment-metric-counter">1</span> comment</div>
               
-              <div class="custom-waveform-player">
-                <div class="audio-play-trigger toggle-playback-visual">▶</div>
-                <div class="waveform-visual-bars"></div>
-                <span class="text-muted" style="font-size: 11px;">0:47</span>
+              <div class="post-actions-panel">
+                <div class="post-action-node timeline-like-trigger"><span>👍</span> Like</div>
+                <div class="post-action-node comment-drawer-toggle"><span>💬</span> Comment</div>
               </div>
-              <div style="margin-top: auto; padding-top: 10px; display: flex; justify-content: flex-end;">
-                <button class="action-button gen-action" data-toast="Item integrated into payment pipeline.">Lease / Buy</button>
-              </div>
-            </div>
 
-            <div class="product-listing-card">
-              <div class="market-header">
-                <div class="market-img" style="background: #e2e8f0;">🎹</div>
-                <div style="margin-left: 12px;">
-                  <h3>Analog Synthesizer Hardware Rental</h3>
-                  <div class="text-muted">by Technical Audio Vendor</div>
+              <div class="comment-drawer">
+                <div class="mini-comment-input-row">
+                  <input type="text" class="nested-comment-field" placeholder="Write an operational note...">
+                  <button class="action-button submit-comment-trigger" style="padding: 4px 12px; font-size:11px;">Reply</button>
+                </div>
+                <div class="comments-stream-target" style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;">
+                  <div style="font-size: 13px; border-left: 2px solid var(--primary); padding-left: 8px;">
+                    <strong>Network Engineer Associate:</strong> Standing by for soundcheck validation. Stems layout is tracking crisp.
+                  </div>
                 </div>
               </div>
-              <div style="font-size: 16px; font-weight: 700; color: var(--primary);">$75.00 / Day</div>
-              <p class="text-muted">Mint condition analog modeling deck available for studio tracking sessions. Local drop-off logistics managed.</p>
-              <div style="margin-top: auto; padding-top: 10px; display: flex; justify-content: flex-end;">
-                <button class="action-button outline gen-action" data-toast="Rental coordination sequence requested.">Inquire / Rent</button>
-              </div>
             </div>
-
-            <div class="product-listing-card">
-              <div class="market-header">
-                <div class="market-img" style="background: #e2e8f0;">🎙️</div>
-                <div style="margin-left: 12px;">
-                  <h3>Vocal Production & Arranging Arrangement</h3>
-                  <div class="text-muted">by Verified Engineer</div>
-                </div>
-              </div>
-              <div style="font-size: 16px; font-weight: 700; color: var(--primary);">$150.00 / Track</div>
-              <p class="text-muted">Remote vocal tuning, multi-layered alignment arrangement, and comprehensive stems conditioning tracking.</p>
-              <div style="margin-top: auto; padding-top: 10px; display: flex; justify-content: flex-end;">
-                <button class="action-button gen-action" data-toast="Session availability calendar requested.">Inquire / Book</button>
-              </div>
-            </div>
-
-            <div class="product-listing-card">
-              <div class="market-header">
-                <div class="market-img" style="background: #e2e8f0;">🔊</div>
-                <div style="margin-left: 12px;">
-                  <h3>Acoustic Isolation Monitor Hardware</h3>
-                  <div class="text-muted">by Dre4000</div>
-                </div>
-              </div>
-              <div style="font-size: 16px; font-weight: 700; color: var(--primary);">$120.00 / Pair</div>
-              <p class="text-muted">Tensegrity-based professional studio monitor acoustic isolation layouts. Custom modeled structural stands.</p>
-              <div style="margin-top: auto; padding-top: 10px; display: flex; justify-content: flex-end;">
-                <button class="action-button gen-action" data-toast="Hardware order added to cart.">Lease / Buy</button>
-              </div>
-            </div>
-
           </div>
         </div>
 
         <div class="secondary-panel">
           <div class="module-card">
-            <div class="widget-title-header">Nearby Gear & Studios</div>
+            <div class="widget-title-header">Active Logistics Tracking</div>
             <div class="logistics-card-item">
-              <div class="calendar-badge-box"><span>Jun</span><span>07</span></div>
-              <div style="margin-left: 12px;">
-                <h4>Premium Studio Microphone Rental</h4>
-                <div class="text-muted">$200 • Local Drop</div>
-              </div>
-            </div>
-            <div class="logistics-card-item">
-              <div class="calendar-badge-box"><span>Jun</span><span>14</span></div>
-              <div style="margin-left: 12px;">
-                <h4>Tracking & Rehearsal Room Session</h4>
-                <div class="text-muted">$40/hr • Facility Space</div>
+              <div class="calendar-badge-box"><span>Jun</span><span>13</span></div>
+              <div style="margin-left: 10px;">
+                <h4>Production Showcase Run</h4>
+                <div class="text-muted">Soundcheck operations. Status: Confirmed</div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
+      <div id="view-market" class="app-view">
+        <div class="primary-canvas">
+          <div class="module-card" style="background: linear-gradient(135deg, #2e2a72, #4c1d95); color: white; padding: 25px; border: none;">
+            <h2 style="color: white; font-size: 22px; margin-bottom: 6px;">Tempoe Asset Matrix</h2>
+            <p style="color: rgba(255,255,255,0.85); font-size: 13px;">Post your audio reel. Find paid gigs. Get credited for your work. Tempoe is the professional network made for session musicians, producers, composers, and everyone in between.</p>
+          </div>
+
+          <div class="filter-pills-row" id="market-filter-pills-row">
+            <div class="pill active" data-filter="all">All Assets</div>
+            <div class="pill" data-filter="beats">Audio Beats</div>
+            <div class="pill" data-filter="gear">Acoustic Hardware</div>
+            <div class="pill" data-filter="services">Technical Services</div>
+          </div>
+
+          <div class="marketplace-display-grid" id="market-listings-grid">
+            <div class="product-listing-card" data-category="beats">
+              <div class="market-header">
+                <div class="market-img-avatar" style="background: #1e1b4b; color: white;">🎧</div>
+                <div>
+                  <h3>Cinematic Production Arrangement</h3>
+                  <div class="text-muted">by Network Systems Producer</div>
+                </div>
+              </div>
+              <div style="font-size: 16px; font-weight: 700; color: var(--primary);">$250.00 Exclusive</div>
+              <p class="text-muted">110 BPM, D Minor, Full structural arrangement stems. Rights clearance protocol automated.</p>
+              <div class="custom-waveform-player">
+                <div class="audio-play-trigger interactive-playback-node">▶</div>
+                <div class="waveform-visual-bars"></div>
+              </div>
+              <button class="action-button trigger-checkout-modal" data-title="Cinematic Production Arrangement" data-cost="$250.00" style="margin-top:auto;">Acquire Asset</button>
+            </div>
+
+            <div class="product-listing-card" data-category="gear">
+              <div class="market-header">
+                <div class="market-img-avatar">🔊</div>
+                <div>
+                  <h3>Acoustic Isolation Monitors</h3>
+                  <div class="text-muted">by Dre4000</div>
+                </div>
+              </div>
+              <div style="font-size: 16px; font-weight: 700; color: var(--primary);">$120.00 / Pair</div>
+              <p class="text-muted">Tensegrity-based technical isolation monitor equipment modules. Precision structural design builds.</p>
+              <button class="action-button trigger-checkout-modal" data-title="Acoustic Isolation Monitors" data-cost="$120.00" style="margin-top:auto;">Acquire Asset</button>
+            </div>
+
+            <div class="product-listing-card" data-category="services">
+              <div class="market-header">
+                <div class="market-img-avatar">🛠️</div>
+                <div>
+                  <h3>CAD Reverse Prototyping</h3>
+                  <div class="text-muted">by Industrial Modeling Consultant</div>
+                </div>
+              </div>
+              <div style="font-size: 16px; font-weight: 700; color: var(--primary);">Custom Quote</div>
+              <p class="text-muted">High-density 3D component reverse mapping scans, component chassis configuration modeling layouts.</p>
+              <button class="action-button outline trigger-inquiry-modal" data-title="CAD Reverse Prototyping" style="margin-top:auto;">Dispatch Blueprint Inquiry</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="secondary-panel">
           <div class="module-card">
-            <div class="widget-title-header">Trending in Marketplace</div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px;">
-              <span style="color: var(--primary); font-weight: 600;">#AnalogSynths</span><span class="text-muted">1.1k listings</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px;">
-              <span style="color: var(--primary); font-weight: 600;">#CustomVocalArrangement</span><span class="text-muted">850 listings</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 13px;">
-              <span style="color: var(--primary); font-weight: 600;">#GuitarPedals</span><span class="text-muted">600 listings</span>
+            <div class="widget-title-header">Marketplace Indexes</div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px;">
+              <span style="color:var(--primary); font-weight:600;">#AcousticModeling</span><span class="text-muted">1.2k lists</span>
             </div>
           </div>
         </div>
@@ -349,181 +364,70 @@
 
       <div id="view-scout" class="app-view">
         <div class="primary-canvas">
-          <div class="filter-pills-row">
-            <div class="pill active">All Reels</div>
-            <div class="pill">Beats in Action</div>
-            <div class="pill">Session Vibe</div>
-            <div class="pill">Gear Demo</div>
-            <div class="pill">Production Process</div>
-          </div>
-
           <div class="reels-immersive-container">
             <div class="reel-video-stage-wrapper">
-              <div class="reel-video-placeholder-graphic">
+              <div style="text-align:center; color: white; z-index:2; display:flex; flex-direction:column; gap:12px; align-items:center;">
                 <div class="reel-center-play-ring">▶</div>
-                <h4 style="color: white;">Vocal Layering Vibe Pipeline</h4>
+                <h3 style="color:white;" id="scout-stage-title">Multi-band Stems Saturation Run</h3>
               </div>
-
               <div class="reel-overlay-action-rail">
-                <div class="reel-rail-icon-node">❤️<span style="font-size:11px;">1.2k</span></div>
-                <div class="reel-rail-icon-node gen-action" data-toast="Opening media comments panel...">💬<span style="font-size:11px;">84</span></div>
-                <div class="reel-rail-icon-node gen-action" data-toast="Asset sharing protocols generated.">🔗</div>
+                <div class="reel-rail-icon-node">❤️<span style="font-size:11px; margin-top:2px;">1.4k</span></div>
+                <div class="reel-rail-icon-node gen-action" data-toast="Comments ledger loaded.">💬<span style="font-size:11px; margin-top:2px;">92</span></div>
               </div>
-
               <div class="reel-overlay-bottom-metadata">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                  <div class="avatar-circle-badge" style="width:28px; height:28px; font-size:11px; background:#fff; color:#000;">EE</div>
-                  <h4 style="color: white; font-weight: 700;">Verified Session Professional</h4>
-                </div>
-                <p style="color: rgba(255,255,255,0.9); font-size: 13px; margin-top: 5px;">Tracking and positioning vocal harmonies using multi-band dynamic saturation layers. #StudioLife #VocalMagic</p>
-                
-                <div class="custom-waveform-player" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); width: 85%;">
-                  <div class="audio-play-trigger">▶</div>
-                  <div class="waveform-visual-bars"></div>
-                </div>
+                <h4 style="color:white;" id="scout-stage-author">Verified Audio Professional</h4>
+                <p style="color: rgba(255,255,255,0.85); font-size: 13px; margin-top:4px;" id="scout-stage-desc">Analyzing resonance limits across layered frequencies within dynamic physical tracking configurations.</p>
               </div>
             </div>
 
             <div class="reel-showcase-sidebar">
-              <h3 style="font-size:14px; margin-bottom:5px;">Upcoming Reels</h3>
-              
-              <div class="thumbnail-track-row">
-                <div class="thumbnail-media-box" style="background-color: #3b82f6;"></div>
-                <div>
-                  <h4>Custom String Arrays</h4>
-                  <span class="text-muted">by Tracking Specialist</span>
-                </div>
+              <div class="widget-title-header" style="margin-bottom:10px;">Scouting Catalog</div>
+              <div class="thumbnail-track-row active" data-title="Multi-band Stems Saturation Run" data-author="Verified Audio Professional" data-desc="Analyzing resonance limits across layered frequencies within dynamic physical tracking configurations.">
+                <div class="thumbnail-media-box">🎛️</div>
+                <div><h4>Frequency Saturation</h4><span class="text-muted">Session Run</span></div>
               </div>
-
-              <div class="thumbnail-track-row">
-                <div class="thumbnail-media-box" style="background-color: #10b981;"></div>
-                <div>
-                  <h4>Analog Synth Demo Sequence</h4>
-                  <span class="text-muted">by Electronic Artist</span>
-                </div>
+              <div class="thumbnail-track-row" data-title="Tensegrity Isolation Deck Mockup" data-author="Dre4000" data-desc="Component physics simulation mapping out physical vibration absorption metrics for critical monitoring.">
+                <div class="thumbnail-media-box">🔊</div>
+                <div><h4>Hardware Mechanics</h4><span class="text-muted">Dre4000 Demo</span></div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="secondary-panel">
-          <div class="module-card">
-            <div class="widget-title-header">Direct Talent Booking</div>
-            <p class="text-muted" style="margin-bottom: 15px;">Lock in verified session engineers, secure digital performance tracking agreements, and handle contracts with zero third-party friction.</p>
-            <button class="action-button gen-action" style="width:100%;" data-toast="Talent deployment options initialized.">Secure Session Lineup</button>
           </div>
         </div>
       </div>
 
       <div id="view-profile" class="app-view">
         <div class="primary-canvas">
-          
           <div class="profile-hero-card-header">
             <div class="profile-cover-canvas-strip"></div>
             <div class="profile-avatar-placement-axis">
               <div class="profile-identity-avatar-frame">D</div>
-              <button class="action-button outline gen-action" data-toast="Opening profile customizer center...">Edit Profile Details</button>
+              <button class="action-button outline gen-action" data-toast="Credential edit vault locked by administrative sync.">Modify Matrix</button>
             </div>
-            <div style="padding: 0 30px 30px 30px; margin-top: -20px;">
+            <div style="padding: 0 30px 25px 30px; margin-top:-15px;">
               <h2>Dre4000</h2>
               <span class="text-muted">Industrial Music Producer & System Engineer | Venue Operations Manager</span>
-              <p class="text-muted" style="margin-top: 10px;">📍 San Francisco Bay Area • Remote Infrastructure Contract Ready</p>
+              <p class="text-muted" style="margin-top:8px;">📍 San Francisco Bay Area • Critical Architecture Contract Clearance Ready</p>
             </div>
           </div>
 
           <div class="module-card">
-            <h3>Degrees & Verifiable Credentials</h3>
+            <h2>Verifiable System Certifications</h2>
             <div class="industrial-credentials-grid">
               <div class="credential-badge-capsule">
                 <div class="credential-icon-shield">🎓</div>
-                <div>
-                  <h4>Master of Music Architecture</h4>
-                  <span class="text-muted">Technical Audio Institute</span>
-                </div>
-              </div>
-              <div class="credential-badge-capsule">
-                <div class="credential-icon-shield">📜</div>
-                <div>
-                  <h4>B.A. in Acoustic Modeling</h4>
-                  <span class="text-muted">Engineering University Consortium</span>
-                </div>
+                <div><h4>Master of Music Architecture</h4><span class="text-muted">Acoustic Engineering Institute</span></div>
               </div>
             </div>
           </div>
-
-          <div class="module-card">
-            <h3>Professional Experience Timeline</h3>
-            <hr>
-            
-            <div class="experience-chain-node">
-              <h4>Lead Session Producer & Hardware Engineer</h4>
-              <span class="text-muted">Production Infrastructure Operations • 2022 - Present</span>
-              <p class="text-muted" style="margin-top:5px;">Designing custom acoustic dampening hardware and executing full multi-track layout coordination for regional performance events.</p>
-            </div>
-
-            <div class="experience-chain-node">
-              <h4>Venue Logistics & Contracting Supervisor</h4>
-              <span class="text-muted">Speakeasy Club Circuit Networks • 2020 - 2022</span>
-              <p class="text-muted" style="margin-top:5px;">Managed compliance documentation, audio configuration layouts, and calendar guarantees for specialized music showcases.</p>
-            </div>
-          </div>
-
         </div>
 
         <div class="secondary-panel">
           <div class="module-card">
-            <div class="widget-title-header">Logistics & Performance Desk</div>
-            
-            <div class="logistics-card-item">
-              <div class="calendar-badge-box"><span>Jun</span><span>13</span></div>
-              <div style="margin-left: 12px;">
-                <h4>Headliner Event Tracking</h4>
-                <div class="text-muted">Soundcheck operations confirmation sequence initialized. Status: Locked.</div>
-              </div>
-            </div>
-
-            <div class="logistics-card-item">
-              <div class="calendar-badge-box"><span>May</span><span>23</span></div>
-              <div style="margin-left: 12px;">
-                <h4>Production Load-In Schedule</h4>
-                <div class="text-muted">Acoustic hardware placement and component deployment configuration routing.</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="module-card">
-            <div class="widget-title-header">Network Interactions Desk</div>
-            
+            <div class="widget-title-header">Active Network Links</div>
             <div class="connection-row-item">
-              <div style="display:flex; align-items:center; gap:12px;">
-                <div class="avatar-circle-badge">TA</div>
-                <div>
-                  <h4>Talent Associate</h4>
-                  <span class="text-muted">Vocalist Coordinator</span>
-                </div>
-              </div>
-              <button class="action-button outline connect-trigger-btn" style="padding:6px 12px; font-size:11px;">Connect</button>
+              <div><h4>Audio Contractor Agent</h4><span class="text-muted">Acoustic Consultant</span></div>
+              <button class="action-button outline connect-action-trigger" style="padding:5px 12px; font-size:11px;">Connect</button>
             </div>
-
-            <div class="connection-row-item">
-              <div style="display:flex; align-items:center; gap:12px;">
-                <div class="avatar-circle-badge">EM</div>
-                <div>
-                  <h4>Event Manager</h4>
-                  <span class="text-muted">Logistics Consultant</span>
-                </div>
-              </div>
-              <button class="action-button outline connect-trigger-btn" style="padding:6px 12px; font-size:11px;">Connect</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="view-home" class="app-view">
-        <div class="primary-canvas">
-          <div class="module-card">
-            <h2>Activity Stream Pipeline</h2>
-            <p class="text-muted" style="margin-top: 10px;">Welcome back, Dre4000. Your main audio tracking feed analytics, community repost records, and communication vectors are cleanly routing through this section.</p>
           </div>
         </div>
       </div>
@@ -531,10 +435,40 @@
     </div>
   </div>
 
-  <div id="system-toast" class="toast">Action successfully initialized!</div>
+  <div class="app-modal-overlay" id="checkout-modal-window">
+    <div class="modal-container">
+      <div class="modal-header-container">
+        <h3 id="checkout-modal-title">Secure Order Checkout</h3>
+        <span class="close-modal-trigger" id="close-checkout-modal">✕</span>
+      </div>
+      <div>
+        <p class="text-muted">Asset deployment pipeline authorized for compilation processing.</p>
+        <div style="background:var(--bg-input); padding:15px; border-radius:8px; margin:15px 0; display:flex; justify-content:space-between; font-weight:700;">
+          <span id="checkout-item-name">Asset Name</span>
+          <span id="checkout-item-cost" style="color:var(--primary);">$0.00</span>
+        </div>
+      </div>
+      <button class="action-button close-and-confirm-trigger" data-toast="Transaction pipeline successfully committed.">Confirm Acquisition Purchase</button>
+    </div>
+  </div>
+
+  <div class="app-modal-overlay" id="inquiry-modal-window">
+    <div class="modal-container">
+      <div class="modal-header-container">
+        <h3 id="inquiry-modal-title">Blueprint Project Inquiry</h3>
+        <span class="close-modal-trigger" id="close-inquiry-modal">✕</span>
+      </div>
+      <div>
+        <span class="text-muted">Construct parameters configuration request for specialist validation routing:</span>
+        <textarea style="margin-top:10px;" rows="3" placeholder="Describe mechanical scope scaling adjustments, hardware parameters requirements..."></textarea>
+      </div>
+      <button class="action-button close-and-confirm-trigger" data-toast="Technical project brief dispatched to consultant ledger.">Transmit System Brief</button>
+    </div>
+  </div>
+
+  <div id="system-toast" class="toast">Execution sequence verified.</div>
 
   <script>
-    // 1. GLOBAL SYSTEM TOAST ENGINE
     let toastTimeout;
     function showToast(message) {
       const toast = document.getElementById("system-toast");
@@ -544,7 +478,6 @@
       toastTimeout = setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
     }
 
-    // Connect standard click elements to toast triggers
     document.querySelectorAll('.gen-action').forEach(btn => {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -552,74 +485,173 @@
       });
     });
 
-    // 2. INDUSTRIAL DARK/LIGHT INTERACTIVE VARIABLE SWITCHER
-    const themeBtn = document.getElementById('theme-toggle');
-    themeBtn.addEventListener('click', () => {
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
-      themeBtn.innerText = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
-      showToast(document.body.classList.contains('dark-mode') ? "Dark theme profile initialized." : "Light theme profile initialized.");
+      themeToggleBtn.innerText = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
     });
 
-    // 3. SINGLE PAGE APPLICATION ROUTING MECHANISM
-    const navLinks = document.querySelectorAll('.nav-link');
-    const appViews = document.querySelectorAll('.app-view');
-
-    navLinks.forEach(link => {
+    const navigationLinks = document.querySelectorAll('.nav-link');
+    const applicationViews = document.querySelectorAll('.app-view');
+    navigationLinks.forEach(link => {
       link.addEventListener('click', function() {
-        navLinks.forEach(n => n.classList.remove('active'));
+        navigationLinks.forEach(n => n.classList.remove('active'));
         this.classList.add('active');
-
-        const targetId = this.getAttribute('data-target');
-        appViews.forEach(view => {
+        const targetViewId = this.getAttribute('data-target');
+        applicationViews.forEach(view => {
           view.classList.remove('active');
-          if(view.id === targetId) view.classList.add('active');
+          if(view.id === targetViewId) view.classList.add('active');
         });
       });
     });
 
-    // 4. INTERACTIVE NETWORK CONNECT SYSTEM ACTION
-    document.querySelectorAll('.connect-trigger-btn').forEach(btn => {
+    const checkoutModal = document.getElementById('checkout-modal-window');
+    const inquiryModal = document.getElementById('inquiry-modal-window');
+    document.addEventListener('click', function(e) {
+      if(e.target.classList.contains('trigger-checkout-modal')) {
+        document.getElementById('checkout-item-name').innerText = e.target.getAttribute('data-title');
+        document.getElementById('checkout-item-cost').innerText = e.target.getAttribute('data-cost');
+        checkoutModal.style.display = 'flex';
+      }
+      if(e.target.classList.contains('trigger-inquiry-modal')) {
+        inquiryModal.style.display = 'flex';
+      }
+    });
+    document.getElementById('close-checkout-modal').addEventListener('click', () => checkoutModal.style.display = 'none');
+    document.getElementById('close-inquiry-modal').addEventListener('click', () => inquiryModal.style.display = 'none');
+    document.querySelectorAll('.close-and-confirm-trigger').forEach(btn => {
       btn.addEventListener('click', function() {
-        if(this.innerText === "Connect") {
-          this.innerText = "Pending";
-          this.style.backgroundColor = "var(--bg-input)";
-          this.style.borderColor = "var(--border-color)";
-          this.style.color = "var(--text-muted)";
-          showToast("Network linking request dispatched.");
-        }
+        checkoutModal.style.display = 'none';
+        inquiryModal.style.display = 'none';
+        showToast(this.getAttribute('data-toast'));
       });
     });
 
-    // 5. AUDIO WAVEFORM GRAPHIC GENERATION SYSTEM
-    document.querySelectorAll('.waveform-visual-bars').forEach(waveContainer => {
-      for(let i=0; i<32; i++) {
-        let height = Math.floor(Math.random() * 22) + 4;
-        waveContainer.innerHTML += `<div class="bar-node" style="height: ${height}px"></div>`;
+    const filterPills = document.querySelectorAll('#market-filter-pills-row .pill');
+    const productListingCards = document.querySelectorAll('#market-listings-grid .product-listing-card');
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', function() {
+        filterPills.forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        const scopeFilter = this.getAttribute('data-filter');
+        productListingCards.forEach(card => {
+          card.style.display = (scopeFilter === 'all' || card.getAttribute('data-category') === scopeFilter) ? 'flex' : 'none';
+        });
+      });
+    });
+
+    const thumbnailTrackRows = document.querySelectorAll('.thumbnail-track-row');
+    thumbnailTrackRows.forEach(row => {
+      row.addEventListener('click', function() {
+        thumbnailTrackRows.forEach(r => r.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('scout-stage-title').innerText = this.getAttribute('data-title');
+        document.getElementById('scout-stage-author').innerText = this.getAttribute('data-author');
+        document.getElementById('scout-stage-desc').innerText = this.getAttribute('data-desc');
+      });
+    });
+
+    const timelineComposer = document.getElementById('timeline-composer');
+    const dispatchPostTrigger = document.getElementById('dispatch-post-trigger');
+    const timelinePostsAnchor = document.getElementById('timeline-posts-anchor');
+    timelineComposer.addEventListener('input', function() {
+      dispatchPostTrigger.disabled = this.value.trim().length === 0;
+    });
+
+    dispatchPostTrigger.addEventListener('click', function() {
+      const compositionText = timelineComposer.value.trim();
+      if(compositionText === "") return;
+      const structuredPostHTML = `
+        <div class="module-card timeline-post-card" style="animation: fadeView 0.4s ease;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="avatar-circle-badge">D4K</div>
+            <div><h4>Dre4000</h4><span class="text-muted">Just now</span></div>
+          </div>
+          <p>${compositionText}</p>
+          <div class="text-muted" style="font-size: 12px;">👍 <span class="like-metric-counter">0</span> likes • <span class="comment-metric-counter">0</span> comments</div>
+          <div class="post-actions-panel">
+            <div class="post-action-node timeline-like-trigger"><span>👍</span> Like</div>
+            <div class="post-action-node comment-drawer-toggle"><span>💬</span> Comment</div>
+          </div>
+          <div class="comment-drawer">
+            <div class="mini-comment-input-row">
+              <input type="text" class="nested-comment-field" placeholder="Write an operational note...">
+              <button class="action-button submit-comment-trigger" style="padding: 4px 12px; font-size:11px;">Reply</button>
+            </div>
+            <div class="comments-stream-target" style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;"></div>
+          </div>
+        </div>`;
+      timelinePostsAnchor.insertAdjacentHTML('afterbegin', structuredPostHTML);
+      timelineComposer.value = "";
+      dispatchPostTrigger.disabled = true;
+      showToast("Log entry pinned to structural activity stream.");
+    });
+
+    /* FIXED: Connected comment drawer toggles and dispatch updates within delegation scope */
+    document.addEventListener('click', function(e) {
+      if(e.target.classList.contains('comment-drawer-toggle') || e.target.closest('.comment-drawer-toggle')) {
+        const baseNode = e.target.classList.contains('comment-drawer-toggle') ? e.target : e.target.closest('.comment-drawer-toggle');
+        const targetDrawer = baseNode.closest('.timeline-post-card').querySelector('.comment-drawer');
+        targetDrawer.style.display = (targetDrawer.style.display === 'flex') ? 'none' : 'flex';
+      }
+
+      if(e.target.classList.contains('timeline-like-trigger') || e.target.closest('.timeline-like-trigger')) {
+        const structuralNode = e.target.classList.contains('timeline-like-trigger') ? e.target : e.target.closest('.timeline-like-trigger');
+        structuralNode.classList.toggle('liked');
+        const countSpan = structuralNode.closest('.timeline-post-card').querySelector('.like-metric-counter');
+        let currentMagnitude = parseInt(countSpan.innerText);
+        if(structuralNode.classList.contains('liked')) {
+          countSpan.innerText = currentMagnitude + 1;
+          structuralNode.style.color = "var(--primary)";
+        } else {
+          countSpan.innerText = currentMagnitude - 1;
+          structuralNode.style.color = "var(--text-muted)";
+        }
+      }
+
+      if(e.target.classList.contains('submit-comment-trigger')) {
+        const internalField = e.target.parentNode.querySelector('.nested-comment-field');
+        const validationValue = internalField.value.trim();
+        if(validationValue === "") return;
+        const targetStream = e.target.closest('.comment-drawer').querySelector('.comments-stream-target');
+        const complexCommentNode = `<div style="font-size: 13px; border-left: 2px solid var(--primary); padding-left: 8px;"><strong>Dre4000:</strong> ${validationValue}</div>`;
+        targetStream.insertAdjacentHTML('beforeend', complexCommentNode);
+        const counterText = e.target.closest('.timeline-post-card').querySelector('.comment-metric-counter');
+        counterText.innerText = parseInt(counterText.innerText) + 1;
+        internalField.value = "";
       }
     });
 
-    // Audio Playback Indicator Toggles
-    document.querySelectorAll('.toggle-playback-visual').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const isPlaying = this.innerText === "⏸";
-        this.innerText = isPlaying ? "▶" : "⏸";
-        const bars = this.nextElementSibling.querySelectorAll('.bar-node');
-        if(!isPlaying) {
-          bars.forEach((bar, index) => { if(index < 14) bar.classList.add('active'); });
-          showToast("Audio compilation feed preview playing...");
-        } else {
-          bars.forEach(bar => bar.classList.remove('active'));
-        }
-      });
+    document.querySelectorAll('.waveform-visual-bars').forEach(wrapper => {
+      for(let i=0; i<32; i++) {
+        let heightMetric = Math.floor(Math.random() * 20) + 5;
+        wrapper.innerHTML += `<div class="bar-node" style="height: ${heightMetric}px"></div>`;
+      }
     });
 
-    // 6. FILTER PILLS SELECTION FEEDBACK
-    document.querySelectorAll('.pill').forEach(pill => {
-      pill.addEventListener('click', function() {
-        this.parentNode.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-        this.classList.add('active');
-        showToast("Filtering view arrays by category parameter.");
-      });
+    document.addEventListener('click', function(e) {
+      if(e.target.classList.contains('interactive-playback-node')) {
+        const isCurrentlyPlaying = e.target.innerText === "⏸";
+        e.target.innerText = isCurrentlyPlaying ? "▶" : "⏸";
+        const microNodes = e.target.nextElementSibling.querySelectorAll('.bar-node');
+        if(!isCurrentlyPlaying) {
+          microNodes.forEach((node, idx) => { if(idx < 15) node.classList.add('active'); });
+        } else {
+          microNodes.forEach(node => node.classList.remove('active'));
+        }
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      if(e.target.classList.contains('connect-action-trigger')) {
+        if(e.target.innerText === "Connect") {
+          e.target.innerText = "Pending";
+          e.target.style.background = "var(--bg-input)";
+          e.target.style.color = "var(--text-muted)";
+          e.target.style.borderColor = "var(--border-color)";
+          showToast("Network linking request transmitted.");
+        }
+      }
     });
   </script>
 </body>
