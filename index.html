@@ -160,7 +160,6 @@
   </nav>
 
   <div class="main-container">
-    <!-- Left Sidebar Profile Matrix -->
     <div class="left-sidebar">
       <div class="card" style="text-align: center;">
         <div style="background: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150') center/cover; width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; border: 2px solid #0073b1;"></div>
@@ -174,10 +173,8 @@
       </div>
     </div>
 
-    <!-- Main Dynamic Interface Portal -->
     <div class="main-feed" id="feed-container">
       
-      <!-- ==================== HOME STREAM WORKSPACE ==================== -->
       <div id="tab-home-view" class="tab-content">
         <div class="card">
           <div class="post-input-area">
@@ -212,7 +209,6 @@
         </div>
       </div>
 
-      <!-- ==================== TEMPOE REELS LAYER (NEW) ==================== -->
       <div id="tab-reels-view" class="tab-content hidden">
         <div class="card" style="background:#000; padding:15px; border:none;">
           <h2 style="color:white; margin-bottom:15px;">💥 Tempoe Video Shorts & Beats Loop</h2>
@@ -244,7 +240,6 @@
         </div>
       </div>
 
-      <!-- ==================== TEMPOE ACADEMY WORKSPACE (NEW) ==================== -->
       <div id="tab-certs-view" class="tab-content hidden">
         <div class="card">
           <h2>🎓 Industrial Credentialing & Academy Hub</h2>
@@ -292,7 +287,6 @@
         </div>
       </div>
 
-      <!-- ==================== MARKETPLACE VIEW CONTAINER ==================== -->
       <div id="tab-market-view" class="tab-content hidden">
         <div class="card">
           <h2>List an Item or Service</h2>
@@ -313,7 +307,6 @@
         </div>
       </div>
 
-      <!-- ==================== GIGS VIEW CONTAINER ==================== -->
       <div id="tab-gigs-view" class="tab-content hidden">
         <div class="card">
           <h2>Post a Project Opportunity</h2>
@@ -332,7 +325,6 @@
         </div>
       </div>
 
-      <!-- ==================== BOOKING VIEW CONTAINER ==================== -->
       <div id="tab-booking-view" class="tab-content hidden">
         <div class="card">
           <h2>Submit Artist Booking Offer</h2>
@@ -347,7 +339,6 @@
         </div>
       </div>
 
-      <!-- ==================== PROMOTER TOOLS VIEW CONTAINER ==================== -->
       <div id="tab-promoter-view" class="tab-content hidden">
         <div class="card">
           <h2>Promoter Campaign Desk</h2>
@@ -359,7 +350,6 @@
         </div>
       </div>
 
-      <!-- ==================== MANAGEMENT SPLIT LEDGER ==================== -->
       <div id="tab-management-view" class="tab-content hidden">
         <div class="card">
           <h2>Roster Split Ledger</h2>
@@ -367,26 +357,59 @@
         </div>
       </div>
 
-      <!-- ==================== TRENDING SOUNDS REGISTRY ==================== -->
       <div id="tab-sounds-view" class="tab-content hidden">
         <div class="card">
-          <h2>Register Tracking Loop</h2>
+          <h2>🔥 Beats Marketplace (Exclusive Tracks)</h2>
+          <span class="text-muted">High-fidelity audition deck. Preview your uploaded studio files directly inside the application workspace.</span>
+          <hr>
           <div id="sounds-wrapper">
+            
             <div class="sound-item">
               <div style="display:flex; align-items:center; gap:12px;">
-                <button class="audio-control-btn" onclick="toggleAudioPreview(this)">▶</button>
+                <button class="audio-control-btn" onclick="playBeat(this, 'Project_100.mp3', 'track100')">▶</button>
                 <div>
-                  <h4>Bay Area Hyphy Bounce Stems</h4>
-                  <span class="text-muted" style="margin:0;">By DRE4K • 98 BPM • Verified Rights Layer</span>
+                  <h4>Project 100 — Bay Area Hyphy Bounce Stems</h4>
+                  <span class="text-muted" style="margin:0;">By DRE4K • 98 BPM • Verified Production Layer</span>
                 </div>
               </div>
-              <button class="button gen-action" style="padding:6px 12px; font-size:12px;" data-toast="Syncing stem files directly into local workstation directory...">Sync Stem</button>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="color: #2e7d32; font-weight: bold; font-size: 14px;">$29.99</span>
+                <button class="button gen-action" style="padding:6px 12px; font-size:12px;" data-toast="Syncing Project 100 license criteria to your account wallet...">Buy License</button>
+              </div>
             </div>
+
+            <div class="sound-item">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <button class="audio-control-btn" onclick="playBeat(this, 'Project_103.mp3', 'track103')">▶</button>
+                <div>
+                  <h4>Project 103 — Northern California Mobb Anthem</h4>
+                  <span class="text-muted" style="margin:0;">By DRE4K • 94 BPM • Untagged Master Stems</span>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="color: #2e7d32; font-weight: bold; font-size: 14px;">$34.99</span>
+                <button class="button gen-action" style="padding:6px 12px; font-size:12px;" data-toast="Syncing Project 103 license criteria to your account wallet...">Buy License</button>
+              </div>
+            </div>
+
+            <div class="sound-item">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <button class="audio-control-btn" onclick="playBeat(this, 'Project_104.mp3', 'track104')">▶</button>
+                <div>
+                  <h4>Project 104 — West Coast Classic Groove Layout</h4>
+                  <span class="text-muted" style="margin:0;">By DRE4K • 102 BPM • Full Multi-Track Bus</span>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="color: #2e7d32; font-weight: bold; font-size: 14px;">$39.99</span>
+                <button class="button gen-action" style="padding:6px 12px; font-size:12px;" data-toast="Syncing Project 104 license criteria to your account wallet...">Buy License</button>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
 
-      <!-- ==================== GLOBAL PROFILE INSIGHTS ==================== -->
       <div id="tab-analytics-view" class="tab-content hidden">
         <div class="card">
           <h2>Global Profile Insights</h2>
@@ -402,7 +425,6 @@
         </div>
       </div>
 
-      <!-- ==================== MESSAGING WINDOW CONTAINER ==================== -->
       <div id="tab-messaging-view" class="tab-content hidden">
         <div class="messaging-container">
           <div class="inbox-list">
@@ -424,12 +446,11 @@
 
     </div>
 
-    <!-- Right Contextual Intelligence Panel -->
     <div class="right-sidebar">
       <div class="card" id="context-panel">
         <h2>Network Context</h2>
         <p class="post-content">Tempoe secure administrative frameworks parse network activities instantly.</p>
-        <button class="button" style="width:100%;" onclick="switchTab('market')">Browse Marketplace</button>
+        <button class="button" style="width:100%;" onclick="switchTab('sounds')">Audition All Tracks</button>
       </div>
     </div>
   </div>
@@ -437,7 +458,59 @@
   <div id="system-toast" class="toast">Execution sequence verified.</div>
 
   <script>
-    // 1. DATA INFRASTRUCTURE FOR DEMO REELS MODULE
+    // Audio Player Engine Configuration
+    let currentAudio = null;
+    let currentPlayingBtn = null;
+    let activeTrackId = null;
+
+    function playBeat(btn, fileUrl, trackId) {
+      // Toggle play/pause if the same track is clicked again
+      if (activeTrackId === trackId) {
+        if (currentAudio.paused) {
+          currentAudio.play();
+          btn.innerText = "⏸";
+          showToast(`Resuming playback: ${fileUrl}`);
+        } else {
+          currentAudio.pause();
+          btn.innerText = "▶";
+          showToast("Audio track paused.");
+        }
+        return;
+      }
+
+      // Stop and reset previous audio track if any
+      if (currentAudio) {
+        currentAudio.pause();
+        if (currentPlayingBtn) {
+          currentPlayingBtn.innerText = "▶";
+        }
+      }
+
+      // Initialize HTML5 Audio object
+      currentAudio = new Audio(fileUrl);
+      currentPlayingBtn = btn;
+      activeTrackId = trackId;
+
+      currentAudio.play().then(() => {
+        btn.innerText = "⏸";
+        showToast(`Auditioning audio source: ${fileUrl}`);
+      }).catch(err => {
+        console.error("Audio playback error:", err);
+        showToast("Playback failed. Make sure your local files are placed in this directory.");
+        btn.innerText = "▶";
+      });
+
+      // Handle natural completion of audio file
+      currentAudio.onended = () => {
+        btn.innerText = "▶";
+        currentAudio = null;
+        currentPlayingBtn = null;
+        activeTrackId = null;
+        showToast("Track preview concluded.");
+      };
+    }
+
+    // Reels Data Matrix
     const reelsData = [
       { bg: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500", creator: "@MarcusThorne_Audio", desc: "Testing structural response inside tracking booth B using the new omnidirectional array config. Bass translation check! 👇", likes: "12.4k" },
       { bg: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500", creator: "@DRE4K_Matrix", desc: "Tracking live automation macros on the vintage mixing console. Pure analog harmonics working smoothly.", likes: "45.1k" },
@@ -450,7 +523,7 @@
     };
     let currentActiveChat = 'marcus';
 
-    // 2. INTERACTIVE REELS MECHANISM CONTROLLER
+    // Interactive Reels Paging Controller
     function scrollReelFeed(direction) {
       currentReelIdx += direction;
       if (currentReelIdx >= reelsData.length) currentReelIdx = 0;
@@ -465,7 +538,7 @@
       showToast("Loading streaming source segment...");
     }
 
-    // 3. INTERACTIVE ACADEMY ENROLLMENT TRACKER ENGINE
+    // Industrial Academy Progress Sync Engine
     function enrollInCourse(courseKey) {
       const fill = document.getElementById(`pb-${courseKey}`);
       const status = document.getElementById(`status-${courseKey}`);
@@ -488,7 +561,7 @@
       }, 400);
     }
 
-    // 4. GENERALIZED TOAST NOTIFICATION ENGINE
+    // Notification Toast Engine
     let toastTimeout;
     function showToast(message) {
       const toast = document.getElementById("system-toast");
@@ -498,7 +571,7 @@
       toastTimeout = setTimeout(function(){ toast.className = "toast"; }, 3000);
     }
 
-    // 5. EXTENDED ARCHITECTURE WORKSPACE ROUTER
+    // Navigation App Router Matrix
     function switchTab(tabName) {
       document.querySelectorAll('.tab-content').forEach(element => element.classList.add('hidden'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -515,6 +588,8 @@
         contextPanel.innerHTML = `<h2>Reels Metrics</h2><span class="text-muted">Audio discovery loop tracks.</span><hr><p class="post-content" style="font-size:12px;">Engagement metrics calculate direct conversion ratios from audio clips to marketplace sound sync transactions.</p>`;
       } else if (tabName === 'certs') {
         contextPanel.innerHTML = `<h2>Industrial Ledger</h2><span class="text-muted">Acoustic standards validations.</span><hr><p class="post-content" style="font-size:12px;">Certifications append immutable authorization parameters to your network communications header tracking.</p>`;
+      } else if (tabName === 'sounds') {
+        contextPanel.innerHTML = `<h2>Beats Core Engine</h2><span class="text-muted">Live Tracking Engine Active.</span><hr><p class="post-content" style="font-size:12px;">Review active distribution streams and check digital right tags on multi-track export buses instantly.</p>`;
       } else if (tabName === 'messaging') {
         document.getElementById('msg-badge').style.display = 'none';
         loadChat(currentActiveChat);
@@ -523,7 +598,7 @@
       }
     }
 
-    // Global Event Delegation for Dynamic Toasts
+    // Event Delegation Framework
     document.addEventListener('click', function(e) {
       if(e.target && e.target.classList.contains('gen-action')) {
         e.preventDefault();
@@ -531,7 +606,7 @@
       }
     });
 
-    // 6. REAL-TIME INTERACTION MOCK CONTROLS
+    // Real-Time Interaction Input Dispatchers
     const postInput = document.getElementById('new-post-text');
     const submitBtn = document.getElementById('submit-post-btn');
     const postsWrapper = document.getElementById('posts-wrapper');
@@ -548,11 +623,6 @@
         e.target.innerText = "Applied ✓"; e.target.style.background = "#e8f5e9"; showToast("Portfolio dispatched.");
       }
     });
-
-    function toggleAudioPreview(btn) {
-      btn.innerText = (btn.innerText === "▶") ? "⏸" : "▶";
-      showToast("Toggling tracking sample output bus...");
-    }
 
     function loadChat(key) {
       const stream = document.getElementById('chat-stream'); stream.innerHTML = '';
