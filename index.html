@@ -159,13 +159,13 @@
     <!-- Left Column: Profile -->
     <div class="left-sidebar">
       <div class="card" style="text-align: center;">
-        <img src="profile-pic.jpg" alt="Profile" style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; object-fit: cover; background-color: #ddd;">
+        <div style="background-color: #111; color: #fff; width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; line-height: 80px; font-size: 32px; font-weight: bold;">D</div>
         <h2>DRE4K</h2>
-        <span class="text-muted">Music Producer & Engineer | Event Manager</span>
+        <span class="text-muted">Manager @ CHI Lounge | Music Producer</span>
         <hr>
         <div style="display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 5px;">
           <span>Profile viewers</span>
-          <span style="color: #0073b1; font-weight: bold;">84</span>
+          <span style="color: #0073b1; font-weight: bold;">142</span>
         </div>
       </div>
     </div>
@@ -173,24 +173,34 @@
     <!-- Center Column: Main Feed -->
     <div class="main-feed">
       
-      <!-- Video/Reel Post -->
+      <!-- Create Post Box -->
+      <div class="card">
+        <textarea style="width: 100%; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; resize: none; font-family: inherit;" rows="2" placeholder="Start a post"></textarea>
+        <div style="display: flex; gap: 15px; margin-top: 15px; color: #555; font-weight: bold; font-size: 14px;">
+          <span>📷 Media</span>
+          <span>📅 Event</span>
+          <span>🎵 Audio</span>
+        </div>
+      </div>
+
+      <!-- Event / Video Post -->
       <div class="card">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">JR</div>
+          <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
           <div>
-            <h4>Jordan Rivers</h4>
-            <span class="text-muted" style="margin-bottom: 0;">Live Performer & Vocalist • 5h</span>
+            <h4>DRE4K</h4>
+            <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • 2h</span>
           </div>
         </div>
-        <p class="post-content">Just wrapped up a killer studio session. Check out this reel! 🎙️</p>
+        <p class="post-content">Getting everything dialed in for June 13th. We've got Keak da Sneak headlining CHI Lounge! Locking in the final promotions now. Pull up! 🔥</p>
         
         <!-- VIDEO/REEL SLOT -->
+        <!-- Replace "your-promo-video.mp4" with your actual file name -->
         <video class="post-video" controls>
-          <source src="your-reel-video.mp4" type="video/mp4">
-          Your browser does not support the video tag.
+          <source src="your-promo-video.mp4" type="video/mp4">
         </video>
 
-        <div class="post-stats">👍 120 • 12 comments</div>
+        <div class="post-stats">👍 204 • 32 comments</div>
         <div class="post-actions">
           <span>Like</span>
           <span>Comment</span>
@@ -198,21 +208,22 @@
         </div>
       </div>
 
-      <!-- Image Post -->
+      <!-- Engineering / Image Post -->
       <div class="card">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">AM</div>
+          <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
           <div>
-            <h4>Alex Mercer</h4>
-            <span class="text-muted" style="margin-bottom: 0;">Event Coordinator | Promoter • 2h</span>
+            <h4>DRE4K</h4>
+            <span class="text-muted" style="margin-bottom: 0;">Music Producer • 1d</span>
           </div>
         </div>
-        <p class="post-content">Excited to be ironing out the details for the next big event setup! 🎵🔥</p>
+        <p class="post-content">Just wrapped up the fabrication on this custom 2-foot tall 3D-printed gramophone display on a wood base. Finished in gold paint. Shoutout to Brandon Wynn on the project!</p>
         
         <!-- IMAGE SLOT -->
-        <img class="post-image" src="your-event-image.jpg" alt="Event Setup">
+        <!-- Replace "gramophone.jpg" with your actual file name -->
+        <img class="post-image" src="gramophone.jpg" alt="Gramophone Build">
 
-        <div class="post-stats">👍 34 • 5 comments</div>
+        <div class="post-stats">👍 189 • 15 comments</div>
         <div class="post-actions">
           <span>Like</span>
           <span>Comment</span>
@@ -220,32 +231,57 @@
         </div>
       </div>
 
-      <!-- Marketplace Hub (With Clickable Button) -->
+      <!-- Marketplace Hub -->
       <div class="card">
         <h2>Marketplace Hub</h2>
-        <span class="text-muted">Discover studio gear, buy beats, or rent space.</span>
+        <span class="text-muted">Discover studio gear, engineering services, or rent space.</span>
         <hr>
-        <h4>Moog Sub 37 Synthesizer Rental</h4>
-        <span class="text-muted" style="color: #0073b1; font-weight: bold;">$75.00/day</span>
-        <p class="post-content">Looking to rent out my analog synth for studio sessions.</p>
+        <h4>"Dre Force Ones" Monitor Stands</h4>
+        <span class="text-muted" style="color: #0073b1; font-weight: bold;">Custom Quote</span>
+        <p class="post-content">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation. Custom CAD modeled.</p>
         
         <!-- FUNCTIONAL LINK BUTTON -->
-        <a href="https://your-link-here.com" target="_blank">
+        <a href="mailto:your-email@example.com" target="_blank">
           <button class="button">Inquire Now</button>
         </a>
       </div>
 
     </div>
 
-    <!-- Right Column: News / Extra -->
+    <!-- Right Column: Network & Messaging -->
     <div class="right-sidebar">
+      
+      <!-- Messaging -->
       <div class="card">
-        <h2>Tempoe Industry News</h2>
-        <ul style="margin-top: 15px;">
-          <li><h4>Top Studio Monitors in 2026</h4><span class="text-muted">Top news • 10,934 readers</span></li>
-          <li><h4>Navigating Live Event Contracts</h4><span class="text-muted">1d ago • 5,432 readers</span></li>
-        </ul>
+        <h2>Messaging</h2>
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+          <div style="background-color: #ddd; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; font-size: 12px; font-weight: bold; flex-shrink: 0;">NK</div>
+          <div>
+            <h4>Nicole Kuhar</h4>
+            <p style="font-size: 12px; color: #555;">Are the contracts for the June show ready to go out?</p>
+          </div>
+        </div>
       </div>
+
+      <!-- Network -->
+      <div class="card">
+        <h2>Your Network</h2>
+        <div style="display: flex; gap: 10px; margin-top: 15px; align-items: center;">
+          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; flex-shrink: 0;">ST</div>
+          <div>
+            <h4>Shan Taylor (Mani Moe)</h4>
+            <span class="text-muted" style="margin-bottom: 0;">Artist</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 15px; align-items: center;">
+          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; flex-shrink: 0;">ID</div>
+          <div>
+            <h4>Ike Dola</h4>
+            <span class="text-muted" style="margin-bottom: 0;">Bay Area Music Figure</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
