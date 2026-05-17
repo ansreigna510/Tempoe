@@ -6,7 +6,7 @@
   <title>Tempoe — Professional Music Network</title>
 
   <style>
-    /* 1. MODERN THEME VARIABLES (Based on Inspiration Image) */
+    /* DYNAMIC THEME VARIABLES */
     :root {
       --bg-color: #f8fafc;
       --card-bg: #ffffff;
@@ -38,10 +38,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; transition: background-color 0.3s, color 0.3s; }
 
-    /* =========================================
-       APP LAYOUT: SIDEBAR + MAIN AREA
-       ========================================= */
-    
     /* Left Navigation Sidebar */
     .app-sidebar { width: 80px; background-color: var(--nav-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; padding: 20px 0; z-index: 100; transition: background-color 0.3s; }
     .brand-icon { width: 48px; height: 48px; background-color: var(--primary-color); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 24px; margin-bottom: 40px; cursor: pointer; }
@@ -69,16 +65,12 @@
     .view.active { display: flex; }
     @keyframes fadeInView { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Three Column Split inside Views */
+    /* Three Column Split */
     .feed-column { flex: 2; display: flex; flex-direction: column; gap: 20px; }
     .widget-column { flex: 1; min-width: 300px; max-width: 350px; display: flex; flex-direction: column; gap: 20px; }
 
-    /* =========================================
-       UI COMPONENTS
-       ========================================= */
+    /* UI Components */
     .card { background-color: var(--card-bg); padding: 24px; border-radius: var(--radius); border: 1px solid var(--border-color); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-    
-    /* Typography */
     h2 { font-size: 20px; margin-bottom: 15px; color: var(--text-main); font-weight: 700; }
     h3 { font-size: 16px; margin-bottom: 5px; color: var(--text-main); font-weight: 600; }
     h4 { font-size: 14px; color: var(--text-main); font-weight: 600; }
@@ -110,7 +102,7 @@
     .market-header { display: flex; gap: 15px; align-items: flex-start; }
     .market-img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; background: var(--input-bg); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
     
-    /* Audio Player CSS */
+    /* Audio Player */
     .audio-player { background: var(--bg-color); border-radius: 30px; padding: 10px 15px; display: flex; align-items: center; gap: 15px; margin-top: 10px; }
     .play-btn { width: 30px; height: 30px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; font-size: 12px; }
     .waveform { display: flex; gap: 3px; align-items: center; height: 24px; flex-grow: 1; cursor: pointer; }
@@ -136,14 +128,12 @@
     #orientation-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--primary-color); color: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; }
     #orientation-overlay h2 { color: white; font-size: 28px; margin-bottom: 15px; }
 
-    /* Mobile Responsiveness */
     @media screen and (max-width: 768px) and (orientation: portrait) {
       #orientation-overlay { display: flex; }
       body { overflow: hidden; }
     }
     @media screen and (max-width: 900px) {
       body { flex-direction: column; }
-      /* Convert Sidebar to Bottom Nav on small screens */
       .app-sidebar { width: 100%; height: 70px; border-right: none; border-top: 1px solid var(--border-color); flex-direction: row; padding: 0 20px; justify-content: space-around; order: 3; position: fixed; bottom: 0; }
       .brand-icon { display: none; }
       .nav-items { flex-direction: row; justify-content: space-around; width: 100%; gap: 0; }
@@ -194,9 +184,7 @@
     <div class="app-content">
 
       <div id="view-market" class="view active">
-        
         <div class="feed-column">
-          
           <div class="hero-banner">
             <h2>Tempoe</h2>
             <p>Post your audio reel. Find paid gigs. Get credited for your work. The professional network made for session musicians, producers, composers, and everyone in between.</p>
@@ -208,17 +196,15 @@
             <div class="filter-pill">Gear</div>
             <div class="filter-pill">Services</div>
             <div class="filter-pill">Studios</div>
-            <div class="filter-pill">Collaborations</div>
           </div>
 
           <div class="market-grid">
-            
             <div class="market-card">
               <div class="market-header">
                 <div class="market-img" style="background: linear-gradient(45deg, #0f172a, #334155); color: #fff;">🎧</div>
                 <div>
-                  <h3>Cinematic Sci-Fi Beat</h3>
-                  <div class="text-muted">by Verified Producer 'SoundWave'</div>
+                  <h3>Cinematic Layout Beat</h3>
+                  <div class="text-muted">by Independent Producer</div>
                 </div>
               </div>
               <div style="font-weight: 700; color: var(--primary-color);">$250.00 Exclusive</div>
@@ -226,13 +212,11 @@
               
               <div class="audio-player">
                 <div class="play-btn toggle-play">▶</div>
-                <div class="waveform">
-                  </div>
+                <div class="waveform"></div>
                 <span class="text-muted" style="font-size: 11px;">0:47</span>
               </div>
-
               <div style="margin-top: auto; padding-top: 15px; display: flex; justify-content: flex-end;">
-                <button class="button gen-action" data-toast="Added to cart: Cinematic Sci-Fi Beat">Lease / Buy</button>
+                <button class="button gen-action" data-toast="Item added to cart">Lease / Buy</button>
               </div>
             </div>
 
@@ -240,15 +224,14 @@
               <div class="market-header">
                 <div class="market-img" style="background: #e2e8f0;">🛠️</div>
                 <div>
-                  <h3>Custom CAD & Reverse Engineering</h3>
-                  <div class="text-muted">by MoxengineeringSF</div>
+                  <h3>Custom CAD & Prototyping</h3>
+                  <div class="text-muted">by Boutique Studio Specialist</div>
                 </div>
               </div>
               <div style="font-weight: 700; color: var(--primary-color);">Custom Quote</div>
-              <div class="text-muted">Specializing in 3D scanning, CAD design, and reverse engineering for custom parts.</div>
-              
+              <div class="text-muted">Specializing in 3D scanning, component housing layouts, and mechanical modeling design.</div>
               <div style="margin-top: auto; padding-top: 15px; display: flex; justify-content: flex-end;">
-                <button class="button btn-outline gen-action" data-toast="Direct message opened with MoxengineeringSF.">Inquire / Book</button>
+                <button class="button btn-outline gen-action" data-toast="Direct message thread opened with specialist.">Inquire / Book</button>
               </div>
             </div>
 
@@ -256,15 +239,14 @@
               <div class="market-header">
                 <div class="market-img" style="background: #e2e8f0;">🎹</div>
                 <div>
-                  <h3>Analog Synth - Moog Sub 37</h3>
-                  <div class="text-muted">by Verified Seller 'CircuitMaster'</div>
+                  <h3>Analog Desktop Synthesizer</h3>
+                  <div class="text-muted">by Network Audio Vendor</div>
                 </div>
               </div>
               <div style="font-weight: 700; color: var(--primary-color);">$75.00 / Day</div>
-              <div class="text-muted">📍 Mint Condition, Los Angeles Drop-off</div>
-              
+              <div class="text-muted">📍 Local Pickup & Technical Verification Available</div>
               <div style="margin-top: auto; padding-top: 15px; display: flex; justify-content: flex-end;">
-                <button class="button gen-action" data-toast="Rental request sent for Moog Sub 37.">Inquire / Rent</button>
+                <button class="button gen-action" data-toast="Rental availability inquiry sent.">Inquire / Rent</button>
               </div>
             </div>
 
@@ -272,104 +254,69 @@
               <div class="market-header">
                 <div class="market-img" style="background: #e2e8f0;">🔊</div>
                 <div>
-                  <h3>"Dre Force Ones" Monitor Stands</h3>
-                  <div class="text-muted">by DRE4K</div>
+                  <h3>Acoustic Isolation Stands</h3>
+                  <div class="text-muted">by Dre4000</div>
                 </div>
               </div>
               <div style="font-weight: 700; color: var(--primary-color);">$120.00 / Pair</div>
-              <div class="text-muted">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation.</div>
-              
+              <div class="text-muted">Tensegrity-based professional studio monitor hardware designed for critical isolation.</div>
               <div style="margin-top: auto; padding-top: 15px; display: flex; justify-content: flex-end;">
-                <button class="button gen-action" data-toast="Added to cart: Dre Force Ones">Lease / Buy</button>
+                <button class="button gen-action" data-toast="Added to cart: Acoustic Isolation Stands">Lease / Buy</button>
               </div>
             </div>
-
           </div>
         </div>
 
         <div class="widget-column">
-          
           <div>
             <div class="widget-title">Nearby Opportunities</div>
-            
             <div class="opportunity-item">
               <div class="date-box"><span>Jun</span><span>13</span></div>
               <div>
-                <h4>Live Sound Engineer</h4>
-                <div class="text-muted">$300 Flat • CHI Lounge</div>
+                <h4>Live Production Technical Lead</h4>
+                <div class="text-muted">$300 Flat • Downtown Lounge Venue</div>
               </div>
             </div>
-            
             <div class="opportunity-item">
               <div class="date-box"><span>Jun</span><span>20</span></div>
               <div>
-                <h4>Rehearsal Space Available</h4>
-                <div class="text-muted">$40/hr • SF SoMa</div>
+                <h4>Acoustic Room Session Slot</h4>
+                <div class="text-muted">$40/hr • Production Facility</div>
               </div>
             </div>
           </div>
 
           <div style="margin-top: 20px;">
             <div class="widget-title">Recommended Contacts</div>
-            
             <div class="contact-item">
               <div class="contact-info">
-                <div class="avatar">ST</div>
+                <div class="avatar">AN</div>
                 <div>
-                  <h4>Shan Taylor (Mani Moe)</h4>
-                  <div class="text-muted">Artist - Bay Area</div>
+                  <h4>Audio Network Associate</h4>
+                  <div class="text-muted">Creative Consultant</div>
                 </div>
               </div>
-              <button class="button btn-outline gen-action" style="padding: 4px 10px; font-size: 11px;" data-toast="Connection request sent to Shan Taylor.">+ Link</button>
+              <button class="button btn-outline gen-action" style="padding: 4px 10px; font-size: 11px;" data-toast="Connection request sent.">+ Link</button>
             </div>
-
             <div class="contact-item">
               <div class="contact-info">
-                <div class="avatar">NK</div>
+                <div class="avatar">EP</div>
                 <div>
-                  <h4>Nicole Kuhar</h4>
-                  <div class="text-muted">Event Promoter</div>
+                  <h4>Event Program Coordinator</h4>
+                  <div class="text-muted">Booking Operations</div>
                 </div>
               </div>
-              <button class="button btn-outline gen-action" style="padding: 4px 10px; font-size: 11px;" data-toast="Connection request sent to Nicole Kuhar.">+ Link</button>
-            </div>
-
-            <div class="contact-item">
-              <div class="contact-info">
-                <div class="avatar">BW</div>
-                <div>
-                  <h4>Brandon Wynn</h4>
-                  <div class="text-muted">Private Client</div>
-                </div>
-              </div>
-              <button class="button btn-outline gen-action" style="padding: 4px 10px; font-size: 11px;" data-toast="Connection request sent to Brandon Wynn.">+ Link</button>
+              <button class="button btn-outline gen-action" style="padding: 4px 10px; font-size: 11px;" data-toast="Connection request sent.">+ Link</button>
             </div>
           </div>
-
-          <div style="margin-top: 20px;">
-            <div class="widget-title">Trending in Marketplace</div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <span style="color: var(--primary-color); font-weight: 600; font-size: 13px;">#AnalogSynths</span>
-              <span class="text-muted">1.1k listings</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <span style="color: var(--primary-color); font-weight: 600; font-size: 13px;">#CADFabrication</span>
-              <span class="text-muted">850 listings</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <span style="color: var(--primary-color); font-weight: 600; font-size: 13px;">#BayAreaBeats</span>
-              <span class="text-muted">600 listings</span>
-            </div>
-          </div>
-
         </div>
       </div>
 
       <div id="view-home" class="view">
         <div class="feed-column">
           <div class="card">
-            <h2>Your Feed</h2>
-            <p class="text-muted">This is where your standard social feed lives. Switch to the Market tab to see the new layout!</p>
+            <h2>Activity Stream</h2>
+            <p class="text-muted">Welcome back, Dre4000. Your industrial networks and music production feeds will initialize dynamically here.</p>
           </div>
         </div>
       </div>
@@ -377,19 +324,17 @@
       <div id="view-gigs" class="view">
         <div class="feed-column">
           <div class="card">
-            <h2>Gig Board</h2>
-            <p class="text-muted">Find paid gigs and get credited for your work.</p>
+            <h2>Industrial Job Board</h2>
+            <p class="text-muted">Explore active engineering profiles and secure premium session coordination payouts.</p>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
   <div id="system-toast" class="toast">Action successful!</div>
 
   <script>
-    // 1. TOAST SYSTEM
     let toastTimeout;
     function showToast(message) {
       const toast = document.getElementById("system-toast");
@@ -399,7 +344,6 @@
       toastTimeout = setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
     }
 
-    // Bind all generic buttons
     document.querySelectorAll('.gen-action').forEach(btn => {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -407,22 +351,18 @@
       });
     });
 
-    // 2. THEME TOGGLE
     const themeBtn = document.getElementById('theme-toggle');
     themeBtn.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
       themeBtn.innerText = document.body.classList.contains('dark-mode') ? "☀️ Light" : "🌙 Dark";
     });
 
-    // 3. SPA ROUTING (Nav Links)
     const navLinks = document.querySelectorAll('.nav-link');
     const views = document.querySelectorAll('.view');
-
     navLinks.forEach(link => {
       link.addEventListener('click', function() {
         navLinks.forEach(n => n.classList.remove('active'));
         this.classList.add('active');
-
         const targetId = this.getAttribute('data-target');
         views.forEach(view => {
           view.classList.remove('active');
@@ -431,19 +371,16 @@
       });
     });
 
-    // 4. FILTER PILLS
     const pills = document.querySelectorAll('.filter-pill');
     pills.forEach(pill => {
       pill.addEventListener('click', function() {
         pills.forEach(p => p.classList.remove('active'));
         this.classList.add('active');
-        showToast("Filtering by: " + this.innerText);
+        showToast("Filtering view: " + this.innerText);
       });
     });
 
-    // 5. AUDIO PLAYER GENERATOR & TOGGLE
     document.querySelectorAll('.waveform').forEach(waveContainer => {
-      // Generate random heights for the waveform visual
       for(let i=0; i<30; i++) {
         let height = Math.floor(Math.random() * 20) + 4;
         waveContainer.innerHTML += `<div class="wave-bar" style="height: ${height}px"></div>`;
@@ -455,12 +392,8 @@
         const isPlaying = this.innerText === "⏸";
         this.innerText = isPlaying ? "▶" : "⏸";
         const bars = this.nextElementSibling.querySelectorAll('.wave-bar');
-        
         if(!isPlaying) {
-          // Fake playing animation
-          bars.forEach((bar, index) => {
-            if(index < 10) bar.classList.add('active');
-          });
+          bars.forEach((bar, index) => { if(index < 12) bar.classList.add('active'); });
         } else {
           bars.forEach(bar => bar.classList.remove('active'));
         }
