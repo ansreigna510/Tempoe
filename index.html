@@ -11,10 +11,11 @@
         :root {
             --bg-color: #F3F2EF;
             --card-bg: #FFFFFF;
-            --primary: #0A66C2;
-            --primary-hover: #004182;
-            --text-main: #000000E6; /* 90% black */
-            --text-secondary: #00000099; /* 60% black */
+            --primary: #42207A; /* Updated to match logo's purple */
+            --primary-hover: #2d1554;
+            --accent: #FF6600; /* Updated to match logo's orange */
+            --text-main: #000000E6;
+            --text-secondary: #00000099;
             --border-color: #00000014;
             --nav-bg: #FFFFFF;
             --icon-color: #666666;
@@ -29,6 +30,7 @@
             padding: 0;
             padding-top: 64px; /* Offset for sticky navbar */
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* --- Navbar --- */
@@ -58,11 +60,8 @@
             margin-right: 8px;
         }
 
-        /* * LOGO IMPLEMENTATION
-         * Adjust width/height below if your logo is wider or taller. 
-         */
         .logo-container img {
-            height: 38px;
+            height: 40px; /* Sized to fit the navbar cleanly */
             width: auto;
             max-width: 120px;
             object-fit: contain;
@@ -133,27 +132,6 @@
             padding: 0 16px;
         }
 
-        @media (max-width: 992px) {
-            .container {
-                grid-template-columns: 225px 1fr;
-            }
-            .right-col {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-            .left-col {
-                display: none;
-            }
-            .search-bar {
-                display: none;
-            }
-        }
-
         /* --- Global Cards --- */
         .card {
             background: var(--card-bg);
@@ -166,7 +144,7 @@
         /* --- Left Sidebar (Profile) --- */
         .profile-card .cover-photo {
             height: 60px;
-            background: linear-gradient(to right, #42207A, #FF6600); /* Retained subtle brand colors here */
+            background: linear-gradient(to right, var(--primary), var(--accent));
         }
 
         .profile-card .profile-info {
@@ -441,6 +419,75 @@
             text-align: center;
             color: var(--text-secondary);
         }
+
+        /* ========================================================
+           MOBILE RESPONSIVENESS (App-like Bottom Navigation)
+           ======================================================== */
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 225px 1fr;
+            }
+            .right-col {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 70px; /* Space for the bottom navigation bar */
+            }
+            .navbar {
+                justify-content: flex-start;
+            }
+            .search-bar {
+                display: none; /* Hide search bar on small screens to save space */
+            }
+            .container {
+                grid-template-columns: 1fr;
+                padding: 0 8px; /* Less padding on mobile for wider feed */
+            }
+            .left-col {
+                display: none; /* Hide profile card to prioritize feed */
+            }
+            
+            /* Move Navigation to the Bottom */
+            .nav-links {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: var(--nav-bg);
+                border-top: 1px solid var(--border-color);
+                border-bottom: none; /* Remove top nav border behavior */
+                margin: 0;
+                padding: 0;
+                justify-content: space-around; /* Space icons evenly */
+                height: 60px;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            }
+
+            .nav-item {
+                height: 60px;
+                min-width: auto;
+                flex: 1;
+                border-bottom: none; /* Remove bottom border */
+                border-top: 2px solid transparent; /* Move active indicator to top */
+            }
+
+            .nav-item.active {
+                border-bottom: none;
+                border-top: 2px solid var(--text-main);
+            }
+
+            /* Adjust Action Buttons on mobile feed */
+            .action-btn span {
+                display: none; /* Hide text on post buttons, keep icons */
+            }
+            .interaction-btn {
+                padding: 12px 4px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -448,7 +495,7 @@
     <nav class="navbar">
         <div class="nav-content">
             <div class="logo-container">
-                <img src="your-logo.png" alt="Tempoe" id="tempoe-logo" onerror="this.src='https://via.placeholder.com/120x38/0A66C2/FFFFFF?text=Tempoe'">
+                <img src="tempoe-logo.png" alt="Tempoe" id="tempoe-logo">
             </div>
             
             <div class="search-bar">
@@ -515,9 +562,9 @@
                     </div>
                     <div class="post-actions">
                         <div style="display:flex;">
-                            <button class="action-btn"><i class="ti ti-photo" style="color: #70B5F9; font-size:20px;"></i> Media</button>
-                            <button class="action-btn"><i class="ti ti-calendar-event" style="color: #E7A33E; font-size:20px;"></i> Event</button>
-                            <button class="action-btn"><i class="ti ti-music" style="color: #7FC15E; font-size:20px;"></i> Audio</button>
+                            <button class="action-btn"><i class="ti ti-photo" style="color: #70B5F9; font-size:20px;"></i> <span>Media</span></button>
+                            <button class="action-btn"><i class="ti ti-calendar-event" style="color: #E7A33E; font-size:20px;"></i> <span>Event</span></button>
+                            <button class="action-btn"><i class="ti ti-music" style="color: #7FC15E; font-size:20px;"></i> <span>Audio</span></button>
                         </div>
                         <button class="btn-primary" onclick="createPost()">Post</button>
                     </div>
@@ -672,14 +719,10 @@
     <script>
         // Tab Navigation Functionality
         function switchTab(tabId, element) {
-            // Remove active status from all navigation icons
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            // Set the clicked icon as active
             element.classList.add('active');
 
-            // Hide all tab content
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            // Display the newly requested tab
             document.getElementById('tab-' + tabId).classList.add('active');
             window.scrollTo(0, 0);
         }
@@ -700,12 +743,9 @@
             const input = document.getElementById('post-input-field');
             const content = input.value.trim();
             
-            // Prevent empty posts
             if(content === '') return; 
 
             const feed = document.getElementById('feed-container');
-            
-            // Generate the new HTML structure for the post
             const newPost = document.createElement('div');
             newPost.className = 'card post';
             newPost.innerHTML = `
@@ -732,14 +772,10 @@
                 </div>
             `;
             
-            // Render the new post at the top of the feed container
             feed.insertBefore(newPost, feed.firstChild);
-            
-            // Clear the input box
             input.value = '';
         }
 
-        // Allow posting by hitting "Enter"
         function handleEnterPost(event) {
             if (event.key === "Enter") {
                 createPost();
