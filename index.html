@@ -1,12 +1,10 @@
-Good catch—you are totally right. When throwing that massive block together, a couple of dirty syntax bugs slipped through that would absolutely break the rendering and some of the interactions.
+That is a very cool and unique approach! Forcing the app into landscape mode on phones gives it a wide, panoramic "studio desk" feel rather than a typical social media scrolling feed.
 
-### What Was Broken:
+To make this happen, I have added a **"Portrait Blocker"** using CSS. If someone opens the app on their phone while holding it vertically, a full-screen message will appear prompting them to rotate their device. Once they turn it sideways, the message disappears, and they get the full three-column desktop-style layout on their phone.
 
-* **The CSS Selector Crash:** On line 47, there was a completely invalid CSS rule: `.sidebar-btn span class="label"`. That broken syntax causes browsers to drop the styling for your sidebar text labels. It should be `.sidebar-btn .label`.
-* **The Comment Drawer Was Stuck:** The comment drawer was set to `display: flex` by default in the CSS, and the "Comment" button didn't actually have its toggle logic hooked up in the JavaScript event delegation pool.
-* **Mismatched Inline Styles:** Some sidebar buttons were using raw `style` tags while others expected the `.label` class.
+I've also wired up the rest of the buttons (Navigation links, Comments, Reposts, Media uploads) into the Toast Notification system. This means if you click "Market" or "Comment," a popup will tell the user the feature is loading or coming soon, making the whole interface feel completely alive.
 
-Here is the completely polished, fully debugged, one-shot code with all syntax cleared up and all components executing exactly as intended.
+Here is your updated, fully interactive code:
 
 ```html
 <!DOCTYPE html>
@@ -17,653 +15,342 @@ Here is the completely polished, fully debugged, one-shot code with all syntax c
   <title>Tempoe — Professional Music Network</title>
 
   <style>
-    /* ==========================================================================
-       DESIGN VARIABLES & VARIABLE THEME ENGINE
-       ========================================================================== */
-    :root {
-      --bg-main: #f8fafc;
-      --bg-card: #ffffff;
-      --bg-input: #f1f5f9;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --primary-light: #eef2ff;
-      --accent-orange: #f97316;
-      --success: #10b981;
-      --sidebar-width: 95px;
-      --radius-lg: 20px;
-      --radius-md: 12px;
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.02);
-      --shadow-md: 0 12px 30px rgba(99, 102, 241, 0.06);
-    }
-
-    body.dark-mode {
-      --bg-main: #090d16;
-      --bg-card: #131b2e;
-      --bg-input: #1e293b;
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
-      --border-color: #1e293b;
-      --primary: #818cf8;
-      --primary-hover: #6366f1;
-      --primary-light: rgba(99, 102, 241, 0.15);
-      --accent-orange: #fb923c;
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-main); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; transition: background-color 0.3s, color 0.3s; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f3f2ef; color: #333; overflow-x: hidden; }
 
-    /* Custom App Scrollbar Typography */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-    /* ==========================================================================
-       SIDEBAR NAVIGATION DESIGN LAYOUT
-       ========================================================================== */
-    .app-sidebar { width: var(--sidebar-width); background-color: var(--bg-card); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; padding: 25px 0; justify-content: space-between; z-index: 100; transition: all 0.3s; }
-    .brand-container { display: flex; flex-direction: column; align-items: center; gap: 35px; width: 100%; }
+    /* Top Navigation */
+    .navbar { background-color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+    .navbar-brand h1 { font-size: 22px; font-weight: 800; color: #0073b1; letter-spacing: -0.5px; cursor: pointer; }
+    .navbar-links { display: flex; gap: 20px; align-items: center; }
+    .navbar-links a { text-decoration: none; color: #555; font-weight: bold; font-size: 14px; transition: color 0.2s; position: relative; cursor: pointer; }
+    .navbar-links a:hover, .navbar-links a.active { color: #0073b1; }
     
-    .brand-logo { width: 52px; height: 52px; background: linear-gradient(135deg, #1e1b4b, #4c1d95); border: 2px solid #6366f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 0 15px rgba(99,102,241,0.3); cursor: pointer; }
-    .brand-logo::after { content: ''; position: absolute; width: 18px; height: 2px; background: var(--accent-orange); top: 50%; left: 50%; transform-origin: left center; transform: translate(-2px, -1px) rotate(-45deg); border-radius: 2px; }
+    /* Notification Badge */
+    .badge { position: absolute; top: -8px; right: -12px; background: #cc0000; color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px; font-weight: bold; }
 
-    .nav-items { display: flex; flex-direction: column; gap: 15px; width: 100%; align-items: center; }
-    .sidebar-btn { width: 75px; height: 65px; border-radius: var(--radius-md); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 18px; color: var(--text-muted); cursor: pointer; transition: all 0.2s; position: relative; text-decoration: none; border: 1px solid transparent; }
+    /* Layout */
+    .main-container { display: flex; max-width: 1128px; margin: 20px auto; gap: 20px; padding: 0 15px; align-items: flex-start; }
+    .left-sidebar { flex: 1; position: sticky; top: 80px; }
+    .main-feed { flex: 2; }
+    .right-sidebar { flex: 1; position: sticky; top: 80px; }
+
+    /* Cards */
+    .card { background-color: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px; transition: box-shadow 0.2s; }
+    .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .post-image { width: 100%; border-radius: 8px; margin: 10px 0; object-fit: cover; }
+    .post-video { width: 100%; border-radius: 8px; margin: 10px 0; background-color: #000; max-height: 500px; }
+
+    /* Forms & Inputs */
+    .post-input-area { display: flex; flex-direction: column; gap: 10px; }
+    textarea { width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 15px; resize: none; font-family: inherit; font-size: 14px; transition: border-color 0.2s; }
+    textarea:focus { outline: none; border-color: #0073b1; }
     
-    /* FIXED: Cleaned up invalid CSS rule syntax */
-    .sidebar-btn .label { font-size: 9px; font-weight: 700; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: block; }
+    /* Buttons */
+    .button { background-color: #0073b1; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+    .button:hover:not(:disabled) { background-color: #005582; transform: scale(1.02); }
+    .button:disabled { background-color: #ccc; cursor: not-allowed; }
+    .btn-outline { background-color: transparent; color: #0073b1; border: 1px solid #0073b1; width: 100%; margin-top: 10px; }
+    .btn-outline:hover { background-color: rgba(0, 115, 177, 0.1); }
+
+    /* Typography */
+    h2, h3 { font-size: 16px; margin-bottom: 10px; color: #000; }
+    h4 { font-size: 14px; color: #000; }
+    .text-muted { color: #666; font-size: 12px; margin-bottom: 10px; display: block; }
+    .post-content { font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
+    .post-stats { font-size: 12px; color: #666; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
     
-    .sidebar-btn:hover { color: var(--primary); background-color: var(--primary-light); }
-    .sidebar-btn.active { color: var(--primary); background-color: var(--primary-light); border-color: var(--border-color); box-shadow: var(--shadow-sm); }
-    .badge { position: absolute; top: 4px; right: 8px; background: #ef4444; color: white; font-size: 10px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; }
+    /* Interactive Post Actions */
+    .post-actions { display: flex; gap: 15px; font-size: 14px; font-weight: bold; color: #555; }
+    .action-btn { cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 5px; user-select: none; }
+    .action-btn:hover { background-color: #f3f2ef; color: #0073b1; }
+    .action-btn.liked { color: #0073b1; }
 
-    /* Core Layout Foundations */
-    .app-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-    .app-header { height: 80px; background-color: var(--bg-card); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--border-color); z-index: 90; transition: background-color 0.3s; }
-    .search-container { display: flex; align-items: center; background-color: var(--bg-input); border-radius: 24px; padding: 10px 20px; width: 450px; border: 1px solid transparent; }
-    .search-container:focus-within { border-color: var(--primary); background-color: var(--bg-card); box-shadow: var(--shadow-md); }
-    .search-container input { background: transparent; border: none; outline: none; width: 100%; color: var(--text-main); font-size: 14px; margin-left: 10px; font-family: inherit; }
-    .header-right { display: flex; align-items: center; gap: 20px; }
-    
-    .app-content { flex: 1; overflow-y: auto; padding: 35px 40px; display: flex; flex-direction: column; position: relative; }
-    .app-view { display: none; gap: 30px; width: 100%; max-width: 1200px; margin: 0 auto; }
-    .app-view.active { display: flex; animation: fadeView 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-    @keyframes fadeView { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
 
-    .primary-canvas { flex: 2; display: flex; flex-direction: column; gap: 25px; }
-    .secondary-panel { flex: 1; min-width: 320px; max-width: 360px; display: flex; flex-direction: column; gap: 25px; }
-
-    /* Module Structural Cards */
-    .module-card { background-color: var(--bg-card); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); position: relative; }
-    h2 { font-size: 20px; font-weight: 700; color: var(--text-main); letter-spacing: -0.3px; }
-    h3 { font-size: 16px; font-weight: 600; color: var(--text-main); }
-    h4 { font-size: 14px; font-weight: 600; color: var(--text-main); }
-    .text-muted { color: var(--text-muted); font-size: 13px; line-height: 1.4; }
-    p { font-size: 14px; line-height: 1.5; color: var(--text-main); }
-
-    /* Control Elements */
-    .filter-pills-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 5px; scrollbar-width: none; }
-    .pill { padding: 8px 18px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; user-select: none; }
-    .pill:hover, .pill.active { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
-
-    .action-button { background-color: var(--primary); color: white; border: none; padding: 10px 22px; border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; user-select: none; }
-    .action-button:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
-    .action-button.outline { background-color: transparent; color: var(--primary); border: 1px solid var(--primary); }
-    .action-button.outline:hover { background-color: var(--primary-light); }
-    .action-button:disabled { background-color: var(--border-color); color: var(--text-muted); cursor: not-allowed; transform: none; }
-
-    /* Widgets Panels */
-    .widget-title-header { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-    .logistics-card-item { display: flex; gap: 15px; margin-bottom: 15px; background: var(--bg-input); padding: 12px; border-radius: var(--radius-md); align-items: center; }
-    .calendar-badge-box { background: var(--bg-card); border-radius: 8px; width: 45px; height: 45px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--border-color); flex-shrink: 0; }
-    .calendar-badge-box span:first-child { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-    .calendar-badge-box span:last-child { font-size: 15px; font-weight: 800; color: var(--text-main); }
-    .connection-row-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
-
-    /* MODAL SLIDE HOUSING SYSTEMS */
-    .app-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
-    .modal-container { background: var(--bg-card); border: 1px solid var(--border-color); width: 100%; max-width: 480px; border-radius: var(--radius-lg); padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 20px; animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    @keyframes modalPop { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-    .modal-header-container { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
-    .close-modal-trigger { font-size: 20px; cursor: pointer; color: var(--text-muted); }
-
-    /* SCREEN 1: POST DRAWER ARCHITECTURE */
-    .post-composer-box { display: flex; flex-direction: column; gap: 15px; }
-    .post-textarea { width: 100%; background: var(--bg-input); border: 1px solid transparent; border-radius: var(--radius-md); padding: 15px; color: var(--text-main); font-family: inherit; font-size: 14px; resize: none; transition: all 0.2s; }
-    .post-textarea:focus { background: var(--bg-card); border-color: var(--primary); outline: none; }
-    .timeline-post-card { display: flex; flex-direction: column; gap: 15px; }
-    .post-actions-panel { display: flex; gap: 20px; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 10px 5px; }
-    .post-action-node { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-muted); user-select: none; }
-    .post-action-node.liked { color: var(--primary); }
-    
-    /* FIXED: Defaulted comment drawer to display none for toggle mechanics */
-    .comment-drawer { background: var(--bg-input); padding: 15px; border-radius: var(--radius-md); display: none; flex-direction: column; gap: 10px; }
-    .mini-comment-input-row { display: flex; gap: 10px; }
-    .mini-comment-input-row input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 8px 15px; color: var(--text-main); font-family: inherit; font-size: 13px; outline: none; }
-
-    /* SCREEN 2: ASSET DESIGN MARKETS */
-    .marketplace-display-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .product-listing-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-    .market-header { display: flex; gap: 12px; align-items: center; }
-    .market-img-avatar { width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--bg-input); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-    .custom-waveform-player { background: var(--bg-main); border-radius: 30px; padding: 10px 18px; display: flex; align-items: center; gap: 15px; }
-    .audio-play-trigger { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 11px; user-select: none; }
-    .waveform-visual-bars { display: flex; gap: 3px; align-items: center; height: 24px; flex-grow: 1; }
-    .bar-node { width: 3px; background: var(--border-color); border-radius: 2px; height: 10px; transition: background-color 0.2s, height 0.2s; }
-    .bar-node.active { background: var(--primary); }
-
-    /* SCREEN 3: SCOUT VIDEO DECK */
-    .reels-immersive-container { display: flex; gap: 20px; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-color); padding: 25px; min-height: 520px; }
-    .reel-video-stage-wrapper { flex: 1.5; background: linear-gradient(135deg, #0f172a, #1e1b4b); border-radius: var(--radius-md); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: inset 0 0 80px rgba(0,0,0,0.8); border: 1px solid var(--border-color); }
-    .reel-center-play-ring { width: 64px; height: 64px; background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); transition: transform 0.2s; color: white; }
-    .reel-center-play-ring:hover { transform: scale(1.06); }
-    .reel-overlay-bottom-metadata { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); color: white; display: flex; flex-direction: column; gap: 6px; }
-    .reel-overlay-action-rail { position: absolute; right: 20px; top: 40%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 20px; align-items: center; z-index: 5; color: white; }
-    .reel-rail-icon-node { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 18px; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
-    .reel-showcase-sidebar { flex: 1; display: flex; flex-direction: column; gap: 15px; border-left: 1px solid var(--border-color); padding-left: 20px; overflow-y: auto; }
-    .thumbnail-track-row { display: flex; gap: 12px; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s; background: var(--bg-card); }
-    .thumbnail-track-row:hover, .thumbnail-track-row.active { background-color: var(--bg-input); border-color: var(--primary); }
-    .thumbnail-media-box { width: 50px; height: 50px; border-radius: 8px; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-
-    /* SCREEN 4: TIMELINE METRICS */
-    .profile-hero-card-header { position: relative; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); background: var(--bg-card); }
-    .profile-cover-canvas-strip { height: 130px; background: linear-gradient(135deg, var(--primary), #818cf8); }
-    .profile-avatar-placement-axis { display: flex; padding: 0 30px; transform: translateY(-35px); align-items: flex-end; gap: 20px; justify-content: space-between; }
-    .profile-identity-avatar-frame { width: 100px; height: 100px; border-radius: 50%; background: #0f172a; color: white; border: 4px solid var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 38px; font-weight: 800; box-shadow: var(--shadow-sm); }
-    .industrial-credentials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-    .credential-badge-capsule { border: 1px solid var(--border-color); padding: 15px; border-radius: var(--radius-md); background: var(--bg-input); display: flex; gap: 12px; align-items: center; }
-    .credential-icon-shield { width: 36px; height: 36px; background: var(--primary-light); color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-    .experience-chain-node { position: relative; padding-left: 30px; margin-bottom: 25px; }
-    .experience-chain-node::before { content: ''; position: absolute; left: 6px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--primary); border: 2px solid var(--bg-card); z-index: 2; }
-    .experience-chain-node::after { content: ''; position: absolute; left: 11px; top: 12px; width: 2px; height: calc(100% + 20px); background: var(--border-color); z-index: 1; }
-    .experience-chain-node:last-child::after { display: none; }
-
-    /* Toast System Panel Alert */
-    .toast { visibility: hidden; min-width: 280px; background-color: var(--text-main); color: var(--bg-main); text-align: center; border-radius: 30px; padding: 12px 24px; position: fixed; z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 13px; font-weight: 600; opacity: 0; transition: opacity 0.3s, bottom 0.3s; box-shadow: 0 8px 24px rgba(0,0,0,0.15); pointer-events: none; }
+    /* Toast Notification */
+    .toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; pointer-events: none; }
     .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
-    #orientation-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #4b3e99; color: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; }
-    #orientation-overlay h2 { color: white; font-size: 28px; margin-bottom: 15px; }
+    /* =========================================================
+       NEW: LANDSCAPE ORIENTATION LOCK FOR MOBILE
+       ========================================================= */
+    #orientation-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background-color: #0073b1;
+      color: white;
+      z-index: 9999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px;
+    }
 
+    #orientation-overlay h2 { color: white; font-size: 28px; margin-bottom: 15px; }
+    #orientation-overlay p { font-size: 16px; line-height: 1.5; max-width: 300px; }
+    .device-icon { font-size: 60px; margin-bottom: 20px; animation: tilt 2s ease-in-out infinite; }
+
+    @keyframes tilt {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(-90deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    /* If it's a mobile device AND it is held vertically (portrait) */
     @media screen and (max-width: 768px) and (orientation: portrait) {
       #orientation-overlay { display: flex; }
-      body { overflow: hidden; }
+      body { overflow: hidden; } /* Locks scrolling while overlay is visible */
     }
-    @media screen and (max-width: 950px) {
-      body { flex-direction: column; }
-      .app-sidebar { width: 100%; height: 75px; border-right: none; border-top: 1px solid var(--border-color); flex-direction: row; padding: 0 20px; order: 3; position: fixed; bottom: 0; }
-      .brand-logo { display: none; }
-      .nav-items { flex-direction: row; justify-content: space-around; width: 100%; gap: 0; }
-      .app-main { margin-bottom: 75px; }
-      .app-header { padding: 0 20px; }
-      .search-container { width: 220px; }
-      .app-content { padding: 20px; }
-      .app-view { flex-direction: column; }
-      .secondary-panel { max-width: 100%; }
-      .marketplace-display-grid { grid-template-columns: 1fr; }
+
+    /* Standard mobile stacking just in case viewport is extremely small even in landscape */
+    @media screen and (max-width: 600px) {
+      .main-container { flex-direction: column; }
+      .left-sidebar, .main-feed, .right-sidebar { width: 100%; position: static; }
+      .navbar-links { flex-wrap: wrap; justify-content: center; }
     }
   </style>
 </head>
 <body>
 
   <div id="orientation-overlay">
-    <div style="font-size: 60px; margin-bottom: 20px; animation: tilt 2s ease-in-out infinite;">📱</div>
-    <h2>Turn Your Phone Sideways</h2>
-    <p>Tempoe is designed for a panoramic dashboard studio view. Please rotate your phone landscape.</p>
+    <div class="device-icon">📱</div>
+    <h2>Turn Your Phone</h2>
+    <p>Tempoe is designed for a panoramic studio experience. Please rotate your device sideways to enter the network.</p>
   </div>
 
-  <nav class="app-sidebar">
-    <div class="brand-container">
-      <div class="brand-logo" title="Tempoe Production Engine"></div>
-      <div class="nav-items">
-        <div class="sidebar-btn nav-link active" data-target="view-home"><span class="icon">🏠</span><span class="label">Feed</span></div>
-        <div class="sidebar-btn nav-link" data-target="view-market"><span class="icon">🏪</span><span class="label">Market</span></div>
-        <div class="sidebar-btn nav-link" data-target="view-scout"><span class="icon">📹</span><span class="label">Scout</span><span class="badge">!</span></div>
-        <div class="sidebar-btn nav-link" data-target="view-profile"><span class="icon">👤</span><span class="label">Profile</span></div>
-      </div>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1>Tempoe</h1>
     </div>
-    <div class="avatar-circle-badge" style="background-color: var(--text-main); color: var(--bg-card); cursor: pointer; font-weight: bold;" title="Account Matrix">D4K</div>
+    <div class="navbar-links">
+      <a class="nav-btn active" data-toast="Refreshing Home Feed...">Home</a>
+      <a class="nav-btn" data-toast="Loading Marketplace...">Market</a>
+      <a class="nav-btn" data-toast="Searching available gigs...">Gigs</a>
+      <a class="nav-btn" data-toast="Opening Inbox...">Messaging <span class="badge">3</span></a>
+    </div>
   </nav>
 
-  <div class="app-main">
-    <header class="app-header">
-      <div class="search-container">
-        <span>🔍</span>
-        <input type="text" placeholder="Search unreleased tracks, design layouts, verified personnel...">
-      </div>
-      <div class="header-right">
-        <button id="theme-toggle" class="theme-btn">🌙 Dark Mode</button>
-        <div class="sidebar-btn gen-action" data-toast="System state index up to date." style="width: 40px; height: 40px;">🔔</div>
-      </div>
-    </header>
-
-    <div class="app-content">
-
-      <div id="view-home" class="app-view active">
-        <div class="primary-canvas">
-          <div class="module-card">
-            <div class="post-composer-box">
-              <textarea class="post-textarea" id="timeline-composer" rows="2" placeholder="Announce a showcase project, unreleased stems layout, or localized booking slot..."></textarea>
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; gap: 15px;">
-                  <span class="action-button outline gen-action" data-toast="Asset browser mounted." style="padding: 6px 14px;">📷 Media</span>
-                  <span class="action-button outline gen-action" data-toast="Stems router synchronized." style="padding: 6px 14px;">🎵 Audio</span>
-                </div>
-                <button class="action-button" id="dispatch-post-trigger" disabled>Publish</button>
-              </div>
-            </div>
-          </div>
-
-          <div id="timeline-posts-anchor" style="display: flex; flex-direction: column; gap: 20px;">
-            <div class="module-card timeline-post-card">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <div class="avatar-circle-badge">D4K</div>
-                <div>
-                  <h4>Dre4000</h4>
-                  <span class="text-muted">Manager @ Underground Lounge Network • 2h</span>
-                </div>
-              </div>
-              <p>Finalizing production layouts and tracking constraints for the June 13th event showcase. Stems arrangements and routing configurations are finalized. Doors secure at 21:00. Pull up! ⚡</p>
-              <div class="text-muted" style="font-size: 12px;">👍 <span class="like-metric-counter">142</span> likes • <span class="comment-metric-counter">1</span> comment</div>
-              
-              <div class="post-actions-panel">
-                <div class="post-action-node timeline-like-trigger"><span>👍</span> Like</div>
-                <div class="post-action-node comment-drawer-toggle"><span>💬</span> Comment</div>
-              </div>
-
-              <div class="comment-drawer">
-                <div class="mini-comment-input-row">
-                  <input type="text" class="nested-comment-field" placeholder="Write an operational note...">
-                  <button class="action-button submit-comment-trigger" style="padding: 4px 12px; font-size:11px;">Reply</button>
-                </div>
-                <div class="comments-stream-target" style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;">
-                  <div style="font-size: 13px; border-left: 2px solid var(--primary); padding-left: 8px;">
-                    <strong>Network Engineer Associate:</strong> Standing by for soundcheck validation. Stems layout is tracking crisp.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+  <div class="main-container">
+    <div class="left-sidebar">
+      <div class="card" style="text-align: center;">
+        <div style="background-color: #111; color: #fff; width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; line-height: 80px; font-size: 32px; font-weight: bold;">D</div>
+        <h2>DRE4K</h2>
+        <span class="text-muted">Manager @ CHI Lounge | Music Producer</span>
+        <hr>
+        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 5px;">
+          <span>Profile viewers</span>
+          <span style="color: #0073b1; font-weight: bold;">142</span>
         </div>
+      </div>
+    </div>
 
-        <div class="secondary-panel">
-          <div class="module-card">
-            <div class="widget-title-header">Active Logistics Tracking</div>
-            <div class="logistics-card-item">
-              <div class="calendar-badge-box"><span>Jun</span><span>13</span></div>
-              <div style="margin-left: 10px;">
-                <h4>Production Showcase Run</h4>
-                <div class="text-muted">Soundcheck operations. Status: Confirmed</div>
-              </div>
+    <div class="main-feed" id="feed-container">
+      
+      <div class="card">
+        <div class="post-input-area">
+          <textarea id="new-post-text" rows="2" placeholder="Got a gig or studio update? Share it here..."></textarea>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+            <div style="display: flex; gap: 15px; color: #555; font-weight: bold; font-size: 14px;">
+              <span class="action-btn gen-action" data-toast="Opening device camera roll...">📷 Media</span>
+              <span class="action-btn gen-action" data-toast="Selecting audio file...">🎵 Audio</span>
             </div>
+            <button class="button" id="submit-post-btn" disabled>Post</button>
           </div>
         </div>
       </div>
 
-      <div id="view-market" class="app-view">
-        <div class="primary-canvas">
-          <div class="module-card" style="background: linear-gradient(135deg, #2e2a72, #4c1d95); color: white; padding: 25px; border: none;">
-            <h2 style="color: white; font-size: 22px; margin-bottom: 6px;">Tempoe Asset Matrix</h2>
-            <p style="color: rgba(255,255,255,0.85); font-size: 13px;">Post your audio reel. Find paid gigs. Get credited for your work. Tempoe is the professional network made for session musicians, producers, composers, and everyone in between.</p>
+      <div id="posts-wrapper">
+        
+        <div class="card post-card">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
+            <div>
+              <h4>DRE4K</h4>
+              <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • 2h</span>
+            </div>
           </div>
-
-          <div class="filter-pills-row" id="market-filter-pills-row">
-            <div class="pill active" data-filter="all">All Assets</div>
-            <div class="pill" data-filter="beats">Audio Beats</div>
-            <div class="pill" data-filter="gear">Acoustic Hardware</div>
-            <div class="pill" data-filter="services">Technical Services</div>
-          </div>
-
-          <div class="marketplace-display-grid" id="market-listings-grid">
-            <div class="product-listing-card" data-category="beats">
-              <div class="market-header">
-                <div class="market-img-avatar" style="background: #1e1b4b; color: white;">🎧</div>
-                <div>
-                  <h3>Cinematic Production Arrangement</h3>
-                  <div class="text-muted">by Network Systems Producer</div>
-                </div>
-              </div>
-              <div style="font-size: 16px; font-weight: 700; color: var(--primary);">$250.00 Exclusive</div>
-              <p class="text-muted">110 BPM, D Minor, Full structural arrangement stems. Rights clearance protocol automated.</p>
-              <div class="custom-waveform-player">
-                <div class="audio-play-trigger interactive-playback-node">▶</div>
-                <div class="waveform-visual-bars"></div>
-              </div>
-              <button class="action-button trigger-checkout-modal" data-title="Cinematic Production Arrangement" data-cost="$250.00" style="margin-top:auto;">Acquire Asset</button>
-            </div>
-
-            <div class="product-listing-card" data-category="gear">
-              <div class="market-header">
-                <div class="market-img-avatar">🔊</div>
-                <div>
-                  <h3>Acoustic Isolation Monitors</h3>
-                  <div class="text-muted">by Dre4000</div>
-                </div>
-              </div>
-              <div style="font-size: 16px; font-weight: 700; color: var(--primary);">$120.00 / Pair</div>
-              <p class="text-muted">Tensegrity-based technical isolation monitor equipment modules. Precision structural design builds.</p>
-              <button class="action-button trigger-checkout-modal" data-title="Acoustic Isolation Monitors" data-cost="$120.00" style="margin-top:auto;">Acquire Asset</button>
-            </div>
-
-            <div class="product-listing-card" data-category="services">
-              <div class="market-header">
-                <div class="market-img-avatar">🛠️</div>
-                <div>
-                  <h3>CAD Reverse Prototyping</h3>
-                  <div class="text-muted">by Industrial Modeling Consultant</div>
-                </div>
-              </div>
-              <div style="font-size: 16px; font-weight: 700; color: var(--primary);">Custom Quote</div>
-              <p class="text-muted">High-density 3D component reverse mapping scans, component chassis configuration modeling layouts.</p>
-              <button class="action-button outline trigger-inquiry-modal" data-title="CAD Reverse Prototyping" style="margin-top:auto;">Dispatch Blueprint Inquiry</button>
-            </div>
+          <p class="post-content">Getting everything dialed in for June 13th. We've got Keak da Sneak headlining CHI Lounge! Locking in the final promotions now. Pull up! 🔥</p>
+          <div class="post-stats">👍 <span class="like-counter">204</span> • 32 comments</div>
+          <div class="post-actions">
+            <span class="action-btn like-btn">Like</span>
+            <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
+            <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
           </div>
         </div>
 
-        <div class="secondary-panel">
-          <div class="module-card">
-            <div class="widget-title-header">Marketplace Indexes</div>
-            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px;">
-              <span style="color:var(--primary); font-weight:600;">#AcousticModeling</span><span class="text-muted">1.2k lists</span>
+        <div class="card post-card">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
+            <div>
+              <h4>DRE4K</h4>
+              <span class="text-muted" style="margin-bottom: 0;">Music Producer • 1d</span>
             </div>
           </div>
+          <p class="post-content">Just wrapped up the fabrication on this custom 2-foot tall 3D-printed gramophone display on a wood base. Finished in gold paint. Shoutout to our private client on the project!</p>
+          <img class="post-image" src="gramophone.jpg" alt="Gramophone Build">
+          <div class="post-stats">👍 <span class="like-counter">189</span> • 15 comments</div>
+          <div class="post-actions">
+            <span class="action-btn like-btn">Like</span>
+            <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
+            <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
+          </div>
         </div>
+
+      </div>
+    </div>
+
+    <div class="right-sidebar">
+      <div class="card">
+        <h2>Marketplace Hub</h2>
+        <span class="text-muted">Discover studio gear, engineering services, or rent space.</span>
+        <hr>
+        <h4>"Dre Force Ones" Monitor Stands</h4>
+        <span class="text-muted" style="color: #0073b1; font-weight: bold;">Custom Quote</span>
+        <p class="post-content">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation. Custom CAD modeled.</p>
+        <button class="button gen-action" data-toast="Direct message thread created with seller.">Inquire Now</button>
       </div>
 
-      <div id="view-scout" class="app-view">
-        <div class="primary-canvas">
-          <div class="reels-immersive-container">
-            <div class="reel-video-stage-wrapper">
-              <div style="text-align:center; color: white; z-index:2; display:flex; flex-direction:column; gap:12px; align-items:center;">
-                <div class="reel-center-play-ring">▶</div>
-                <h3 style="color:white;" id="scout-stage-title">Multi-band Stems Saturation Run</h3>
-              </div>
-              <div class="reel-overlay-action-rail">
-                <div class="reel-rail-icon-node">❤️<span style="font-size:11px; margin-top:2px;">1.4k</span></div>
-                <div class="reel-rail-icon-node gen-action" data-toast="Comments ledger loaded.">💬<span style="font-size:11px; margin-top:2px;">92</span></div>
-              </div>
-              <div class="reel-overlay-bottom-metadata">
-                <h4 style="color:white;" id="scout-stage-author">Verified Audio Professional</h4>
-                <p style="color: rgba(255,255,255,0.85); font-size: 13px; margin-top:4px;" id="scout-stage-desc">Analyzing resonance limits across layered frequencies within dynamic physical tracking configurations.</p>
-              </div>
-            </div>
-
-            <div class="reel-showcase-sidebar">
-              <div class="widget-title-header" style="margin-bottom:10px;">Scouting Catalog</div>
-              <div class="thumbnail-track-row active" data-title="Multi-band Stems Saturation Run" data-author="Verified Audio Professional" data-desc="Analyzing resonance limits across layered frequencies within dynamic physical tracking configurations.">
-                <div class="thumbnail-media-box">🎛️</div>
-                <div><h4>Frequency Saturation</h4><span class="text-muted">Session Run</span></div>
-              </div>
-              <div class="thumbnail-track-row" data-title="Tensegrity Isolation Deck Mockup" data-author="Dre4000" data-desc="Component physics simulation mapping out physical vibration absorption metrics for critical monitoring.">
-                <div class="thumbnail-media-box">🔊</div>
-                <div><h4>Hardware Mechanics</h4><span class="text-muted">Dre4000 Demo</span></div>
-              </div>
-            </div>
+      <div class="card">
+        <h2>Your Network</h2>
+        <div style="display: flex; gap: 10px; margin-top: 15px; align-items: center;">
+          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; flex-shrink: 0;">MT</div>
+          <div style="flex-grow: 1;">
+            <h4>Marcus Thorne</h4>
+            <span class="text-muted" style="margin-bottom: 0;">Artist</span>
           </div>
         </div>
+        <button class="button btn-outline connect-btn">Connect</button>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px; align-items: center;">
+          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; flex-shrink: 0;">EV</div>
+          <div style="flex-grow: 1;">
+            <h4>Elias Vance</h4>
+            <span class="text-muted" style="margin-bottom: 0;">Bay Area Music Figure</span>
+          </div>
+        </div>
+        <button class="button btn-outline connect-btn">Connect</button>
       </div>
-
-      <div id="view-profile" class="app-view">
-        <div class="primary-canvas">
-          <div class="profile-hero-card-header">
-            <div class="profile-cover-canvas-strip"></div>
-            <div class="profile-avatar-placement-axis">
-              <div class="profile-identity-avatar-frame">D</div>
-              <button class="action-button outline gen-action" data-toast="Credential edit vault locked by administrative sync.">Modify Matrix</button>
-            </div>
-            <div style="padding: 0 30px 25px 30px; margin-top:-15px;">
-              <h2>Dre4000</h2>
-              <span class="text-muted">Industrial Music Producer & System Engineer | Venue Operations Manager</span>
-              <p class="text-muted" style="margin-top:8px;">📍 San Francisco Bay Area • Critical Architecture Contract Clearance Ready</p>
-            </div>
-          </div>
-
-          <div class="module-card">
-            <h2>Verifiable System Certifications</h2>
-            <div class="industrial-credentials-grid">
-              <div class="credential-badge-capsule">
-                <div class="credential-icon-shield">🎓</div>
-                <div><h4>Master of Music Architecture</h4><span class="text-muted">Acoustic Engineering Institute</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="secondary-panel">
-          <div class="module-card">
-            <div class="widget-title-header">Active Network Links</div>
-            <div class="connection-row-item">
-              <div><h4>Audio Contractor Agent</h4><span class="text-muted">Acoustic Consultant</span></div>
-              <button class="action-button outline connect-action-trigger" style="padding:5px 12px; font-size:11px;">Connect</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 
-  <div class="app-modal-overlay" id="checkout-modal-window">
-    <div class="modal-container">
-      <div class="modal-header-container">
-        <h3 id="checkout-modal-title">Secure Order Checkout</h3>
-        <span class="close-modal-trigger" id="close-checkout-modal">✕</span>
-      </div>
-      <div>
-        <p class="text-muted">Asset deployment pipeline authorized for compilation processing.</p>
-        <div style="background:var(--bg-input); padding:15px; border-radius:8px; margin:15px 0; display:flex; justify-content:space-between; font-weight:700;">
-          <span id="checkout-item-name">Asset Name</span>
-          <span id="checkout-item-cost" style="color:var(--primary);">$0.00</span>
-        </div>
-      </div>
-      <button class="action-button close-and-confirm-trigger" data-toast="Transaction pipeline successfully committed.">Confirm Acquisition Purchase</button>
-    </div>
-  </div>
-
-  <div class="app-modal-overlay" id="inquiry-modal-window">
-    <div class="modal-container">
-      <div class="modal-header-container">
-        <h3 id="inquiry-modal-title">Blueprint Project Inquiry</h3>
-        <span class="close-modal-trigger" id="close-inquiry-modal">✕</span>
-      </div>
-      <div>
-        <span class="text-muted">Construct parameters configuration request for specialist validation routing:</span>
-        <textarea style="margin-top:10px;" rows="3" placeholder="Describe mechanical scope scaling adjustments, hardware parameters requirements..."></textarea>
-      </div>
-      <button class="action-button close-and-confirm-trigger" data-toast="Technical project brief dispatched to consultant ledger.">Transmit System Brief</button>
-    </div>
-  </div>
-
-  <div id="system-toast" class="toast">Execution sequence verified.</div>
+  <div id="system-toast" class="toast">Action successful!</div>
 
   <script>
+    // 1. TOAST NOTIFICATION SYSTEM
     let toastTimeout;
     function showToast(message) {
       const toast = document.getElementById("system-toast");
       clearTimeout(toastTimeout);
       toast.innerText = message;
       toast.className = "toast show";
-      toastTimeout = setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
+      toastTimeout = setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
     }
 
-    document.querySelectorAll('.gen-action').forEach(btn => {
+    // Bind all generic action buttons and nav links to the toast system
+    document.querySelectorAll('.gen-action, .nav-btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
-        e.preventDefault();
+        e.preventDefault(); // Stop links from jumping to top of page
+        
+        // If it's a nav link, update the active state
+        if(this.classList.contains('nav-btn')) {
+          document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
+          this.classList.add('active');
+        }
+
         showToast(this.getAttribute('data-toast'));
       });
     });
 
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    themeToggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      themeToggleBtn.innerText = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
-    });
-
-    const navigationLinks = document.querySelectorAll('.nav-link');
-    const applicationViews = document.querySelectorAll('.app-view');
-    navigationLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        navigationLinks.forEach(n => n.classList.remove('active'));
-        this.classList.add('active');
-        const targetViewId = this.getAttribute('data-target');
-        applicationViews.forEach(view => {
-          view.classList.remove('active');
-          if(view.id === targetViewId) view.classList.add('active');
-        });
-      });
-    });
-
-    const checkoutModal = document.getElementById('checkout-modal-window');
-    const inquiryModal = document.getElementById('inquiry-modal-window');
-    document.addEventListener('click', function(e) {
-      if(e.target.classList.contains('trigger-checkout-modal')) {
-        document.getElementById('checkout-item-name').innerText = e.target.getAttribute('data-title');
-        document.getElementById('checkout-item-cost').innerText = e.target.getAttribute('data-cost');
-        checkoutModal.style.display = 'flex';
-      }
-      if(e.target.classList.contains('trigger-inquiry-modal')) {
-        inquiryModal.style.display = 'flex';
-      }
-    });
-    document.getElementById('close-checkout-modal').addEventListener('click', () => checkoutModal.style.display = 'none');
-    document.getElementById('close-inquiry-modal').addEventListener('click', () => inquiryModal.style.display = 'none');
-    document.querySelectorAll('.close-and-confirm-trigger').forEach(btn => {
+    // 2. NETWORK CONNECT BUTTONS
+    document.querySelectorAll('.connect-btn').forEach(btn => {
       btn.addEventListener('click', function() {
-        checkoutModal.style.display = 'none';
-        inquiryModal.style.display = 'none';
-        showToast(this.getAttribute('data-toast'));
+        if(this.innerText === "Connect") {
+          this.innerText = "Pending...";
+          this.style.backgroundColor = "#eee";
+          this.style.border = "1px solid #ccc";
+          this.style.color = "#555";
+          showToast("Connection request sent to user.");
+        }
       });
     });
 
-    const filterPills = document.querySelectorAll('#market-filter-pills-row .pill');
-    const productListingCards = document.querySelectorAll('#market-listings-grid .product-listing-card');
-    filterPills.forEach(pill => {
-      pill.addEventListener('click', function() {
-        filterPills.forEach(p => p.classList.remove('active'));
-        this.classList.add('active');
-        const scopeFilter = this.getAttribute('data-filter');
-        productListingCards.forEach(card => {
-          card.style.display = (scopeFilter === 'all' || card.getAttribute('data-category') === scopeFilter) ? 'flex' : 'none';
+    // 3. POST CREATION ENGINE
+    const postInput = document.getElementById('new-post-text');
+    const submitBtn = document.getElementById('submit-post-btn');
+    const postsWrapper = document.getElementById('posts-wrapper');
+
+    postInput.addEventListener('input', function() {
+      submitBtn.disabled = this.value.trim().length === 0;
+    });
+
+    submitBtn.addEventListener('click', function() {
+      const content = postInput.value.trim();
+      if(content === "") return;
+
+      const newPostHTML = `
+        <div class="card post-card" style="animation: fadeIn 0.5s;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
+            <div>
+              <h4>DRE4K</h4>
+              <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • Just now</span>
+            </div>
+          </div>
+          <p class="post-content">${content}</p>
+          <div class="post-stats">👍 <span class="like-counter">0</span> • 0 comments</div>
+          <div class="post-actions">
+            <span class="action-btn like-btn">Like</span>
+            <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
+            <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
+          </div>
+        </div>
+      `;
+
+      postsWrapper.insertAdjacentHTML('afterbegin', newPostHTML);
+      
+      postInput.value = "";
+      submitBtn.disabled = true;
+      showToast("Post published to your network.");
+      
+      bindLikeButtons(); // Rebind likes for new post
+      
+      // Rebind toasts for new generated buttons
+      postsWrapper.firstElementChild.querySelectorAll('.gen-action').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          showToast(this.getAttribute('data-toast'));
         });
       });
     });
 
-    const thumbnailTrackRows = document.querySelectorAll('.thumbnail-track-row');
-    thumbnailTrackRows.forEach(row => {
-      row.addEventListener('click', function() {
-        thumbnailTrackRows.forEach(r => r.classList.remove('active'));
-        this.classList.add('active');
-        document.getElementById('scout-stage-title').innerText = this.getAttribute('data-title');
-        document.getElementById('scout-stage-author').innerText = this.getAttribute('data-author');
-        document.getElementById('scout-stage-desc').innerText = this.getAttribute('data-desc');
+    // 4. INTERACTIVE LIKE BUTTONS
+    function bindLikeButtons() {
+      const likeBtns = document.querySelectorAll('.like-btn');
+      const cloneBtns = Array.from(likeBtns).map(btn => {
+        const clone = btn.cloneNode(true);
+        btn.parentNode.replaceChild(clone, btn);
+        return clone;
       });
-    });
 
-    const timelineComposer = document.getElementById('timeline-composer');
-    const dispatchPostTrigger = document.getElementById('dispatch-post-trigger');
-    const timelinePostsAnchor = document.getElementById('timeline-posts-anchor');
-    timelineComposer.addEventListener('input', function() {
-      dispatchPostTrigger.disabled = this.value.trim().length === 0;
-    });
+      cloneBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          this.classList.toggle('liked');
+          const counterSpan = this.closest('.post-card').querySelector('.like-counter');
+          let count = parseInt(counterSpan.innerText);
+          
+          if(this.classList.contains('liked')) {
+            this.innerText = "Liked";
+            counterSpan.innerText = count + 1;
+          } else {
+            this.innerText = "Like";
+            counterSpan.innerText = count - 1;
+          }
+        });
+      });
+    }
 
-    dispatchPostTrigger.addEventListener('click', function() {
-      const compositionText = timelineComposer.value.trim();
-      if(compositionText === "") return;
-      const structuredPostHTML = `
-        <div class="module-card timeline-post-card" style="animation: fadeView 0.4s ease;">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <div class="avatar-circle-badge">D4K</div>
-            <div><h4>Dre4000</h4><span class="text-muted">Just now</span></div>
-          </div>
-          <p>${compositionText}</p>
-          <div class="text-muted" style="font-size: 12px;">👍 <span class="like-metric-counter">0</span> likes • <span class="comment-metric-counter">0</span> comments</div>
-          <div class="post-actions-panel">
-            <div class="post-action-node timeline-like-trigger"><span>👍</span> Like</div>
-            <div class="post-action-node comment-drawer-toggle"><span>💬</span> Comment</div>
-          </div>
-          <div class="comment-drawer">
-            <div class="mini-comment-input-row">
-              <input type="text" class="nested-comment-field" placeholder="Write an operational note...">
-              <button class="action-button submit-comment-trigger" style="padding: 4px 12px; font-size:11px;">Reply</button>
-            </div>
-            <div class="comments-stream-target" style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;"></div>
-          </div>
-        </div>`;
-      timelinePostsAnchor.insertAdjacentHTML('afterbegin', structuredPostHTML);
-      timelineComposer.value = "";
-      dispatchPostTrigger.disabled = true;
-      showToast("Log entry pinned to structural activity stream.");
-    });
-
-    /* FIXED: Connected comment drawer toggles and dispatch updates within delegation scope */
-    document.addEventListener('click', function(e) {
-      if(e.target.classList.contains('comment-drawer-toggle') || e.target.closest('.comment-drawer-toggle')) {
-        const baseNode = e.target.classList.contains('comment-drawer-toggle') ? e.target : e.target.closest('.comment-drawer-toggle');
-        const targetDrawer = baseNode.closest('.timeline-post-card').querySelector('.comment-drawer');
-        targetDrawer.style.display = (targetDrawer.style.display === 'flex') ? 'none' : 'flex';
-      }
-
-      if(e.target.classList.contains('timeline-like-trigger') || e.target.closest('.timeline-like-trigger')) {
-        const structuralNode = e.target.classList.contains('timeline-like-trigger') ? e.target : e.target.closest('.timeline-like-trigger');
-        structuralNode.classList.toggle('liked');
-        const countSpan = structuralNode.closest('.timeline-post-card').querySelector('.like-metric-counter');
-        let currentMagnitude = parseInt(countSpan.innerText);
-        if(structuralNode.classList.contains('liked')) {
-          countSpan.innerText = currentMagnitude + 1;
-          structuralNode.style.color = "var(--primary)";
-        } else {
-          countSpan.innerText = currentMagnitude - 1;
-          structuralNode.style.color = "var(--text-muted)";
-        }
-      }
-
-      if(e.target.classList.contains('submit-comment-trigger')) {
-        const internalField = e.target.parentNode.querySelector('.nested-comment-field');
-        const validationValue = internalField.value.trim();
-        if(validationValue === "") return;
-        const targetStream = e.target.closest('.comment-drawer').querySelector('.comments-stream-target');
-        const complexCommentNode = `<div style="font-size: 13px; border-left: 2px solid var(--primary); padding-left: 8px;"><strong>Dre4000:</strong> ${validationValue}</div>`;
-        targetStream.insertAdjacentHTML('beforeend', complexCommentNode);
-        const counterText = e.target.closest('.timeline-post-card').querySelector('.comment-metric-counter');
-        counterText.innerText = parseInt(counterText.innerText) + 1;
-        internalField.value = "";
-      }
-    });
-
-    document.querySelectorAll('.waveform-visual-bars').forEach(wrapper => {
-      for(let i=0; i<32; i++) {
-        let heightMetric = Math.floor(Math.random() * 20) + 5;
-        wrapper.innerHTML += `<div class="bar-node" style="height: ${heightMetric}px"></div>`;
-      }
-    });
-
-    document.addEventListener('click', function(e) {
-      if(e.target.classList.contains('interactive-playback-node')) {
-        const isCurrentlyPlaying = e.target.innerText === "⏸";
-        e.target.innerText = isCurrentlyPlaying ? "▶" : "⏸";
-        const microNodes = e.target.nextElementSibling.querySelectorAll('.bar-node');
-        if(!isCurrentlyPlaying) {
-          microNodes.forEach((node, idx) => { if(idx < 15) node.classList.add('active'); });
-        } else {
-          microNodes.forEach(node => node.classList.remove('active'));
-        }
-      }
-    });
-
-    document.addEventListener('click', function(e) {
-      if(e.target.classList.contains('connect-action-trigger')) {
-        if(e.target.innerText === "Connect") {
-          e.target.innerText = "Pending";
-          e.target.style.background = "var(--bg-input)";
-          e.target.style.color = "var(--text-muted)";
-          e.target.style.borderColor = "var(--border-color)";
-          showToast("Network linking request transmitted.");
-        }
-      }
-    });
+    bindLikeButtons();
   </script>
 </body>
 </html>
