@@ -2,644 +2,476 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Tempoe — Ultimate Audio Professional Suite</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Companion Studio Player</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f3f2ef; color: #333; overflow-x: hidden; }
-
-    /* Top Navigation - Scrollable Ribbon for Extensive Modules */
-    .navbar { background-color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-    .navbar-brand h1 { font-size: 22px; font-weight: 800; color: #0073b1; letter-spacing: -0.5px; cursor: pointer; }
-    .navbar-links { display: flex; gap: 14px; align-items: center; overflow-x: auto; max-width: 80%; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
-    .navbar-links::-webkit-scrollbar { height: 2px; }
-    .navbar-links::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
-    .navbar-links a { text-decoration: none; color: #555; font-weight: bold; font-size: 13px; transition: color 0.2s; position: relative; cursor: pointer; user-select: none; white-space: nowrap; }
-    .navbar-links a:hover, .navbar-links a.active { color: #0073b1; }
-    
-    /* Notification Badge */
-    .badge { position: absolute; top: -8px; right: -12px; background: #cc0000; color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px; font-weight: bold; }
-
-    /* Layout Structure */
-    .main-container { display: flex; max-width: 1280px; margin: 20px auto; gap: 20px; padding: 0 15px; align-items: flex-start; }
-    .left-sidebar { flex: 1; position: sticky; top: 80px; }
-    .main-feed { flex: 2.6; min-width: 0; }
-    .right-sidebar { flex: 1.2; position: sticky; top: 80px; }
-
-    /* General Component Cards */
-    .card { background-color: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px; transition: box-shadow 0.2s; position: relative; overflow: hidden; }
-    .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .post-image { width: 100%; border-radius: 8px; margin: 10px 0; object-fit: cover; max-height: 380px; background-color: #eaeaea; }
-
-    /* Inputs Forms */
-    .post-input-area { display: flex; flex-direction: column; gap: 10px; }
-    textarea { width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 15px; resize: none; font-family: inherit; font-size: 14px; transition: border-color 0.2s; }
-    textarea:focus { outline: none; border-color: #0073b1; }
-    
-    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-    .form-row { display: flex; gap: 10px; }
-    .input-field { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 14px; outline: none; width: 100%; }
-    .input-field:focus { border-color: #0073b1; }
-    
-    /* Buttons Architecture */
-    .button { background-color: #0073b1; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: all 0.2s; text-align: center; user-select: none; }
-    .button:hover:not(:disabled) { background-color: #005582; transform: scale(1.02); }
-    .button:disabled { background-color: #ccc; cursor: not-allowed; }
-    .btn-outline { background-color: transparent; color: #0073b1; border: 1px solid #0073b1; width: 100%; margin-top: 10px; }
-    .btn-outline:hover { background-color: rgba(0, 115, 177, 0.1); }
-
-    /* Typography Definitions */
-    h2, h3 { font-size: 16px; margin-bottom: 10px; color: #000; }
-    h4 { font-size: 14px; color: #000; }
-    .text-muted { color: #666; font-size: 12px; margin-bottom: 10px; display: block; }
-    .post-content { font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
-    .post-stats { font-size: 12px; color: #666; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
-    
-    /* Interactive Post Action Layouts */
-    .post-actions { display: flex; gap: 15px; font-size: 14px; font-weight: bold; color: #555; }
-    .action-btn { cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 5px; user-select: none; }
-    .action-btn:hover { background-color: #f3f2ef; color: #0073b1; }
-    .action-btn.liked { color: #0073b1; }
-
-    hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
-
-    /* ==================== HIGH-TECH WORKSPACE STYLES ==================== */
-    
-    /* REELS PLATFORM COMPONENT */
-    .reels-container { display: flex; justify-content: center; gap: 20px; background: #111; padding: 30px; border-radius: 12px; min-height: 600px; }
-    .reel-viewport { width: 340px; height: 560px; background: #222; border-radius: 16px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 2px solid #333; }
-    .reel-video-placeholder { width: 100%; height: 100%; background-size: cover; background-position: center; filter: brightness(0.85); transition: background-image 0.5s ease-in-out; }
-    .reel-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: white; display: flex; flex-direction: column; gap: 6px; }
-    .reel-actions { position: absolute; right: 15px; bottom: 120px; display: flex; flex-direction: column; gap: 20px; color: white; text-align: center; font-size: 12px; z-index: 10; }
-    .reel-icon-btn { width: 45px; height: 45px; border-radius: 50%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); margin-bottom: 4px; transition: transform 0.2s; }
-    .reel-icon-btn:hover { transform: scale(1.1); background: #0073b1; }
-    .reel-disc { width: 40px; height: 40px; border-radius: 50%; background: #222; border: 2px solid white; animation: spin 4s linear infinite; margin-top: 10px; background-size: cover; }
-
-    /* CERTIFICATIONS & ACADEMY DASHBOARD */
-    .courses-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    .course-card { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: white; display: flex; flex-direction: column; }
-    .course-banner { height: 120px; background-size: cover; background-position: center; }
-    .course-body { padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .progress-bar-container { background: #eee; height: 6px; border-radius: 3px; margin: 10px 0; overflow: hidden; }
-    .progress-bar-fill { height: 100%; background: #0073b1; width: 0%; transition: width 0.6s ease; }
-
-    /* INTER-APP MESSAGING WORKSPACE */
-    .messaging-container { display: flex; background: white; border: 1px solid #ddd; border-radius: 8px; height: 520px; overflow: hidden; }
-    .inbox-list { width: 35%; border-right: 1px solid #ddd; overflow-y: auto; background: #fff; }
-    .inbox-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s; }
-    .inbox-item:hover, .inbox-item.active { background-color: rgba(0, 115, 177, 0.08); }
-    .inbox-item.active h4 { color: #0073b1; }
-    .chat-window { width: 65%; display: flex; flex-direction: column; background: #f9f9f9; }
-    .chat-header { padding: 15px; background: #fff; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 15px; }
-    .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-    .chat-bubble { max-width: 75%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
-    .chat-bubble.incoming { background: #e9e9eb; align-self: flex-start; color: #000; border-bottom-left-radius: 4px; }
-    .chat-bubble.outgoing { background: #0073b1; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
-    .chat-input-area { padding: 12px 15px; background: #fff; border-top: 1px solid #ddd; display: flex; gap: 10px; align-items: center; }
-
-    /* SOUND MATRIX AND PILLS */
-    .sound-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid #eee; border-radius: 8px; background: #fafafa; margin-bottom: 10px; }
-    .audio-control-btn { width: 36px; height: 36px; border-radius: 50%; background: #0073b1; color: white; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
-    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-    .metric-box { background: #f8f9fa; border: 1px solid #eee; padding: 12px; border-radius: 6px; text-align: center; }
-    .metric-box p { font-size: 18px; font-weight: bold; color: #0073b1; }
-    .filter-pill-container { display: flex; gap: 8px; margin-bottom: 15px; }
-    .filter-pill { padding: 6px 14px; border-radius: 15px; border: 1px solid #ddd; background: white; font-size: 12px; font-weight: bold; cursor: pointer; color: #555; }
-    .filter-pill.active { background: #0073b1; color: white; border-color: #0073b1; }
-
-    /* Functional Switch Containers */
-    .tab-content { display: block; }
-    .tab-content.hidden { display: none !important; }
-
-    /* Toast Framework */
-    .toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; pointer-events: none; }
-    .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
-
-    #orientation-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #0073b1; color: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; }
-    #orientation-overlay h2 { color: white; font-size: 28px; margin-bottom: 15px; }
-
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    @media screen and (max-width: 768px) and (orientation: portrait) {
-      #orientation-overlay { display: flex; }
-      body { overflow: hidden; }
+    /* --- CORE STYLING (Dark Studio Aesthetic) --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    @media screen and (max-width: 600px) {
-      .main-container { flex-direction: column; }
-      .left-sidebar, .main-feed, .right-sidebar { width: 100%; position: static; }
+
+    body {
+      background-color: #0d0e12;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 40px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .player-container {
+      background: #13141c;
+      border: 1px solid #222533;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 600px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      z-index: 10;
+    }
+
+    .header {
+      margin-bottom: 24px;
+      border-bottom: 1px solid #222533;
+      padding-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+
+    .header p {
+      font-size: 13px;
+      color: #636985;
+      margin-top: 4px;
+    }
+
+    /* --- TRACKLIST LAYOUT --- */
+    .tracklist {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .track-row {
+      background: #1a1c28;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .track-row:hover {
+      background: #1f2231;
+      border-color: #31354b;
+    }
+
+    .play-btn {
+      background: #ff3366;
+      border: none;
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: transform 0.1s ease, background 0.2s ease;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.05);
+      background: #ff4d7d;
+    }
+
+    .play-btn.playing {
+      background: #00e676;
+    }
+
+    .track-info {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .track-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .track-meta {
+      font-size: 12px;
+      color: #636985;
+      margin-top: 2px;
+    }
+
+    /* --- ORIGINAL ERROR TOAST --- */
+    #error-toast {
+      position: fixed;
+      bottom: 30px;
+      left: 40px;
+      background: #1c1316;
+      border: 1px solid #4a1a24;
+      color: #ff4d6d;
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 10000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* --- LIVE FLOATING COMPANION WIDGET --- */
+    #studio-cat-widget {
+      position: fixed;
+      bottom: 100px;
+      right: 100px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* Smooth transitions for autonomous roaming */
+      transition: left 2.5s ease-in-out, top 2.5s ease-in-out; 
+    }
+
+    #cat-bubble {
+      background: #1a1c28;
+      color: #fff;
+      border: 1px solid #31354b;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      width: 200px;
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: center;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+      position: relative;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    #cat-bubble.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #cat-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px 6px 0;
+      border-style: solid;
+      border-color: #1a1c28 transparent;
+      display: block;
+      width: 0;
+    }
+
+    .cat-avatar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    /* Base Live Idle Animation (Breathing/Floating) */
+    #cat-avatar {
+      font-size: 36px;
+      background: #13141c;
+      border: 2px solid #31354b;
+      width: 76px;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      animation: catIdle 3s ease-in-out infinite;
+      transition: border-color 0.3s ease, transform 0.2s ease;
+    }
+
+    #cat-name-badge {
+      background: #ff3366;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-top: -10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      letter-spacing: 0.8px;
+    }
+
+    /* --- LIVE STATES (CSS ANIMATION ENGINE) --- */
+    
+    /* 1. Idle Breath */
+    @keyframes catIdle {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-6px) scale(1.02); }
+    }
+
+    /* 2. Audio Vibe Dance (Triggered on Play) */
+    .vibe-active {
+      animation: catVibe 0.45s infinite alternate linear !important;
+    }
+    @keyframes catVibe {
+      0% { transform: translateY(0) scale(1) rotate(-3deg); }
+      100% { transform: translateY(-12px) scale(0.98) rotate(3deg); border-color: #00e676; }
+    }
+
+    /* 3. Error Shock Shaking (Triggered on Broken Path) */
+    .shock-active {
+      animation: catShock 0.1s infinite alternate linear !important;
+      border-color: #ff3366 !important;
+    }
+    @keyframes catShock {
+      0% { transform: translate(2px, 1px) rotate(0deg); }
+      100% { transform: translate(-2px, -2px) rotate(-2deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-  <div id="orientation-overlay">
-    <div style="font-size:60px; margin-bottom:20px; animation: spin 3s linear infinite;">📱</div>
-    <h2>Panoramic Orientation Required</h2>
-    <p>Tempoe Engine renders visual workspace grids across panoramic view modes. Flip your device horizontally.</p>
-  </div>
-
-  <nav class="navbar">
-    <div class="navbar-brand">
-      <h1 onclick="switchTab('home')">Tempoe</h1>
-    </div>
-    <div class="navbar-links">
-      <a class="nav-btn active" id="nav-home" onclick="switchTab('home')">Home</a>
-      <a class="nav-btn" id="nav-reels" onclick="switchTab('reels')">💥 Reels</a>
-      <a class="nav-btn" id="nav-certs" onclick="switchTab('certs')">🎓 Academy</a>
-      <a class="nav-btn" id="nav-market" onclick="switchTab('market')">Market</a>
-      <a class="nav-btn" id="nav-gigs" onclick="switchTab('gigs')">Gigs</a>
-      <a class="nav-btn" id="nav-booking" onclick="switchTab('booking')">Booking</a>
-      <a class="nav-btn" id="nav-promoter" onclick="switchTab('promoter')">Promoter</a>
-      <a class="nav-btn" id="nav-management" onclick="switchTab('management')">Management</a>
-      <a class="nav-btn" id="nav-sounds" onclick="switchTab('sounds')">Sounds</a>
-      <a class="nav-btn" id="nav-analytics" onclick="switchTab('analytics')">Insights</a>
-      <a class="nav-btn" id="nav-messaging" onclick="switchTab('messaging')">Inbox <span class="badge" id="msg-badge">3</span></a>
-    </div>
-  </nav>
-
-  <div class="main-container">
-    <div class="left-sidebar">
-      <div class="card" style="text-align: center;">
-        <div style="background: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150') center/cover; width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; border: 2px solid #0073b1;"></div>
-        <h2>DRE4K</h2>
-        <span class="text-muted">Executive Producer | Audio Engineering Lead</span>
-        <hr>
-        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #666;">
-          <span>Studio Viewers</span>
-          <span style="color: #0073b1; font-weight: bold;">1,492</span>
-        </div>
-      </div>
+  <div class="player-container">
+    <div class="header">
+      <h1>Studio Session Monitor</h1>
+      <p>Preview engine for active sequence stems</p>
     </div>
 
-    <div class="main-feed" id="feed-container">
-      
-      <div id="tab-home-view" class="tab-content">
-        <div class="card">
-          <div class="post-input-area">
-            <textarea id="new-post-text" rows="2" placeholder="Deploy an audio development milestone or routing notice..."></textarea>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
-              <div style="display: flex; gap: 15px; color: #555; font-weight: bold; font-size: 14px;">
-                <span class="action-btn gen-action" data-toast="Opening local high-fidelity rendering storage...">📷 Media</span>
-                <span class="action-btn gen-action" data-toast="Initializing multi-track stem synchronization node...">🎵 Audio</span>
-              </div>
-              <button class="button" id="submit-post-btn" disabled>Post</button>
-            </div>
-          </div>
-        </div>
-
-        <div id="posts-wrapper">
-          <div class="card post-card">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-              <div style="background: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100') center/cover; width: 40px; height: 40px; border-radius: 50%;"></div>
-              <div>
-                <h4>Elias Vance</h4>
-                <span class="text-muted" style="margin-bottom: 0;">Lead Mastering Engineer • 2h ago</span>
-              </div>
-            </div>
-            <p class="post-content">Just wrapped precision dynamic matching on the upcoming Keak da Sneak tracking blocks. The analog saturation on the low end is completely locked in. Check out the master bus workspace view below! 🎧🔥</p>
-            <img class="post-image" src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800" alt="Studio Console Layout">
-            <div class="post-stats">👍 <span class="like-counter">512</span> • 84 comments</div>
-            <div class="post-actions">
-              <span class="action-btn like-btn">Like</span>
-              <span class="action-btn gen-action" data-toast="Mounting dialogue server parameters...">Comment</span>
-            </div>
-          </div>
+    <div class="tracklist">
+      <div class="track-row">
+        <button class="play-btn" data-src="audio/project100.mp3">▶</button>
+        <div class="track-info">
+          <span class="track-title">Project 100</span>
+          <span class="track-meta">Bay Area Hyphy Bounce Stems • MP3</span>
         </div>
       </div>
 
-      <div id="tab-reels-view" class="tab-content hidden">
-        <div class="card" style="background:#000; padding:15px; border:none;">
-          <h2 style="color:white; margin-bottom:15px;">💥 Tempoe Video Shorts & Beats Loop</h2>
-          <div class="reels-container">
-            <div class="reel-viewport">
-              <div class="reel-video-placeholder" id="reel-bg-target" style="background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500');"></div>
-              
-              <div class="reel-actions">
-                <div><div class="reel-icon-btn" onclick="showToast('Reel added to saved inspirations.')">🔥</div><strong id="reel-likes">12.4k</strong></div>
-                <div><div class="reel-icon-btn" onclick="showToast('Loading global commentary nodes...')">💬</div><strong>412</strong></div>
-                <div><div class="reel-icon-btn" onclick="showToast('Generating high-fidelity source share link...')">🔗</div><strong>Share</strong></div>
-                <div class="reel-disc" style="background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100');"></div>
-              </div>
-
-              <div class="reel-overlay">
-                <h4 style="color:#0073b1; font-size:15px;">@MarcusThorne_Audio</h4>
-                <p style="font-size:13px; line-height:1.4;">Testing structural response inside tracking booth B using the new omnidirectional array config. Bass translation check! 👇</p>
-                <span style="font-size:11px; opacity:0.8; display:flex; align-items:center; gap:5px;">🎵 Original Audio Matrix - Stems Embedded</span>
-              </div>
-            </div>
-
-            <div style="display:flex; flex-direction:column; gap:12px; justify-content:center;">
-              <button class="button" onclick="scrollReelFeed(1)">Next Beat Reel ➔</button>
-              <button class="button" style="background:#333;" onclick="scrollReelFeed(-1)">Previous Reel</button>
-              <hr style="border-color:#333;">
-              <button class="button btn-outline" style="color:white; border-color:white;" onclick="showToast('Initializing secure device lens engine...')">📷 Publish Reel</button>
-            </div>
-          </div>
+      <div class="track-row">
+        <button class="play-btn" data-src="audio/project103.mp3">▶</button>
+        <div class="track-info">
+          <span class="track-title">Project 103</span>
+          <span class="track-meta">Northern California Mobb Anthem • MP3</span>
         </div>
       </div>
 
-      <div id="tab-certs-view" class="tab-content hidden">
-        <div class="card">
-          <h2>🎓 Industrial Credentialing & Academy Hub</h2>
-          <span class="text-muted">Acquire verifiable technical signatures and engineering endorsements validated via corporate studio structures.</span>
-          <hr>
-          <div class="courses-grid">
-            
-            <div class="course-card">
-              <div class="course-banner" style="background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500');"></div>
-              <div class="course-body">
-                <div>
-                  <h4>Spatial Audio & Dolby Atmos Deployment</h4>
-                  <span class="text-muted" style="margin-top:4px;">Level: Advanced Operator Mastery</span>
-                </div>
-                <div>
-                  <div class="progress-bar-container"><div class="progress-bar-fill" id="pb-spatial"></div></div>
-                  <div style="display:flex; justify-content:space-between; font-size:11px; color:#666; margin-bottom:10px;">
-                    <span id="status-spatial">Not Enrolled</span>
-                    <strong id="pct-spatial">0%</strong>
-                  </div>
-                  <button class="button" style="width:100%; font-size:13px;" onclick="enrollInCourse('spatial')">Launch Architecture Curriculum</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="course-card">
-              <div class="course-banner" style="background-image: url('https://images.unsplash.com/photo-1516280440614-37939bbacd6a?w=500');"></div>
-              <div class="course-body">
-                <div>
-                  <h4>Music Rights, Licensing & Split Structures</h4>
-                  <span class="text-muted" style="margin-top:4px;">Level: Administrative Leadership</span>
-                </div>
-                <div>
-                  <div class="progress-bar-container"><div class="progress-bar-fill" id="pb-legal"></div></div>
-                  <div style="display:flex; justify-content:space-between; font-size:11px; color:#666; margin-bottom:10px;">
-                    <span id="status-legal">Not Enrolled</span>
-                    <strong id="pct-legal">0%</strong>
-                  </div>
-                  <button class="button" style="width:100%; font-size:13px;" onclick="enrollInCourse('legal')">Launch Architecture Curriculum</button>
-                </div>
-              </div>
-            </div>
-
-          </div>
+      <div class="track-row">
+        <button class="play-btn" data-src="audio/project104.mp3">▶</button>
+        <div class="track-info">
+          <span class="track-title">Project 104</span>
+          <span class="track-meta">West Coast Classic Layout • MP3</span>
         </div>
-      </div>
-
-      <div id="tab-market-view" class="tab-content hidden">
-        <div class="card">
-          <h2>List an Item or Service</h2>
-          <div class="form-group"><input type="text" id="market-title" class="input-field" placeholder="Hardware / Production Service Designation"></div>
-          <div class="form-row">
-            <div class="form-group" style="flex: 1;"><input type="text" id="market-price" class="input-field" placeholder="Asset Valuation ($)"></div>
-            <div class="form-group" style="flex: 2;"><input type="text" id="market-desc" class="input-field" placeholder="Deployment parameters, environmental testing layout..."></div>
-          </div>
-          <button class="button" id="submit-market-btn" style="width: 100%;">Publish Listing</button>
-        </div>
-        <div id="market-wrapper">
-          <div class="card">
-            <h4>"Dre Force Ones" Tensegrity Monitor Stands</h4>
-            <span class="text-muted" style="color: #0073b1; font-weight: bold;">Custom Quote Verified</span>
-            <p class="post-content">Tensegrity-based physical monitor alignment units built to decouple transient structural frequencies from critical studio desks.</p>
-            <button class="button gen-action" style="width:100%;" data-toast="Direct messaging thread appended to vendor pipeline.">Inquire Now</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-gigs-view" class="tab-content hidden">
-        <div class="card">
-          <h2>Post a Project Opportunity</h2>
-          <div class="form-group"><input type="text" id="gig-title" class="input-field" placeholder="Target Role Title"></div>
-          <button class="button" id="submit-gig-btn" style="width: 100%;">Post Opportunity</button>
-        </div>
-        <div id="gigs-wrapper">
-          <div class="card gig-card">
-            <div style="display: flex; justify-content: space-between;">
-              <h4>CHI Lounge Resident DJ Set Allocation</h4>
-              <span style="color:#2e7d32; font-weight:bold;">$350 / Night</span>
-            </div>
-            <p class="post-content" style="margin-top:10px;">Seeking multi-genre pacing, deep bass coordination capability, and live sequence tracking integration proficiency.</p>
-            <button class="button apply-btn" style="width: 100%; background: transparent; color:#0073b1; border:1px solid #0073b1;">Apply Now</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-booking-view" class="tab-content hidden">
-        <div class="card">
-          <h2>Submit Artist Booking Offer</h2>
-          <button class="button" id="submit-booking-btn" style="width: 100%;">Dispatch Official Offer Sheet</button>
-        </div>
-        <div id="booking-wrapper">
-          <div class="card">
-            <h4>Keak da Sneak — Headliner Set Matrix</h4>
-            <span class="text-muted">June 13th • CHI Lounge • Status: CONFIRMED</span>
-            <button class="button gen-action" style="width:100%; background:transparent; color:#555; border:1px solid #ccc;" data-toast="Downloading contract rider package components...">Review Rider Documents</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-promoter-view" class="tab-content hidden">
-        <div class="card">
-          <h2>Promoter Campaign Desk</h2>
-          <div class="metrics-grid">
-            <div class="metric-box"><h5>Tickets Distributed</h5><p>342 / 500</p></div>
-            <div class="metric-box"><h5>Gross Vault</h5><p>$10,260</p></div>
-            <div class="metric-box"><h5>Conversion Velocity</h5><p>14.2%</p></div>
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-management-view" class="tab-content hidden">
-        <div class="card">
-          <h2>Roster Split Ledger</h2>
-          <button class="button" style="width:100%;">Log Management Ledger Entry</button>
-        </div>
-      </div>
-
-      <div id="tab-sounds-view" class="tab-content hidden">
-        <div class="card">
-          <h2>🔥 Beats Marketplace (Exclusive Tracks)</h2>
-          <span class="text-muted">High-fidelity audition deck. Preview your uploaded studio files directly inside the application workspace.</span>
-          <hr>
-          <div id="sounds-wrapper">
-            
-            <div class="sound-item">
-              <div style="display:flex; align-items:center; gap:12px;">
-                <button class="audio-control-btn" onclick="playBeat(this, 'Project_100.mp3', 'track100')">▶</button>
-                <div>
-                  <h4>Project 100 — Bay Area Hyphy Bounce Stems</h4>
-                  <span class="text-muted" style="margin:0;">By DRE4K • 98 BPM • Verified Production Layer</span>
-                </div>
-              </div>
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="color: #2e7d32; font-weight: bold; font-size: 14px;">$29.99</span>
-                <button class="button gen-action" style="padding:6px 12px; font-size:12px;" data-toast="Syncing Project 100 license criteria to your account wallet...">Buy License</button>
-              </div>
-            </div>
-
-            <div class="sound-item">
-              <div style="display:flex; align-items:center; gap:12px;">
-                <button class="audio-control-btn" onclick="playBeat(this, 'Project_103.mp3', 'track103')">▶</button>
-                <div>
-                  <h4>Project 103 — Northern California Mobb Anthem</h4>
-                  <span class="text-muted" style="margin:0;">By DRE4K • 94 BPM • Untagged Master Stems</span>
-                </div>
-              </div>
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="color: #2e7d32; font-weight: bold; font-size: 14px;">$34.99</span>
-                <button class="button gen-action" style="padding:6px 12px; font-size:12px;" data-toast="Syncing Project 103 license criteria to your account wallet...">Buy License</button>
-              </div>
-            </div>
-
-            <div class="sound-item">
-              <div style="display:flex; align-items:center; gap:12px;">
-                <button class="audio-control-btn" onclick="playBeat(this, 'Project_104.mp3', 'track104')">▶</button>
-                <div>
-                  <h4>Project 104 — West Coast Classic Groove Layout</h4>
-                  <span class="text-muted" style="margin:0;">By DRE4K • 102 BPM • Full Multi-Track Bus</span>
-                </div>
-              </div>
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="color: #2e7d32; font-weight: bold; font-size: 14px;">$39.99</span>
-                <button class="button gen-action" style="padding:6px 12px; font-size:12px;" data-toast="Syncing Project 104 license criteria to your account wallet...">Buy License</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-analytics-view" class="tab-content hidden">
-        <div class="card">
-          <h2>Global Profile Insights</h2>
-          <div class="filter-pill-container">
-            <button class="filter-pill active" onclick="mutateAnalyticsHorizon('7d', this)">7 Days Track</button>
-            <button class="filter-pill" onclick="mutateAnalyticsHorizon('30d', this)">30 Days Track</button>
-          </div>
-          <div class="metrics-grid">
-            <div class="metric-box"><h5>Aggregate Streams</h5><p id="metric-streams">42.1k</p></div>
-            <div class="metric-box"><h5>Retained Royalties</h5><p id="metric-royalties">$284.50</p></div>
-            <div class="metric-box"><h5>Playlist Ingestion</h5><p id="metric-playlists">114</p></div>
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-messaging-view" class="tab-content hidden">
-        <div class="messaging-container">
-          <div class="inbox-list">
-            <div class="inbox-item active" id="thread-marcus" onclick="loadChat('marcus')">
-              <h4>Marcus Thorne</h4>
-              <span class="text-muted" id="preview-marcus" style="font-size:11px;">Let's link up next week to...</span>
-            </div>
-          </div>
-          <div class="chat-window">
-            <div class="chat-header" id="chat-title">Marcus Thorne</div>
-            <div class="chat-messages" id="chat-stream"></div>
-            <div class="chat-input-area">
-              <input type="text" id="chat-input-field" placeholder="Formulate transmission string..." style="flex:1; padding:10px; border-radius:20px; border:1px solid #ccc; outline:none;">
-              <button class="button" id="send-msg-btn">Send</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="right-sidebar">
-      <div class="card" id="context-panel">
-        <h2>Network Context</h2>
-        <p class="post-content">Tempoe secure administrative frameworks parse network activities instantly.</p>
-        <button class="button" style="width:100%;" onclick="switchTab('sounds')">Audition All Tracks</button>
       </div>
     </div>
   </div>
 
-  <div id="system-toast" class="toast">Execution sequence verified.</div>
+  <div id="error-toast">
+    ⚠️ Playback failed. Make sure your local files are placed in this directory.
+  </div>
+
+  <div id="studio-cat-widget">
+    <div id="cat-bubble" class="visible">Yo! Drop some stems into the audio folder and let's lock in.</div>
+    <div class="cat-avatar-container" id="cat-toggle-action">
+      <div id="cat-avatar">👑</div>
+      <div id="cat-name-badge">Sheikh El-Cat</div>
+    </div>
+  </div>
 
   <script>
-    // Audio Player Engine Configuration
-    let currentAudio = null;
-    let currentPlayingBtn = null;
-    let activeTrackId = null;
-
-    function playBeat(btn, fileUrl, trackId) {
-      // Toggle play/pause if the same track is clicked again
-      if (activeTrackId === trackId) {
-        if (currentAudio.paused) {
-          currentAudio.play();
-          btn.innerText = "⏸";
-          showToast(`Resuming playback: ${fileUrl}`);
-        } else {
-          currentAudio.pause();
-          btn.innerText = "▶";
-          showToast("Audio track paused.");
-        }
-        return;
+    const CAT_ROSTER = [
+      {
+        name: "Sheikh El-Cat",
+        emoji: "👑",
+        badgeColor: "#D4AF37",
+        onPlay: ["This layout sounds expensive. Crank the sub-bass.", "Clean mixdown. I highly approve.", "Is this a hit? Smells like a hit."],
+        onError: ["Playback failed?! I don't pay you to hand me broken links.", "Fix the file directory path. My ears are waiting.", "Missing target stems? Unacceptable."]
+      },
+      {
+        name: "Darcy the Chunk",
+        emoji: "🍔",
+        badgeColor: "#FF8C00",
+        onPlay: ["Fine, I'll stay awake to listen to this bounce.", "This baseline makes me hungry.", "Not bad at all. Now go grab me a snack."],
+        onError: ["Error loading file. Perfect, let's take a nap instead.", "File directory is empty. Go directly to the kitchen.", "If it won't play, it's mandatory lunch time."]
+      },
+      {
+        name: "Existential Cat",
+        emoji: "🤠",
+        badgeColor: "#8B4513",
+        onPlay: ["We bounce the audio tracks... but where do they go?", "Staring directly into the master limiters...", "This layout makes me feel alive. Temporarily."],
+        onError: ["Playback failed. Just like my last three existential workflow crises.", "The directory is empty, much like the great void.", "Error. Verify your local file path or your choices."]
+      },
+      {
+        name: "The Maine Coon",
+        emoji: "🦁",
+        badgeColor: "#7F8C8D",
+        onPlay: ["Heavy dynamic weight. Needs a tiny bit more low-end separation.", "I am physically wider than your equalizer display.", "Keep this sequence running."],
+        onError: ["Error? Want me to go crush the directory server for you?", "Local files aren't in the root directory folder. Fix it quick.", "The deck is throwing missing pointers. Sort it out."]
       }
-
-      // Stop and reset previous audio track if any
-      if (currentAudio) {
-        currentAudio.pause();
-        if (currentPlayingBtn) {
-          currentPlayingBtn.innerText = "▶";
-        }
-      }
-
-      // Initialize HTML5 Audio object
-      currentAudio = new Audio(fileUrl);
-      currentPlayingBtn = btn;
-      activeTrackId = trackId;
-
-      currentAudio.play().then(() => {
-        btn.innerText = "⏸";
-        showToast(`Auditioning audio source: ${fileUrl}`);
-      }).catch(err => {
-        console.error("Audio playback error:", err);
-        showToast("Playback failed. Make sure your local files are placed in this directory.");
-        btn.innerText = "▶";
-      });
-
-      // Handle natural completion of audio file
-      currentAudio.onended = () => {
-        btn.innerText = "▶";
-        currentAudio = null;
-        currentPlayingBtn = null;
-        activeTrackId = null;
-        showToast("Track preview concluded.");
-      };
-    }
-
-    // Reels Data Matrix
-    const reelsData = [
-      { bg: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500", creator: "@MarcusThorne_Audio", desc: "Testing structural response inside tracking booth B using the new omnidirectional array config. Bass translation check! 👇", likes: "12.4k" },
-      { bg: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500", creator: "@DRE4K_Matrix", desc: "Tracking live automation macros on the vintage mixing console. Pure analog harmonics working smoothly.", likes: "45.1k" },
-      { bg: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=500", creator: "@EliasMastering", desc: "Main floor overview at the festival launch grid. Check the massive subwoofer array alignment tracking.", likes: "9.8k" }
     ];
-    let currentReelIdx = 0;
 
-    const chatData = {
-      marcus: { name: "Marcus Thorne", messages: [{ text: "Yo! Did you complete verification on the Dolby Atmos array track curves?", type: "incoming" }, { text: "Yes, alignment tracking coefficients deployed completely.", type: "outgoing" }] }
-    };
-    let currentActiveChat = 'marcus';
+    let activeCatIndex = 0;
+    let currentAudio = null;
+    let activePlayButton = null;
+    let toastTimeout = null;
+    let bubbleTimeout = null;
+    let wanderInterval = null;
 
-    // Interactive Reels Paging Controller
-    function scrollReelFeed(direction) {
-      currentReelIdx += direction;
-      if (currentReelIdx >= reelsData.length) currentReelIdx = 0;
-      if (currentReelIdx < 0) currentReelIdx = reelsData.length - 1;
-      
-      const reel = reelsData[currentReelIdx];
-      document.getElementById('reel-bg-target').style.backgroundImage = `url('${reel.bg}')`;
-      document.getElementById('reel-likes').innerText = reel.likes;
-      const overlay = document.querySelector('.reel-overlay');
-      overlay.querySelector('h4').innerText = reel.creator;
-      overlay.querySelector('p').innerText = reel.desc;
-      showToast("Loading streaming source segment...");
-    }
+    const widget = document.getElementById('studio-cat-widget');
+    const errorToast = document.getElementById('error-toast');
+    const catBubble = document.getElementById('cat-bubble');
+    const catAvatar = document.getElementById('cat-avatar');
+    const catNameBadge = document.getElementById('cat-name-badge');
 
-    // Industrial Academy Progress Sync Engine
-    function enrollInCourse(courseKey) {
-      const fill = document.getElementById(`pb-${courseKey}`);
-      const status = document.getElementById(`status-${courseKey}`);
-      const pct = document.getElementById(`pct-${courseKey}`);
+    // --- LIVE MOVEMENT ENGINE (Wandering Logic) ---
+    function startWandering() {
+      if (wanderInterval) clearInterval(wanderInterval);
       
-      status.innerText = "Active Syncing";
-      status.style.color = "#0073b1";
-      
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 20;
-        fill.style.width = `${progress}%`;
-        pct.innerText = `${progress}%`;
-        if(progress >= 100) {
-          clearInterval(interval);
-          status.innerText = "VERIFIED ACCREDITATION ✓";
-          status.style.color = "#2e7d32";
-          showToast(`Course complete! Verification signature appended to your network profile profile.`);
+      wanderInterval = setInterval(() => {
+        // Only wander if the cat isn't actively dancing or in shock
+        if (!catAvatar.classList.contains('vibe-active') && !catAvatar.classList.contains('shock-active')) {
+          // Calculate safe boundaries within the browser window
+          const pad = 120;
+          const randomX = Math.random() * (window.innerWidth - pad * 2) + pad;
+          const randomY = Math.random() * (window.innerHeight - pad * 2) + pad;
+          
+          widget.style.left = `${randomX}px`;
+          widget.style.top = `${randomY}px`;
         }
-      }, 400);
+      }, 5000); // Moves every 5 seconds
     }
 
-    // Notification Toast Engine
-    let toastTimeout;
-    function showToast(message) {
-      const toast = document.getElementById("system-toast");
-      clearTimeout(toastTimeout);
-      toast.innerText = message;
-      toast.className = "toast show";
-      toastTimeout = setTimeout(function(){ toast.className = "toast"; }, 3000);
+    // Set absolute position baseline for widget movement
+    widget.style.left = `${window.innerWidth - 260}px`;
+    widget.style.top = `${window.innerHeight - 240}px`;
+
+    function updateCompanionCharacter() {
+      const cat = CAT_ROSTER[activeCatIndex];
+      catAvatar.textContent = cat.emoji;
+      catNameBadge.textContent = cat.name;
+      catNameBadge.style.backgroundColor = cat.badgeColor;
+      catAvatar.style.borderColor = cat.badgeColor;
     }
 
-    // Navigation App Router Matrix
-    function switchTab(tabName) {
-      document.querySelectorAll('.tab-content').forEach(element => element.classList.add('hidden'));
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-
-      const activeView = document.getElementById(`tab-${tabName}-view`);
-      const activeNav = document.getElementById(`nav-${tabName}`);
-      if (activeView && activeNav) {
-        activeView.classList.remove('hidden');
-        activeNav.classList.add('active');
+    function triggerCatReaction(eventType) {
+      const cat = CAT_ROSTER[activeCatIndex];
+      const pool = eventType === 'play' ? cat.onPlay : cat.onError;
+      const randomLine = pool[Math.floor(Math.random() * pool.length)];
+      
+      // Update animation classes based on action
+      catAvatar.classList.remove('vibe-active', 'shock-active');
+      
+      if (eventType === 'play') {
+        catAvatar.classList.add('vibe-active');
+      } else if (eventType === 'error') {
+        catAvatar.classList.add('shock-active');
+        setTimeout(() => {
+          catAvatar.classList.remove('shock-active');
+        }, 1200); // Shake for 1.2s then calm down
       }
 
-      const contextPanel = document.getElementById('context-panel');
-      if (tabName === 'reels') {
-        contextPanel.innerHTML = `<h2>Reels Metrics</h2><span class="text-muted">Audio discovery loop tracks.</span><hr><p class="post-content" style="font-size:12px;">Engagement metrics calculate direct conversion ratios from audio clips to marketplace sound sync transactions.</p>`;
-      } else if (tabName === 'certs') {
-        contextPanel.innerHTML = `<h2>Industrial Ledger</h2><span class="text-muted">Acoustic standards validations.</span><hr><p class="post-content" style="font-size:12px;">Certifications append immutable authorization parameters to your network communications header tracking.</p>`;
-      } else if (tabName === 'sounds') {
-        contextPanel.innerHTML = `<h2>Beats Core Engine</h2><span class="text-muted">Live Tracking Engine Active.</span><hr><p class="post-content" style="font-size:12px;">Review active distribution streams and check digital right tags on multi-track export buses instantly.</p>`;
-      } else if (tabName === 'messaging') {
-        document.getElementById('msg-badge').style.display = 'none';
-        loadChat(currentActiveChat);
-      } else {
-        contextPanel.innerHTML = `<h2>System Insight Module</h2><p class="post-content">Tempoe framework monitors tracking parameters across distributed professional configurations.</p>`;
-      }
+      catBubble.textContent = randomLine;
+      catBubble.classList.add('visible');
+      
+      clearTimeout(bubbleTimeout);
+      bubbleTimeout = setTimeout(() => {
+        catBubble.classList.remove('visible');
+      }, 6000);
     }
 
-    // Event Delegation Framework
-    document.addEventListener('click', function(e) {
-      if(e.target && e.target.classList.contains('gen-action')) {
-        e.preventDefault();
-        showToast(e.target.getAttribute('data-toast'));
-      }
+    // Manual Character Hot-Swapping
+    document.getElementById('cat-toggle-action').addEventListener('click', () => {
+      activeCatIndex = (activeCatIndex + 1) % CAT_ROSTER.length;
+      updateCompanionCharacter();
+      catAvatar.classList.remove('vibe-active', 'shock-active');
+      catBubble.textContent = `Switched to ${CAT_ROSTER[activeCatIndex].name}!`;
+      catBubble.classList.add('visible');
+      setTimeout(() => catBubble.classList.remove('visible'), 3000);
     });
 
-    // Real-Time Interaction Input Dispatchers
-    const postInput = document.getElementById('new-post-text');
-    const submitBtn = document.getElementById('submit-post-btn');
-    const postsWrapper = document.getElementById('posts-wrapper');
-    postInput.addEventListener('input', function() { submitBtn.disabled = this.value.trim().length === 0; });
-    submitBtn.addEventListener('click', function() {
-      const content = postInput.value.trim(); if(!content) return;
-      const html = `<div class="card post-card"><h4>DRE4K (You)</h4><p class="post-content">${content}</p><div class="post-stats">👍 <span class="like-counter">0</span> • 0 comments</div></div>`;
-      postsWrapper.insertAdjacentHTML('afterbegin', html); postInput.value = ""; submitBtn.disabled = true;
-      showToast("Post dispatched to network tracks.");
-    });
+    // Native Audio Controls
+    document.querySelectorAll('.play-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const audioSrc = this.getAttribute('data-src');
 
-    document.addEventListener('click', function(e) {
-      if(e.target && e.target.classList.contains('apply-btn')) {
-        e.target.innerText = "Applied ✓"; e.target.style.background = "#e8f5e9"; showToast("Portfolio dispatched.");
-      }
-    });
+        if (currentAudio && currentAudio.src === window.location.origin + '/' + audioSrc) {
+          if (!currentAudio.paused) {
+            currentAudio.pause();
+            this.textContent = '▶';
+            this.classList.remove('playing');
+            catAvatar.classList.remove('vibe-active');
+            return;
+          } else {
+            attemptPlayback(this);
+            return;
+          }
+        }
 
-    function loadChat(key) {
-      const stream = document.getElementById('chat-stream'); stream.innerHTML = '';
-      chatData[key].messages.forEach(msg => {
-        const div = document.createElement('div'); div.className = `chat-bubble ${msg.type}`;
-        div.innerText = msg.text; stream.appendChild(div);
+        if (currentAudio) {
+          currentAudio.pause();
+          catAvatar.classList.remove('vibe-active');
+          if (activePlayButton) {
+            activePlayButton.textContent = '▶';
+            activePlayButton.classList.remove('playing');
+          }
+        }
+
+        currentAudio = new Audio(audioSrc);
+        attemptPlayback(this);
       });
-      stream.scrollTop = stream.scrollHeight;
+    });
+
+    function attemptPlayback(button) {
+      activePlayButton = button;
+      
+      currentAudio.play()
+        .then(() => {
+          button.textContent = '⏸';
+          button.classList.add('playing');
+          errorToast.style.display = 'none';
+          triggerCatReaction('play');
+        })
+        .catch(error => {
+          console.error(error);
+          button.textContent = '▶';
+          button.classList.remove('playing');
+
+          errorToast.style.display = 'block';
+          clearTimeout(toastTimeout);
+          toastTimeout = setTimeout(() => { errorToast.style.display = 'none'; }, 6000);
+
+          triggerCatReaction('error');
+        });
     }
+
+    // Initialize Engines
+    updateCompanionCharacter();
+    startWandering();
   </script>
 </body>
 </html>
-<div id="studio-cat-widget">
-  <div id="cat-bubble">Yo! Load up a project and let's get to work.</div>
-  
-  <div class="cat-avatar-container">
-    <div id="cat-avatar">🐱</div>
-    <div id="cat-name-badge">Sheikh El-Cat</div>
-  </div>
-</div>
