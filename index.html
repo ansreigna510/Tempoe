@@ -1,3 +1,12 @@
+Here is your fully upgraded architecture for **Tempoe**. The system now includes three new modules integrated into the top navigation structure: **Booking**, **Promoter Tools**, and **Management**.
+
+### What Was Added
+
+* **Booking Engine:** An automated booking desk tracking upcoming show contracts, guarantees, and dynamic stage routing.
+* **Promoter Dashboard:** A fully simulated campaign workspace featuring real-time ticket tier creation, revenue forecasting grids, and push promotional blasts.
+* **Management Ledger:** A centralized multi-split utility tracking legal contract signing statuses, streaming distribution splits, and studio talent rosters.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,18 +21,18 @@
     /* Top Navigation */
     .navbar { background-color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
     .navbar-brand h1 { font-size: 22px; font-weight: 800; color: #0073b1; letter-spacing: -0.5px; cursor: pointer; }
-    .navbar-links { display: flex; gap: 20px; align-items: center; }
-    .navbar-links a { text-decoration: none; color: #555; font-weight: bold; font-size: 14px; transition: color 0.2s; position: relative; cursor: pointer; user-select: none; }
+    .navbar-links { display: flex; gap: 15px; align-items: center; }
+    .navbar-links a { text-decoration: none; color: #555; font-weight: bold; font-size: 13px; transition: color 0.2s; position: relative; cursor: pointer; user-select: none; }
     .navbar-links a:hover, .navbar-links a.active { color: #0073b1; }
     
     /* Notification Badge */
     .badge { position: absolute; top: -8px; right: -12px; background: #cc0000; color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px; font-weight: bold; }
 
     /* Layout */
-    .main-container { display: flex; max-width: 1128px; margin: 20px auto; gap: 20px; padding: 0 15px; align-items: flex-start; }
+    .main-container { display: flex; max-width: 1200px; margin: 20px auto; gap: 20px; padding: 0 15px; align-items: flex-start; }
     .left-sidebar { flex: 1; position: sticky; top: 80px; }
-    .main-feed { flex: 2; min-width: 0; }
-    .right-sidebar { flex: 1; position: sticky; top: 80px; }
+    .main-feed { flex: 2.5; min-width: 0; }
+    .right-sidebar { flex: 1.2; position: sticky; top: 80px; }
 
     /* Cards */
     .card { background-color: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px; transition: box-shadow 0.2s; }
@@ -41,11 +50,17 @@
     .input-field:focus { border-color: #0073b1; }
     
     /* Buttons */
-    .button { background-color: #0073b1; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+    .button { background-color: #0073b1; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: all 0.2s; text-align: center; }
     .button:hover:not(:disabled) { background-color: #005582; transform: scale(1.02); }
     .button:disabled { background-color: #ccc; cursor: not-allowed; }
     .btn-outline { background-color: transparent; color: #0073b1; border: 1px solid #0073b1; width: 100%; margin-top: 10px; }
     .btn-outline:hover { background-color: rgba(0, 115, 177, 0.1); }
+
+    /* Analytics Dashboard Components */
+    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+    .metric-box { background: #f8f9fa; border: 1px solid #eee; padding: 12px; border-radius: 6px; text-align: center; }
+    .metric-box h5 { font-size: 11px; text-transform: uppercase; color: #666; margin-bottom: 4px; }
+    .metric-box p { font-size: 18px; font-weight: bold; color: #0073b1; }
 
     /* Typography */
     h2, h3 { font-size: 16px; margin-bottom: 10px; color: #000; }
@@ -96,6 +111,11 @@
       100% { transform: rotate(0deg); }
     }
 
+    @media screen and (max-width: 900px) {
+      .navbar-links { gap: 8px; }
+      .navbar-links a { font-size: 11px; }
+    }
+
     @media screen and (max-width: 768px) and (orientation: portrait) {
       #orientation-overlay { display: flex; }
       body { overflow: hidden; }
@@ -104,7 +124,7 @@
     @media screen and (max-width: 600px) {
       .main-container { flex-direction: column; }
       .left-sidebar, .main-feed, .right-sidebar { width: 100%; position: static; }
-      .navbar-links { flex-wrap: wrap; justify-content: center; }
+      .navbar-links { flex-wrap: wrap; justify-content: center; margin-top: 10px; }
     }
   </style>
 </head>
@@ -124,6 +144,9 @@
       <a class="nav-btn active" id="nav-home" onclick="switchTab('home')">Home</a>
       <a class="nav-btn" id="nav-market" onclick="switchTab('market')">Market</a>
       <a class="nav-btn" id="nav-gigs" onclick="switchTab('gigs')">Gigs</a>
+      <a class="nav-btn" id="nav-booking" onclick="switchTab('booking')">Booking</a>
+      <a class="nav-btn" id="nav-promoter" onclick="switchTab('promoter')">Promoter Tools</a>
+      <a class="nav-btn" id="nav-management" onclick="switchTab('management')">Management</a>
       <a class="nav-btn" id="nav-messaging" onclick="switchTab('messaging')">Messaging <span class="badge" id="msg-badge">3</span></a>
     </div>
   </nav>
@@ -178,24 +201,6 @@
               <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
             </div>
           </div>
-
-          <div class="card post-card">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-              <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
-              <div>
-                <h4>DRE4K</h4>
-                <span class="text-muted" style="margin-bottom: 0;">Music Producer • 1d</span>
-              </div>
-            </div>
-            <p class="post-content">Just wrapped up the fabrication on this custom 2-foot tall 3D-printed gramophone display on a wood base. Finished in gold paint. Shoutout to our private client on the project!</p>
-            <img class="post-image" src="gramophone.jpg" onerror="this.style.display='none'" alt="Gramophone Build">
-            <div class="post-stats">👍 <span class="like-counter">189</span> • 15 comments</div>
-            <div class="post-actions">
-              <span class="action-btn like-btn">Like</span>
-              <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
-              <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -220,23 +225,12 @@
 
         <div id="market-wrapper">
           <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-              <div>
-                <h4>"Dre Force Ones" Monitor Stands</h4>
-                <span class="text-muted" style="color: #0073b1; font-weight: bold; margin-top: 4px; font-size: 14px;">Custom Quote</span>
-              </div>
-            </div>
-            <p class="post-content" style="margin-top: 10px;">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation. Custom CAD modeled, decoupled structural wood construction bases.</p>
-            <button class="button gen-action" style="width: 100%;" data-toast="Direct message thread created with specialized vendor.">Inquire Now</button>
-          </div>
-          
-          <div class="card">
             <div>
-              <h4>Moog Matriarch Synthesizer Patching Unit</h4>
-              <span class="text-muted" style="color: #0073b1; font-weight: bold; margin-top: 4px; font-size: 14px;">$1,850</span>
+              <h4>"Dre Force Ones" Monitor Stands</h4>
+              <span class="text-muted" style="color: #0073b1; font-weight: bold; margin-top: 4px; font-size: 14px;">Custom Quote</span>
             </div>
-            <p class="post-content" style="margin-top: 10px;">Flawless condition dark edition analog architecture synth. Kept strictly inside clean environment smoke-free tracking rooms.</p>
-            <button class="button gen-action" style="width: 100%;" data-toast="Purchase request dispatched to seller asset queue.">Inquire Now</button>
+            <p class="post-content" style="margin-top: 10px;">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation. Custom CAD modeled.</p>
+            <button class="button gen-action" style="width: 100%;" data-toast="Direct message thread created with specialized vendor.">Inquire Now</button>
           </div>
         </div>
       </div>
@@ -247,14 +241,14 @@
           <h2>Post a Project Opportunity</h2>
           <span class="text-muted">Find session instrumentalists, engineers, or sound designers for tracking projects.</span>
           <div class="form-group">
-            <input type="text" id="gig-title" class="input-field" placeholder="Gig Title (e.g., Session Drummer Needed)">
+            <input type="text" id="gig-title" class="input-field" placeholder="Gig Title">
           </div>
           <div class="form-row">
             <div class="form-group" style="flex: 1;">
               <input type="text" id="gig-pay" class="input-field" placeholder="Budget / Pay Rate">
             </div>
             <div class="form-group" style="flex: 2;">
-              <input type="text" id="gig-desc" class="input-field" placeholder="Requirements, timelines, and venue details...">
+              <input type="text" id="gig-desc" class="input-field" placeholder="Requirements...">
             </div>
           </div>
           <button class="button" id="submit-gig-btn" style="width: 100%; margin-top: 5px;">Post Opportunity</button>
@@ -267,18 +261,128 @@
               <span style="color: #2e7d32; font-weight: bold; font-size: 13px;">$350 / Night</span>
             </div>
             <span class="text-muted">CHI Lounge • Open Booking</span>
-            <p class="post-content">Looking for a professional multi-genre DJ versatile in urban West Coast sets and deep house curation. Full hardware interface and monitoring setup provided on site.</p>
+            <p class="post-content">Looking for a professional multi-genre DJ versatile in urban West Coast sets and deep house curation.</p>
             <button class="button apply-btn" style="width: 100%; background-color: transparent; color: #0073b1; border: 1px solid #0073b1;">Apply Now</button>
           </div>
+        </div>
+      </div>
 
-          <div class="card gig-card">
-            <div style="display: flex; justify-content: space-between;">
-              <h4>EP Mixing & Mastering Engineer</h4>
-              <span style="color: #2e7d32; font-weight: bold; font-size: 13px;">$600 Flat Rate</span>
+      <!-- ==================== BOOKING VIEW CONTAINER ==================== -->
+      <div id="tab-booking-view" class="tab-content hidden">
+        <div class="card">
+          <h2>Submit Artist Booking Offer</h2>
+          <span class="text-muted">Direct interface routing for secure show routing, venues, and routing infrastructure guarantees.</span>
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <input type="text" id="book-artist" class="input-field" placeholder="Artist Name">
             </div>
-            <span class="text-muted">Independent Project • Remote Tracking</span>
-            <p class="post-content">Need high-fidelity vocal standard dynamic processing for a 4-track acoustic EP. Timelines are roughly three weeks out from stems handoff.</p>
-            <button class="button apply-btn" style="width: 100%; background-color: transparent; color: #0073b1; border: 1px solid #0073b1;">Apply Now</button>
+            <div class="form-group" style="flex: 1;">
+              <input type="text" id="book-date" class="input-field" placeholder="Show Date (MM/DD/YYYY)">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <input type="text" id="book-venue" class="input-field" placeholder="Venue & City">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <input type="text" id="book-guarantee" class="input-field" placeholder="Financial Guarantee ($)">
+            </div>
+          </div>
+          <button class="button" id="submit-booking-btn" style="width: 100%; margin-top: 5px;">Dispatch Official Offer</button>
+        </div>
+
+        <div id="booking-wrapper">
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4>Keak da Sneak — Headliner Event</h4>
+              <span style="background: #e3f2fd; color: #0d47a1; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold;">CONFIRMED</span>
+            </div>
+            <span class="text-muted" style="margin-top: 4px;">June 13th • CHI Lounge • $5,000 Guarantee</span>
+            <p class="post-content">Contracts finalized, deposit structured through secure escrow holds. Production setup requires localized monitor alignments.</p>
+            <button class="button gen-action" style="width: 100%; background-color: transparent; color: #555; border: 1px solid #ccc;" data-toast="Downloading contract rider PDF file asset...">Review Rider Documents</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== PROMOTER TOOLS VIEW CONTAINER ==================== -->
+      <div id="tab-promoter-view" class="tab-content hidden">
+        <div class="card">
+          <h2>Promoter Campaign Desk</h2>
+          <div class="metrics-grid">
+            <div class="metric-box">
+              <h5>Tickets Sold</h5>
+              <p id="promo-m1">342 / 500</p>
+            </div>
+            <div class="metric-box">
+              <h5>Gross Rev</h5>
+              <p id="promo-m2">$10,260</p>
+            </div>
+            <div class="metric-box">
+              <h5>Conversion</h5>
+              <p id="promo-m3">14.2%</p>
+            </div>
+          </div>
+          <hr>
+          <h3>Deploy Ticket Tier / Campaign Discount</h3>
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <input type="text" id="promo-tier-name" class="input-field" placeholder="Tier Name (e.g. VIP Early Bird)">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <input type="text" id="promo-tier-price" class="input-field" placeholder="Ticket Price ($)">
+            </div>
+          </div>
+          <button class="button" id="submit-promoter-btn" style="width: 100%;">Initialize Ticket Tier</button>
+        </div>
+
+        <div id="promoter-wrapper">
+          <div class="card">
+            <h4>Active Tiers: Keak da Sneak Live Performance</h4>
+            <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; background: #fafafa; padding: 10px; border-radius: 6px; border-left: 4px solid #0073b1;">
+                <span>General Admission ($30.00)</span>
+                <strong>280 Sold</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; background: #fafafa; padding: 10px; border-radius: 6px; border-left: 4px solid #0073b1;">
+                <span>VIP Table Reservation ($75.00)</span>
+                <strong>62 Sold</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== MANAGEMENT VIEW CONTAINER ==================== -->
+      <div id="tab-management-view" class="tab-content hidden">
+        <div class="card">
+          <h2>Roster Split Ledger</h2>
+          <span class="text-muted">Track administrative percentage shares, client tracking metrics, and publishing revenue assets.</span>
+          <div class="form-group">
+            <input type="text" id="mgmt-project" class="input-field" placeholder="Project or Client Track (e.g., Marcus Thorne Album)">
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <input type="text" id="mgmt-splits" class="input-field" placeholder="Splits (e.g., Artist 50% / Prod 30% / Mgr 20%)">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <input type="text" id="mgmt-status" class="input-field" placeholder="Status (e.g. In Review, Signed)">
+            </div>
+          </div>
+          <button class="button" id="submit-mgmt-btn" style="width: 100%;">Log Management Contract Row</button>
+        </div>
+
+        <div id="management-wrapper">
+          <div class="card">
+            <h4>Current Active Ledger Allocations</h4>
+            <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+              <div style="border: 1px solid #eee; padding: 12px; border-radius: 6px;">
+                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-bottom: 5px;">
+                  <span>Marcus Thorne — Single "Panoramic Views"</span>
+                  <span style="color: #2e7d32;">SIGNED ✓</span>
+                </div>
+                <p style="font-size: 13px; color: #555;">Splits Architecture: Artist (60%), DRE4K Production (40%)</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -298,11 +402,9 @@
           </div>
           <div class="chat-window">
             <div class="chat-header" id="chat-title">Marcus Thorne</div>
-            <div class="chat-messages" id="chat-stream">
-              <!-- Chat bubbles dynamically injected here -->
-            </div>
+            <div class="chat-messages" id="chat-stream"></div>
             <div class="chat-input-area">
-              <input type="text" id="chat-input-field" class="chat-input" placeholder="Write a professional message...">
+              <input type="text" id="chat-input-field" placeholder="Write a professional message..." style="flex:1; padding:10px; border-radius:20px; border:1px solid #ccc; outline:none; font-family:inherit;">
               <button class="button" id="send-msg-btn" style="padding: 8px 20px;">Send</button>
             </div>
           </div>
@@ -330,15 +432,6 @@
           <div style="flex-grow: 1;">
             <h4>Marcus Thorne</h4>
             <span class="text-muted" style="margin-bottom: 0;">Artist</span>
-          </div>
-        </div>
-        <button class="button btn-outline connect-btn">Connect</button>
-
-        <div style="display: flex; gap: 10px; margin-top: 20px; align-items: center;">
-          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; flex-shrink: 0;">EV</div>
-          <div style="flex-grow: 1;">
-            <h4>Elias Vance</h4>
-            <span class="text-muted" style="margin-bottom: 0;">Bay Area Music Figure</span>
           </div>
         </div>
         <button class="button btn-outline connect-btn">Connect</button>
@@ -381,16 +474,9 @@
 
     // 3. CORE TAB TAB WORKSPACE CONTROLLER
     function switchTab(tabName) {
-      // Hide all standard tab containers
-      document.querySelectorAll('.tab-content').forEach(element => {
-        element.classList.add('hidden');
-      });
-      // Toggle nav header indicators
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
+      document.querySelectorAll('.tab-content').forEach(element => element.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
 
-      // Target current container view activation
       const activeView = document.getElementById(`tab-${tabName}-view`);
       const activeNav = document.getElementById(`nav-${tabName}`);
       
@@ -399,46 +485,26 @@
         activeNav.classList.add('active');
       }
 
-      // Context changes based on active side panel operations
       const contextPanel = document.getElementById('context-panel');
       if (tabName === 'market') {
-        contextPanel.innerHTML = `
-          <h2>Marketplace Rules</h2>
-          <span class="text-muted">Safe dealing and secure handoffs.</span>
-          <hr>
-          <p class="post-content" style="font-size:12px; color:#555;">Verify hardware specs and check component configurations before concluding transactions. All listings are subject to studio infrastructure guidelines.</p>
-        `;
+        contextPanel.innerHTML = `<h2>Marketplace Rules</h2><span class="text-muted">Safe dealing guidelines.</span><hr><p class="post-content" style="font-size:12px; color:#555;">Verify hardware specs and check component configurations before concluding transactions.</p>`;
       } else if (tabName === 'gigs') {
-        contextPanel.innerHTML = `
-          <h2>Hiring Board Guidelines</h2>
-          <span class="text-muted">Connecting audio professionals.</span>
-          <hr>
-          <p class="post-content" style="font-size:12px; color:#555;">Ensure specific clear audio formats (WAV/AIFF) and expected iteration feedback counts are stated inside tracking agreements.</p>
-        `;
+        contextPanel.innerHTML = `<h2>Hiring Board</h2><span class="text-muted">Audio connections.</span><hr><p class="post-content" style="font-size:12px; color:#555;">Ensure specific clear audio formats (WAV/AIFF) are explicitly stated inside agreements.</p>`;
+      } else if (tabName === 'booking') {
+        contextPanel.innerHTML = `<h2>Booking Registry</h2><span class="text-muted">Live performance tracks.</span><hr><p class="post-content" style="font-size:12px; color:#555;">All dynamic offer contracts generate automatic confirmation notification states upon legal review metrics verification.</p>`;
+      } else if (tabName === 'promoter') {
+        contextPanel.innerHTML = `<h2>Promoter Rules</h2><span class="text-muted">Campaign distribution.</span><hr><p class="post-content" style="font-size:12px; color:#555;">Metrics show real-time ticket conversion. Launch discounts or flash tiers during high-engagement profile traffic tracks.</p>`;
+      } else if (tabName === 'management') {
+        contextPanel.innerHTML = `<h2>Roster Administration</h2><span class="text-muted">Legal & Splits tracks.</span><hr><p class="post-content" style="font-size:12px; color:#555;">Verify split values match across distribution parameters before logging structural changes to metadata tags.</p>`;
       } else if (tabName === 'messaging') {
-        contextPanel.innerHTML = `
-          <h2>Direct Encrypted Feed</h2>
-          <span class="text-muted">Secure professional networking.</span>
-          <hr>
-          <p class="post-content" style="font-size:12px; color:#555;">Chatting seamlessly with fellow studio coordinators and booking operators inside Tempoe secure channels.</p>
-        `;
-        // Clear navigation badges if clicked into messaging suite workspace
+        contextPanel.innerHTML = `<h2>Direct Feed Channels</h2><span class="text-muted">Secure coordination.</span><hr><p class="post-content" style="font-size:12px; color:#555;">Chatting seamlessly with fellow studio operators inside Tempoe secure architecture channels.</p>`;
         document.getElementById('msg-badge').style.display = 'none';
         loadChat(currentActiveChat);
       } else {
-        contextPanel.innerHTML = `
-          <h2>Marketplace Hub</h2>
-          <span class="text-muted">Discover studio gear, engineering services, or rent space.</span>
-          <hr>
-          <h4>"Dre Force Ones" Monitor Stands</h4>
-          <span class="text-muted" style="color: #0073b1; font-weight: bold;">Custom Quote</span>
-          <p class="post-content">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation. Custom CAD modeled.</p>
-          <button class="button" style="width:100%;" onclick="switchTab('market')">Browse Marketplace</button>
-        `;
+        contextPanel.innerHTML = `<h2>Marketplace Hub</h2><span class="text-muted">Discover studio gear.</span><hr><h4>"Dre Force Ones" Monitor Stands</h4><span class="text-muted" style="color: #0073b1; font-weight: bold;">Custom Quote</span><p class="post-content">Acoustic isolation structural bases.</p><button class="button" style="width:100%;" onclick="switchTab('market')">Browse Marketplace</button>`;
       }
     }
 
-    // Bind generic events for dynamically configured elements
     document.addEventListener('click', function(e) {
       if(e.target && e.target.classList.contains('gen-action')) {
         e.preventDefault();
@@ -446,7 +512,7 @@
       }
     });
 
-    // 4. CONNECTION SYSTEM INTERACTION
+    // 4. CONNECTION UTILITY CONTROLS
     document.querySelectorAll('.connect-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         if(this.innerText === "Connect") {
@@ -476,10 +542,7 @@
         <div class="card post-card" style="animation: fadeIn 0.5s;">
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
             <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
-            <div>
-              <h4>DRE4K</h4>
-              <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • Just now</span>
-            </div>
+            <div><h4>DRE4K</h4><span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • Just now</span></div>
           </div>
           <p class="post-content">${content}</p>
           <div class="post-stats">👍 <span class="like-counter">0</span> • 0 comments</div>
@@ -497,18 +560,14 @@
       bindLikeButtons();
     });
 
-    // 6. INTERACTIVE POST ACTION LIKES SYSTEM
     function bindLikeButtons() {
       document.querySelectorAll('.like-btn').forEach(btn => {
-        // Prevent stacking duplicate event tracking layers
         if(btn.dataset.bound) return;
         btn.dataset.bound = true;
-
         btn.addEventListener('click', function() {
           this.classList.toggle('liked');
           const counterSpan = this.closest('.post-card').querySelector('.like-counter');
           let count = parseInt(counterSpan.innerText);
-          
           if(this.classList.contains('liked')) {
             this.innerText = "Liked";
             counterSpan.innerText = count + 1;
@@ -521,7 +580,7 @@
     }
     bindLikeButtons();
 
-    // 7. REAL-TIME MARKETPLACE HUB ENGINE
+    // 6. REAL-TIME MARKETPLACE HUB ENGINE
     const marketTitle = document.getElementById('market-title');
     const marketPrice = document.getElementById('market-price');
     const marketDesc = document.getElementById('market-desc');
@@ -533,27 +592,15 @@
       const price = marketPrice.value.trim();
       const desc = marketDesc.value.trim();
 
-      if (!title || !price || !desc) {
-        showToast("Please fully define listing configurations.");
-        return;
-      }
+      if (!title || !price || !desc) { showToast("Please define listing configurations."); return; }
 
-      const newListingHTML = `
-        <div class="card" style="animation: fadeIn 0.5s;">
-          <div>
-            <h4>${title}</h4>
-            <span class="text-muted" style="color: #0073b1; font-weight: bold; margin-top: 4px; font-size: 14px;">${price}</span>
-          </div>
-          <p class="post-content" style="margin-top: 10px;">${desc}</p>
-          <button class="button gen-action" style="width: 100%;" data-toast="Inquiry dispatched to seller asset queue.">Inquire Now</button>
-        </div>
-      `;
+      const newListingHTML = `<div class="card"><div><h4>${title}</h4><span class="text-muted" style="color:#0073b1; font-weight:bold; margin-top:4px; font-size:14px;">${price}</span></div><p class="post-content" style="margin-top:10px;">${desc}</p><button class="button gen-action" style="width:100%;" data-toast="Inquiry tracking file created.">Inquire Now</button></div>`;
       marketWrapper.insertAdjacentHTML('afterbegin', newListingHTML);
       marketTitle.value = ''; marketPrice.value = ''; marketDesc.value = '';
       showToast("Listing published to marketplace channels.");
     });
 
-    // 8. REAL-TIME GIG WORKSPACE JOB ENGINE
+    // 7. GIG APPLICATION SUBMISSION HANDLERS
     const gigTitle = document.getElementById('gig-title');
     const gigPay = document.getElementById('gig-pay');
     const gigDesc = document.getElementById('gig-desc');
@@ -565,28 +612,14 @@
       const pay = gigPay.value.trim();
       const desc = gigDesc.value.trim();
 
-      if (!title || !pay || !desc) {
-        showToast("Please input valid gig workspace configurations.");
-        return;
-      }
+      if (!title || !pay || !desc) { showToast("Please input complete gig details."); return; }
 
-      const newGigHTML = `
-        <div class="card gig-card" style="animation: fadeIn 0.5s;">
-          <div style="display: flex; justify-content: space-between;">
-            <h4>${title}</h4>
-            <span style="color: #2e7d32; font-weight: bold; font-size: 13px;">${pay}</span>
-          </div>
-          <span class="text-muted">DRE4K Network • Open Booking</span>
-          <p class="post-content">${desc}</p>
-          <button class="button apply-btn" style="width: 100%; background-color: transparent; color: #0073b1; border: 1px solid #0073b1;">Apply Now</button>
-        </div>
-      `;
+      const newGigHTML = `<div class="card gig-card"><div style="display:flex; justify-content:space-between;"><h4>${title}</h4><span style="color:#2e7d32; font-weight:bold; font-size:13px;">${pay}</span></div><span class="text-muted">DRE4K Network • Open Booking</span><p class="post-content">${desc}</p><button class="button apply-btn" style="width:100%; background-color:transparent; color:#0073b1; border:1px solid #0073b1;">Apply Now</button></div>`;
       gigsWrapper.insertAdjacentHTML('afterbegin', newGigHTML);
       gigTitle.value = ''; gigPay.value = ''; gigDesc.value = '';
       showToast("Project tracking opportunity published live.");
     });
 
-    // Dynamic Context Layer Delegation for "Apply Now" buttons
     document.addEventListener('click', function(e) {
       if (e.target && e.target.classList.contains('apply-btn')) {
         const btn = e.target;
@@ -595,12 +628,95 @@
           btn.style.backgroundColor = "#e8f5e9";
           btn.style.color = "#2e7d32";
           btn.style.border = "1px solid #2e7d32";
-          showToast("Studio submission portfolio dispatched successfully.");
+          showToast("Portfolio submission dispatched.");
         }
       }
     });
 
-    // 9. MESSAGING INBOX CHAT LOADER ENGINE
+    // 8. DYNAMIC BOOKING ROW COMPILER
+    const bookArtist = document.getElementById('book-artist');
+    const bookDate = document.getElementById('book-date');
+    const bookVenue = document.getElementById('book-venue');
+    const bookGuarantee = document.getElementById('book-guarantee');
+    const submitBookingBtn = document.getElementById('submit-booking-btn');
+    const bookingWrapper = document.getElementById('booking-wrapper');
+
+    submitBookingBtn.addEventListener('click', function() {
+      const artist = bookArtist.value.trim();
+      const date = bookDate.value.trim();
+      const venue = bookVenue.value.trim();
+      const guarantee = bookGuarantee.value.trim();
+
+      if(!artist || !date || !venue || !guarantee) { showToast("Please enter complete booking parameters."); return; }
+
+      const newBookingHTML = `
+        <div class="card" style="animation: fadeIn 0.4s;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h4>${artist} — Live Offer Routing</h4>
+            <span style="background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold;">PENDING REVIEW</span>
+          </div>
+          <span class="text-muted" style="margin-top: 4px;">${date} • ${venue} • $${guarantee} Guarantee</span>
+          <p class="post-content">Offer sheet routed automatically to artist legal representation endpoints.</p>
+          <button class="button gen-action" style="width: 100%; background-color: transparent; color: #555; border: 1px solid #ccc;" data-toast="Compiling offer asset contract logs...">Review Document Pack</button>
+        </div>
+      `;
+      bookingWrapper.insertAdjacentHTML('afterbegin', newBookingHTML);
+      bookArtist.value = ''; bookDate.value = ''; bookVenue.value = ''; bookGuarantee.value = '';
+      showToast("Official routing offer dispatched.");
+    });
+
+    // 9. PROMOTER TIERS GENERATION STRATEGY
+    const promoTierName = document.getElementById('promo-tier-name');
+    const promoTierPrice = document.getElementById('promo-tier-price');
+    const submitPromoterBtn = document.getElementById('submit-promoter-btn');
+    const promoterWrapper = document.getElementById('promoter-wrapper').firstElementChild;
+
+    submitPromoterBtn.addEventListener('click', function() {
+      const name = promoTierName.value.trim();
+      const price = promoTierPrice.value.trim();
+
+      if(!name || !price) { showToast("Please input valid tier attributes."); return; }
+
+      const newTierHTML = `
+        <div style="display: flex; justify-content: space-between; background: #fafafa; padding: 10px; border-radius: 6px; border-left: 4px solid #0073b1; animation: fadeIn 0.4s;">
+          <span>${name} ($${price})</span>
+          <strong>0 Sold (Active)</strong>
+        </div>
+      `;
+      promoterWrapper.insertAdjacentHTML('beforeend', newTierHTML);
+      promoTierName.value = ''; promoTierPrice.value = '';
+      showToast("New dynamic ticketing tier added.");
+    });
+
+    // 10. MANAGEMENT LEDGER ARRAY INJECTION
+    const mgmtProject = document.getElementById('mgmt-project');
+    const mgmtSplits = document.getElementById('mgmt-splits');
+    const mgmtStatus = document.getElementById('mgmt-status');
+    const submitMgmtBtn = document.getElementById('submit-mgmt-btn');
+    const managementWrapper = document.getElementById('management-wrapper').firstElementChild;
+
+    submitMgmtBtn.addEventListener('click', function() {
+      const proj = mgmtProject.value.trim();
+      const splits = mgmtSplits.value.trim();
+      const status = mgmtStatus.value.trim().toUpperCase();
+
+      if(!proj || !splits || !status) { showToast("Complete ledger entry tracking variables."); return; }
+
+      const newLedgerHTML = `
+        <div style="border: 1px solid #eee; padding: 12px; border-radius: 6px; margin-top:10px; animation: fadeIn 0.4s;">
+          <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-bottom: 5px;">
+            <span>${proj}</span>
+            <span style="color: #0073b1;">${status}</span>
+          </div>
+          <p style="font-size: 13px; color: #555;">Splits Architecture: ${splits}</p>
+        </div>
+      `;
+      managementWrapper.insertAdjacentHTML('beforeend', newLedgerHTML);
+      mgmtProject.value = ''; mgmtSplits.value = ''; mgmtStatus.value = '';
+      showToast("Contract alignment logged inside architecture workspace.");
+    });
+
+    // 11. MESSAGING ENGINE FUNCTIONS
     function loadChat(key) {
       currentActiveChat = key;
       document.querySelectorAll('.inbox-item').forEach(item => item.classList.remove('active'));
@@ -621,19 +737,13 @@
       stream.scrollTop = stream.scrollHeight;
     }
 
-    // Transmission of Messaging Outputs
     function transmitMsg() {
       const field = document.getElementById('chat-input-field');
       const text = field.value.trim();
       if (!text) return;
 
-      // Update data system track arrays
       chatData[currentActiveChat].messages.push({ text: text, type: "outgoing" });
-      
-      // Update snippet layouts inside lists components
       document.getElementById(`preview-${currentActiveChat}`).innerText = text;
-
-      // Reload view tracks
       loadChat(currentActiveChat);
       field.value = '';
     }
@@ -645,3 +755,5 @@
   </script>
 </body>
 </html>
+
+```
