@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Studio Monitor & Live Companions</title>
+  <title>Studio Monitor</title>
   <style>
-    /* --- ZERO-RESET AND APPLICATION BOUNDARIES --- */
+    /* --- BASIC SAFE LAYOUT --- */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -15,89 +15,63 @@
     body {
       background-color: #0b0c10;
       color: #e2e8f0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      overflow: hidden; /* Keeps screen clean while cat wanders */
-      position: relative;
+      font-family: sans-serif;
+      padding: 30px;
     }
 
-    /* --- LOCKED CORE STUDIO INTERFACE --- */
+    /* --- STANDARD PLAYER CONTAINER --- */
     .player-app {
       background: #12131a;
       border: 1px solid #1f2231;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 580px;
-      padding: 30px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-      z-index: 10; /* Locked securely on its own layer */
+      border-radius: 12px;
+      max-width: 550px;
+      margin: 0 auto 40px auto; /* Centers the player safely without flexbox */
+      padding: 25px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
 
     .app-header {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       border-bottom: 1px solid #1f2231;
-      padding-bottom: 16px;
+      padding-bottom: 12px;
     }
 
     .app-header h1 {
-      font-size: 20px;
-      font-weight: 600;
+      font-size: 18px;
       color: #ffffff;
-      letter-spacing: -0.3px;
     }
 
     .app-header p {
-      font-size: 13px;
+      font-size: 12px;
       color: #5c627a;
       margin-top: 4px;
     }
 
-    /* --- TRACKLIST SYSTEM --- */
+    /* --- TRACK ROWS --- */
     .track-container {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .track-item {
       background: #181922;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      padding: 14px 20px;
+      padding: 12px 16px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      gap: 16px;
-      transition: background 0.2s ease, border-color 0.2s ease;
-    }
-
-    .track-item:hover {
-      background: #1d1f2b;
-      border-color: #2b2f42;
+      gap: 15px;
     }
 
     .action-btn {
       background: #ff3366;
       border: none;
-      color: #ffffff;
-      width: 38px;
-      height: 38px;
+      color: white;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       cursor: pointer;
-      font-size: 13px;
       font-weight: bold;
-      transition: transform 0.1s ease, background 0.2s ease;
-    }
-
-    .action-btn:hover {
-      transform: scale(1.05);
-      background: #ff4d7d;
     }
 
     .action-btn.active-play {
@@ -107,93 +81,63 @@
     .meta-block {
       display: flex;
       flex-direction: column;
-      flex-grow: 1;
     }
 
     .meta-title {
       font-size: 14px;
-      font-weight: 500;
       color: #ffffff;
+      font-weight: 500;
     }
 
     .meta-details {
-      font-size: 12px;
+      font-size: 11px;
       color: #5c627a;
       margin-top: 2px;
     }
 
-    /* --- FIXED NOTIFICATION TOAST --- */
+    /* --- TOAST ERROR --- */
     #system-toast {
-      position: fixed;
-      bottom: 30px;
-      left: 30px;
       background: #1a1114;
       border: 1px solid #471822;
       color: #ff4d6d;
-      padding: 14px 24px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin: 20px auto 0 auto;
+      max-width: 550px;
       display: none;
-      z-index: 1000;
-      animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center;
     }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* --- 100% ISOLATED LIVE COMPANION WIDGET --- */
+    /* --- STRICTLY ISOLATED FLOATING CAT --- */
     #live-companion-layer {
       position: fixed;
-      /* Starts in bottom right, completely free-floating */
-      bottom: 40px;
-      right: 40px; 
+      bottom: 20px;
+      right: 20px;
       z-index: 99999;
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 210px;
-      pointer-events: none; /* Let's clicks pass right through empty margins */
-      transition: left 2s ease-in-out, top 2s ease-in-out; /* Roaming speed controls */
+      width: 180px;
     }
 
     #live-bubble {
       background: #181922;
       color: #ffffff;
       border: 1px solid #2b2f42;
-      padding: 12px 16px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      width: 100%;
-      font-size: 12px;
-      line-height: 1.4;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      line-height: 1.3;
       text-align: center;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
-      position: relative;
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+      display: none; /* Hidden until triggered */
+      width: 100%;
     }
 
     #live-bubble.active-speech {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    #live-bubble::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 6px 6px 0;
-      border-style: solid;
-      border-color: #181922 transparent;
       display: block;
-      width: 0;
     }
 
     .interactive-hitbox {
@@ -201,67 +145,55 @@
       flex-direction: column;
       align-items: center;
       cursor: pointer;
-      pointer-events: auto; /* Re-enables clicking directly on the character */
     }
 
     #character-core {
-      font-size: 34px;
+      font-size: 32px;
       background: #12131a;
       border: 2px solid #2b2f42;
-      width: 72px;
-      height: 72px;
+      width: 68px;
+      height: 68px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-      animation: liveIdleBreath 3.5s ease-in-out infinite;
-      transition: border-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .interactive-hitbox:hover #character-core {
-      transform: scale(1.06);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+      animation: liveIdleBreath 3s ease-in-out infinite;
     }
 
     #identity-badge {
       background: #ff3366;
       color: #ffffff;
-      font-size: 9px;
-      font-weight: 700;
+      font-size: 8px;
+      font-weight: bold;
       text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 20px;
-      margin-top: -8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      letter-spacing: 0.6px;
-      transition: background 0.3s ease;
+      padding: 3px 8px;
+      border-radius: 10px;
+      margin-top: -6px;
+      letter-spacing: 0.5px;
     }
 
-    /* --- LIVE PHYSICAL ANIMATION TIMINGS --- */
-    
-    /* Active Floating Idle Loop */
+    /* --- ANIMATION LOOPS --- */
     @keyframes liveIdleBreath {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-5px) scale(1.02); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
     }
 
-    /* Playback Active Dance state */
     .state-vibe {
-      animation: liveStudioDance 0.45s infinite alternate linear !important;
+      animation: liveStudioDance 0.4s infinite alternate linear !important;
     }
     @keyframes liveStudioDance {
-      0% { transform: translateY(0) scale(1) rotate(-4deg); }
-      100% { transform: translateY(-8px) scale(0.98) rotate(4deg); border-color: #00e676 !important; }
+      0% { transform: translateY(0) rotate(-3deg); }
+      100% { transform: translateY(-6px) rotate(3deg); border-color: #00e676 !important; }
     }
 
-    /* Error Encounter Shock Wave */
     .state-shock {
       animation: liveHardwareShock 0.08s infinite alternate linear !important;
       border-color: #ff3366 !important;
     }
     @keyframes liveHardwareShock {
-      0% { transform: translate(2px, 1px); }
-      100% { transform: translate(-2px, -2px); }
+      0% { transform: translate(1px, 1px); }
+      100% { transform: translate(-1px, -1px); }
     }
   </style>
 </head>
@@ -278,7 +210,7 @@
         <button class="action-btn" data-src="audio/project100.mp3">▶</button>
         <div class="meta-block">
           <span class="meta-title">Project 100</span>
-          <span class="meta-details">Bay Area Hyphy Bounce Stems • MP3</span>
+          <span class="meta-details">Bay Area Hyphy Bounce Stems</span>
         </div>
       </div>
 
@@ -286,7 +218,7 @@
         <button class="action-btn" data-src="audio/project103.mp3">▶</button>
         <div class="meta-block">
           <span class="meta-title">Project 103</span>
-          <span class="meta-details">Northern California Mobb Anthem • MP3</span>
+          <span class="meta-details">Northern California Mobb Anthem</span>
         </div>
       </div>
 
@@ -294,18 +226,18 @@
         <button class="action-btn" data-src="audio/project104.mp3">▶</button>
         <div class="meta-block">
           <span class="meta-title">Project 104</span>
-          <span class="meta-details">West Coast Classic Layout • MP3</span>
+          <span class="meta-details">West Coast Classic Layout</span>
         </div>
       </div>
     </div>
-  </div>
-
-  <div id="system-toast">
-    ⚠️ Playback failed. Make sure your local files are placed in this directory.
+    
+    <div id="system-toast">
+      ⚠️ Playback failed. Make sure your local files are placed in this directory.
+    </div>
   </div>
 
   <div id="live-companion-layer">
-    <div id="live-bubble" class="active-speech">Drop tracks into the audio folder and let's run it.</div>
+    <div id="live-bubble">Let's lock in and sequence these stems.</div>
     <div class="interactive-hitbox" id="character-click-anchor">
       <div id="character-core">👑</div>
       <div id="identity-badge">Sheikh El-Cat</div>
@@ -313,130 +245,68 @@
   </div>
 
   <script>
-    const MEME_ROSTER = [
-      {
-        name: "Sheikh El-Cat",
-        emoji: "👑",
-        badgeColor: "#D4AF37",
-        onPlay: ["This layout sounds expensive. Crank the sub-bass.", "Clean mixdown. I highly approve.", "Is this a hit? Smells like a hit."],
-        onError: ["Playback failed?! I don't pay you to hand me broken links.", "Fix the file directory path. My ears are waiting.", "Missing target stems? Unacceptable."]
-      },
-      {
-        name: "Darcy the Chunk",
-        emoji: "🍔",
-        badgeColor: "#FF8C00",
-        onPlay: ["Fine, I'll stay awake to listen to this bounce.", "This baseline makes me hungry.", "Not bad at all. Now go grab me a snack."],
-        onError: ["Error loading file. Perfect, let's take a nap instead.", "File directory is empty. Go directly to the kitchen.", "If it won't play, it's mandatory lunch time."]
-      },
-      {
-        name: "Existential Cat",
-        emoji: "🤠",
-        badgeColor: "#8B4513",
-        onPlay: ["We bounce the audio tracks... but where do they go?", "Staring directly into the master limiters...", "This layout makes me feel alive. Temporarily."],
-        onError: ["Playback failed. Just like my last three existential crises.", "The directory is empty, much like the great void.", "Error. Verify your local file path or your choices."]
-      },
-      {
-        name: "The Maine Coon",
-        emoji: "🦁",
-        badgeColor: "#7F8C8D",
-        onPlay: ["Heavy dynamic weight. Needs a tiny bit more low-end separation.", "I am physically wider than your equalizer display.", "Keep this sequence running."],
-        onError: ["Error? Want me to go crush the directory server for you?", "Local files aren't in the root directory folder. Fix it quick.", "The deck is throwing missing pointers. Sort it out."]
-      }
+    const ROSTER = [
+      { name: "Sheikh El-Cat", emoji: "👑", color: "#D4AF37", play: "This sounds expensive. Crank the sub-bass.", err: "Playback failed?! Fix the folder path." },
+      { name: "Darcy the Chunk", emoji: "🍔", color: "#FF8C00", play: "Fine, I'll stay awake for this bounce.", err: "Error loading file. Let's take a nap." },
+      { name: "Existential Cat", emoji: "🤠", color: "#8B4513", play: "We bounce the audio... but where does it go?", err: "The directory is empty like the void." },
+      { name: "The Maine Coon", emoji: "🦁", color: "#7F8C8D", play: "Heavy track. Keep it running.", err: "Local files aren't in the folder." }
     ];
 
-    let rosterPointer = 0;
+    let currentIdx = 0;
     let audioAnchor = null;
-    let activeBtnElement = null;
-    let toastHideTimer = null;
-    let bubbleHideTimer = null;
-    let autoWanderTimer = null;
+    let activeBtn = null;
+    let toastTimer = null;
+    let bubbleTimer = null;
 
-    const layer = document.getElementById('live-companion-layer');
     const toast = document.getElementById('system-toast');
     const bubble = document.getElementById('live-bubble');
     const core = document.getElementById('character-core');
     const badge = document.getElementById('identity-badge');
 
-    // --- IMMUTABLE AUTONOMOUS POSITION ENGINE ---
-    function initializeWanderLoop() {
-      if (autoWanderTimer) clearInterval(autoWanderTimer);
-      
-      // Seed original safe fixed placement defaults
-      layer.style.left = `${window.innerWidth - 250}px`;
-      layer.style.top = `${window.innerHeight - 220}px`;
-
-      autoWanderTimer = setInterval(() => {
-        const structuralDance = core.classList.contains('state-vibe');
-        const structuralShock = core.classList.contains('state-shock');
-        
-        // Only trigger coordinate shift if cat is in an passive idle cycle
-        if (!structuralDance && !structuralShock) {
-          const padding = 60;
-          const constraintsWidth = window.innerWidth - 210 - padding;
-          const constraintsHeight = window.innerHeight - 180 - padding;
-          
-          const coordX = Math.max(padding, Math.floor(Math.random() * constraintsWidth));
-          const coordY = Math.max(padding, Math.floor(Math.random() * constraintsHeight));
-          
-          layer.style.left = `${coordX}px`;
-          layer.style.top = `${coordY}px`;
-        }
-      }, 7000); // Changes location coordinate matrix every 7 seconds
+    function syncIdentity() {
+      const cat = ROSTER[currentIdx];
+      core.textContent = cat.emoji;
+      badge.textContent = cat.name;
+      badge.style.backgroundColor = cat.color;
+      core.style.borderColor = cat.color;
     }
 
-    function syncActiveIdentity() {
-      const activeCat = MEME_ROSTER[rosterPointer];
-      core.textContent = activeCat.emoji;
-      badge.textContent = activeCat.name;
-      badge.style.backgroundColor = activeCat.badgeColor;
-      core.style.borderColor = activeCat.badgeColor;
-    }
-
-    function deployMemeReaction(eventState) {
-      const activeCat = MEME_ROSTER[rosterPointer];
-      const speechPool = eventState === 'play' ? activeCat.onPlay : activeCat.onError;
-      const parsedText = speechPool[Math.floor(Math.random() * speechPool.length)];
+    function runFeedback(type) {
+      const cat = ROSTER[currentIdx];
+      const txt = type === 'play' ? cat.play : cat.err;
       
       core.classList.remove('state-vibe', 'state-shock');
       
-      if (eventState === 'play') {
+      if (type === 'play') {
         core.classList.add('state-vibe');
-      } else if (eventState === 'error') {
+      } else if (type === 'error') {
         core.classList.add('state-shock');
-        setTimeout(() => { core.classList.remove('state-shock'); }, 1400);
+        setTimeout(() => { core.classList.remove('state-shock'); }, 1200);
       }
 
-      bubble.textContent = parsedText;
+      bubble.textContent = txt;
       bubble.classList.add('active-speech');
       
-      clearTimeout(bubbleHideTimer);
-      bubbleHideTimer = setTimeout(() => { bubble.classList.remove('active-speech'); }, 5000);
+      clearTimeout(bubbleTimer);
+      bubbleTimer = setTimeout(() => { bubble.classList.remove('active-speech'); }, 4000);
     }
 
-    // Toggle Character Array Cycle manually
     document.getElementById('character-click-anchor').addEventListener('click', () => {
-      rosterPointer = (rosterPointer + 1) % MEME_ROSTER.length;
-      syncActiveIdentity();
+      currentIdx = (currentIdx + 1) % ROSTER.length;
+      syncIdentity();
       core.classList.remove('state-vibe', 'state-shock');
-      bubble.textContent = `Switched to ${MEME_ROSTER[rosterPointer].name}!`;
-      bubble.classList.add('active-speech');
-      setTimeout(() => bubble.classList.remove('active-speech'), 2500);
     });
 
-    // Native Media Tracking Controls
     document.querySelectorAll('.action-btn').forEach(btn => {
       btn.addEventListener('click', function() {
-        const targetMediaSource = this.getAttribute('data-src');
+        const targetSrc = this.getAttribute('data-src');
 
-        if (audioAnchor && audioAnchor.src === window.location.origin + '/' + targetMediaSource) {
+        if (audioAnchor && audioAnchor.src.currentTarget?.includes?.(targetSrc)) {
           if (!audioAnchor.paused) {
             audioAnchor.pause();
             this.textContent = '▶';
             this.classList.remove('active-play');
             core.classList.remove('state-vibe');
-            return;
-          } else {
-            executeContextLoad(this);
             return;
           }
         }
@@ -444,46 +314,32 @@
         if (audioAnchor) {
           audioAnchor.pause();
           core.classList.remove('state-vibe');
-          if (activeBtnElement) {
-            activeBtnElement.textContent = '▶';
-            activeBtnElement.classList.remove('active-play');
+          if (activeBtn) {
+            activeBtn.textContent = '▶';
+            activeBtn.classList.remove('active-play');
           }
         }
 
-        audioAnchor = new Audio(targetMediaSource);
-        executeContextLoad(this);
+        audioAnchor = new Audio(targetSrc);
+        activeBtn = this;
+
+        audioAnchor.play()
+          .then(() => {
+            this.textContent = '⏸';
+            this.classList.add('active-play');
+            toast.style.display = 'none';
+            runFeedback('play');
+          })
+          .catch(err => {
+            this.textContent = '▶';
+            this.classList.remove('active-play');
+            toast.style.display = 'block';
+            runFeedback('error');
+          });
       });
     });
 
-    function executeContextLoad(btn) {
-      activeBtnElement = btn;
-      
-      audioAnchor.play()
-        .then(() => {
-          btn.textContent = '⏸';
-          btn.classList.add('active-play');
-          toast.style.display = 'none';
-          deployMemeReaction('play');
-        })
-        .catch(exception => {
-          console.warn("Media context rejected file load path:", exception);
-          btn.textContent = '▶';
-          btn.classList.remove('active-play');
-
-          toast.style.display = 'block';
-          clearTimeout(toastHideTimer);
-          toastHideTimer = setTimeout(() => { toast.style.display = 'none'; }, 6000);
-
-          deployMemeReaction('error');
-        });
-    }
-
-    // Launch Component Lifecycles
-    syncActiveIdentity();
-    initializeWanderLoop();
-
-    // Dynamically recalibrate constraints boundaries if browser dimensions scale
-    window.addEventListener('resize', initializeWanderLoop);
+    syncIdentity();
   </script>
 </body>
 </html>
