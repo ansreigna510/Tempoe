@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Tempoe — The Professional Network for Musicians</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,14 +22,15 @@
   --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 button { font-family: inherit; cursor: pointer; }
 input { font-family: inherit; }
 
 /* Layout */
-.shell { display: flex; height: 100vh; max-width: 1400px; margin: 0 auto; overflow: hidden; }
-.sidebar { width: 68px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 20px 0; gap: 6px; position: sticky; top: 0; height: 100vh; z-index: 100; flex-shrink: 0; }
+/* Use dvh for mobile to account for browser UI bars */
+.shell { display: flex; height: 100vh; height: 100dvh; max-width: 1400px; margin: 0 auto; overflow: hidden; position: relative; }
+.sidebar { width: 68px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 20px 0; gap: 6px; position: sticky; top: 0; height: 100%; z-index: 100; flex-shrink: 0; }
 .logo { width: 40px; height: 40px; border-radius: 11px; background: var(--purple); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(83,74,183,0.3); }
 .logo i { color: white; font-size: 20px; }
 .nav-btn { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--text-3); border: none; background: transparent; font-size: 20px; transition: all 0.18s; position: relative; }
@@ -40,13 +41,13 @@ input { font-family: inherit; }
 .nav-avatar { width: 34px; height: 34px; border-radius: 50%; background: #1A202C; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #FFF; border: 2px solid var(--surface); cursor: pointer; box-shadow: var(--shadow); }
 
 /* Pages */
-.page { display: none; flex: 1; flex-direction: column; min-width: 0; height: 100vh; overflow-y: auto; }
+.page { display: none; flex: 1; flex-direction: column; min-width: 0; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .page.active { display: flex; }
 .topbar { display: flex; align-items: center; gap: 12px; padding: 14px 28px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
 .search-box { flex: 1; max-width: 500px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 9px 16px; font-size: 14px; color: var(--text-3); display: flex; align-items: center; gap: 9px; transition: border-color 0.2s; }
 .search-box:focus-within { border-color: var(--purple); }
-.search-box input { border: none; background: transparent; font-size: 14px; color: var(--text); outline: none; flex: 1; font-family: inherit; }
-.icon-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-2); font-size: 18px; position: relative; cursor: pointer; transition: background 0.15s; }
+.search-box input { border: none; background: transparent; font-size: 14px; color: var(--text); outline: none; flex: 1; font-family: inherit; width: 100%; }
+.icon-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-2); font-size: 18px; position: relative; cursor: pointer; transition: background 0.15s; flex-shrink: 0; }
 .icon-btn:hover { background: var(--bg); }
 .icon-btn .badge { position: absolute; top: -2px; right: -2px; width: 16px; height: 16px; background: #E53E3E; border-radius: 50%; font-size: 10px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; border: 2px solid white; }
 .page-body { flex: 1; display: flex; flex-direction: column; }
@@ -59,7 +60,7 @@ input { font-family: inherit; }
 .sec-label { font-size: 10px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
 
 /* Tags */
-.tag { font-size: 11px; padding: 3px 10px; border-radius: var(--radius-pill); font-weight: 500; display: inline-block; }
+.tag { font-size: 11px; padding: 3px 10px; border-radius: var(--radius-pill); font-weight: 500; display: inline-block; white-space: nowrap; }
 .tag-p { background: var(--purple-light); color: #3C3489; }
 .tag-t { background: var(--teal-light); color: #085041; }
 .tag-a { background: var(--amber-light); color: #633806; }
@@ -69,7 +70,7 @@ input { font-family: inherit; }
 .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
 
 /* Buttons */
-.btn { padding: 8px 18px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 500; border: none; cursor: pointer; transition: all 0.15s; font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.btn { padding: 8px 18px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 500; border: none; cursor: pointer; transition: all 0.15s; font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
 .btn-primary { background: var(--purple); color: white; }
 .btn-primary:hover { background: #3C3489; transform: translateY(-1px); }
 .btn-outline { background: transparent; border: 1px solid var(--border-strong); color: var(--text); }
@@ -81,20 +82,21 @@ input { font-family: inherit; }
 
 /* ── FEED PAGE ── */
 .post-header { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.post-meta { flex: 1; min-width: 0; }
 .post-meta .name { font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; }
 .post-meta .name:hover { text-decoration: underline; }
-.post-meta .role { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.post-meta .role { font-size: 12px; color: var(--text-2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .post-meta .time { font-size: 11px; color: var(--text-3); margin-top: 2px; }
 .post-body { font-size: 14px; color: var(--text-2); line-height: 1.65; margin-bottom: 12px; }
-.audio-player { background: var(--bg); border-radius: var(--radius-sm); padding: 10px 14px; display: flex; align-items: center; gap: 12px; margin: 12px 0; border: 1px solid var(--border); }
+.audio-player { background: var(--bg); border-radius: var(--radius-sm); padding: 10px 14px; display: flex; align-items: center; gap: 12px; margin: 12px 0; border: 1px solid var(--border); overflow: hidden; }
 .play-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; border: none; flex-shrink: 0; box-shadow: 0 3px 8px rgba(83,74,183,0.3); transition: transform 0.1s; }
 .play-btn:active { transform: scale(0.95); }
 .play-btn i { color: white; font-size: 14px; margin-left: 2px; }
 .waveform { flex: 1; height: 28px; display: flex; align-items: center; gap: 2.5px; overflow: hidden; }
-.bar { width: 3px; border-radius: 2px; background: var(--purple-mid); transition: height 0.2s; }
+.bar { width: 3px; border-radius: 2px; background: var(--purple-mid); transition: height 0.2s; flex-shrink: 0; }
 .bar.active { background: var(--purple); }
-.track-info { font-size: 11px; text-align: right; white-space: nowrap; }
-.track-name { font-weight: 600; color: var(--text); }
+.track-info { font-size: 11px; text-align: right; white-space: nowrap; flex-shrink: 0; }
+.track-name { font-weight: 600; color: var(--text); max-width: 100px; overflow: hidden; text-overflow: ellipsis; }
 .track-dur { color: var(--text-3); }
 .post-actions { display: flex; gap: 4px; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
 .act-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px; color: var(--text-2); padding: 7px 4px; border-radius: var(--radius-sm); border: none; background: transparent; font-weight: 500; transition: background 0.15s; }
@@ -104,19 +106,20 @@ input { font-family: inherit; }
 .gig-mini { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
 .gig-mini:hover .gt { color: var(--purple); }
 .gig-mini:last-child { border-bottom: none; }
-.date-chip { min-width: 38px; text-align: center; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 0; }
+.date-chip { min-width: 38px; text-align: center; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 0; flex-shrink: 0; }
 .date-chip .mo { font-size: 9px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 .date-chip .dy { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.1; }
-.gig-mini-info .gt { font-size: 12px; font-weight: 600; color: var(--text); transition: color 0.15s; }
-.gig-mini-info .gl { font-size: 11px; color: var(--text-2); margin-top: 1px; }
+.gig-mini-info { flex: 1; min-width: 0; }
+.gig-mini-info .gt { font-size: 12px; font-weight: 600; color: var(--text); transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gig-mini-info .gl { font-size: 11px; color: var(--text-2); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .gig-mini-info .gp { font-size: 11px; color: var(--teal); font-weight: 600; margin-top: 3px; }
 
 .person-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); }
 .person-row:last-child { border-bottom: none; }
 .person-info { flex: 1; min-width: 0; }
-.person-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.person-name { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .person-role { font-size: 11px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.conn-btn { font-size: 11px; padding: 4px 10px; border-radius: var(--radius-pill); border: 1px solid var(--purple); color: var(--purple); background: transparent; white-space: nowrap; cursor: pointer; transition: all 0.15s; }
+.conn-btn { font-size: 11px; padding: 6px 12px; border-radius: var(--radius-pill); border: 1px solid var(--purple); color: var(--purple); background: transparent; white-space: nowrap; cursor: pointer; transition: all 0.15s; font-weight: 600; }
 .conn-btn:hover { background: var(--purple); color: white; }
 
 .trend-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); }
@@ -181,10 +184,16 @@ input { font-family: inherit; }
 .gig-card-full.amber { border-left-color: var(--amber); }
 .gig-card-full.coral { border-left-color: var(--coral); }
 .gig-card-full.blue { border-left-color: var(--blue); }
+.gig-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.gig-name { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.4; }
+.gig-pay-badge { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-pill); white-space: nowrap; flex-shrink: 0; }
+.gig-loc { font-size: 13px; color: var(--text-2); display: flex; align-items: center; gap: 4px; }
+.gig-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
+.gig-posted { font-size: 11px; color: var(--text-3); }
 
 /* ── MESSAGES PAGE ── */
 .msg-layout { display: flex; flex: 1; height: 100%; overflow: hidden; }
-.msg-list { width: 300px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--surface); flex-shrink: 0; }
+.msg-list { width: 320px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--surface); flex-shrink: 0; }
 .msg-header { padding: 16px 20px; border-bottom: 1px solid var(--border); font-size: 16px; font-weight: 600; color: var(--text); display: flex; justify-content: space-between; align-items: center; }
 .msg-search { padding: 10px 14px; border-bottom: 1px solid var(--border); background: var(--bg); }
 .msg-search input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 8px 14px; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.2s; }
@@ -195,15 +204,16 @@ input { font-family: inherit; }
 .msg-item.active { background: var(--purple-light); border-left: 3px solid var(--purple); padding-left: 13px; }
 .msg-item-info { flex: 1; min-width: 0; }
 .msg-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.msg-preview { font-size: 12px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.msg-preview { font-size: 13px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 .msg-item.active .msg-preview { color: var(--purple); font-weight: 500; }
 .msg-time { font-size: 11px; color: var(--text-3); }
-.msg-thread { flex: 1; display: flex; flex-direction: column; background: var(--bg); min-width: 0; }
-.msg-thread-header { padding: 14px 20px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+.msg-thread { flex: 1; display: flex; flex-direction: column; background: var(--bg); min-width: 0; position: relative; }
+.msg-thread-header { padding: 14px 20px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; z-index: 10; }
+.msg-back-btn { display: none; background: none; border: none; font-size: 20px; color: var(--text); margin-right: 4px; padding: 4px; }
 .msg-thread-name { font-size: 15px; font-weight: 600; color: var(--text); }
 .msg-thread-status { font-size: 12px; color: var(--teal); font-weight: 500; margin-top: 2px; }
 .msg-thread-actions { margin-left: auto; display: flex; gap: 8px; }
-.msg-bubbles { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.msg-bubbles { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; -webkit-overflow-scrolling: touch; }
 .bubble-wrap { display: flex; gap: 10px; align-items: flex-end; }
 .bubble-wrap.mine { flex-direction: row-reverse; }
 .bubble { padding: 12px 16px; border-radius: 16px; max-width: 75%; font-size: 14px; line-height: 1.55; position: relative; }
@@ -212,15 +222,14 @@ input { font-family: inherit; }
 .bubble-time { font-size: 10px; margin-top: 6px; text-align: right; }
 .bubble.them .bubble-time { color: var(--text-3); }
 .bubble.mine .bubble-time { color: rgba(255,255,255,0.7); }
-.msg-compose { padding: 14px 20px; background: var(--surface); border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+.msg-compose { padding: 14px 20px; background: var(--surface); border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; z-index: 10; }
 .msg-compose input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 12px 18px; font-size: 14px; color: var(--text); outline: none; font-family: inherit; transition: border-color 0.2s; }
 .msg-compose input:focus { border-color: var(--purple); background: var(--surface); }
 .send-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--purple); border: none; color: white; font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.1s, background 0.15s; }
 .send-btn:active { transform: scale(0.95); }
-.send-btn:hover { background: #3C3489; }
 
 /* ── NETWORK PAGE ── */
-.network-grid { padding: 24px 28px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.network-grid { padding: 24px 28px; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
 .network-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); text-align: center; transition: box-shadow 0.15s, transform 0.1s; }
 .network-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .network-av { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; margin: 0 auto 12px; }
@@ -242,49 +251,78 @@ input { font-family: inherit; }
 .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s; }
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--purple); }
 
-/* ── RESPONSIVE DESIGN (MOBILE) ── */
+/* ══════════ RESPONSIVE DESIGN (MOBILE SPECIFIC) ══════════ */
 @media (max-width: 768px) {
+  /* Layout adjustments */
   .shell { flex-direction: column; }
   
-  /* Transform Sidebar to Bottom Tab Bar */
+  /* Convert Sidebar to Bottom Tab Navigation */
   .sidebar { 
-    width: 100%; height: 65px; flex-direction: row; justify-content: space-between; 
-    padding: 0 12px; border-right: none; border-top: 1px solid var(--border); 
-    position: fixed; top: auto; bottom: 0; z-index: 100; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); 
+    width: 100%; 
+    height: calc(65px + env(safe-area-inset-bottom)); /* Accommodate iPhone home bar */
+    flex-direction: row; 
+    justify-content: space-around; 
+    padding: 0 10px env(safe-area-inset-bottom) 10px; 
+    border-right: none; 
+    border-top: 1px solid var(--border); 
+    position: fixed; 
+    top: auto; 
+    bottom: 0; 
+    z-index: 999; 
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.04); 
   }
   .logo, .nav-spacer { display: none; }
-  .nav-btn { flex: 1; border-radius: 0; height: 100%; display: flex; flex-direction: column; gap: 4px; color: var(--text-3); }
-  .nav-btn.active { background: transparent; color: var(--purple); border-top: 2px solid var(--purple); }
+  .nav-btn { flex: 1; border-radius: 8px; height: 50px; margin-top: 7px; display: flex; flex-direction: column; gap: 4px; color: var(--text-3); }
+  .nav-btn.active { background: var(--purple-light); color: var(--purple); }
   .nav-btn i { font-size: 22px; }
-  .nav-avatar { margin-left: 10px; margin-right: 10px; width: 32px; height: 32px; font-size: 11px; align-self: center; }
+  .nav-avatar { margin: 7px 5px 0; width: 32px; height: 32px; font-size: 11px; align-self: center; }
   
-  /* Page Adjustments */
-  .page { padding-bottom: 65px; height: 100%; }
-  .topbar { padding: 12px 16px; }
+  /* Ensure pages clear the bottom navigation */
+  .page { padding-bottom: calc(75px + env(safe-area-inset-bottom)); }
+  .topbar { padding: 12px 16px; gap: 10px; }
+  .search-box { padding: 8px 14px; }
   
-  /* Stacking Columns */
-  .two-col { flex-direction: column; display: block; }
-  .feed-col, .gig-list { padding: 16px; }
-  .right-col { width: 100%; height: auto; position: static; border-left: none; border-top: 1px solid var(--border); padding: 24px 16px; border-bottom: 1px solid var(--border); }
+  /* Stack Two-Column Layouts */
+  .two-col { flex-direction: column; display: flex; }
+  .feed-col, .gig-list { padding: 16px 14px; gap: 14px; }
   
-  /* Profile Tweaks */
-  .profile-banner { height: 120px; }
+  /* Make Right Column Full Width */
+  .right-col { 
+    width: 100%; 
+    height: auto; 
+    position: static; 
+    border-left: none; 
+    border-top: 1px solid var(--border); 
+    padding: 24px 16px; 
+  }
+  
+  /* Profile Refinements */
+  .profile-banner { height: 110px; }
   .profile-identity { padding: 0 16px 16px; }
-  .profile-av-wrap { left: 16px; top: -48px; }
-  .profile-av { width: 96px; height: 96px; font-size: 30px; }
-  .profile-name { font-size: 22px; margin-top: 52px; }
+  .profile-av-wrap { left: 16px; top: -45px; }
+  .profile-av { width: 90px; height: 90px; font-size: 28px; border-width: 3px; }
+  .profile-name { font-size: 22px; margin-top: 50px; }
   .profile-section { padding: 16px; }
-  .stat-item { padding: 12px 8px; }
+  .stat-item { padding: 12px 6px; }
   .stat-num { font-size: 16px; }
   
-  /* Network Tweaks */
-  .network-grid { padding: 16px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  /* Network Grid - 1 Column for phones */
+  .network-grid { padding: 16px 14px; grid-template-columns: 1fr; }
+  .filter-bar { padding: 12px 16px; }
   
   /* Message Layout - Stacked */
-  .msg-layout { flex-direction: column; overflow: visible; }
-  .msg-list { width: 100%; height: 35vh; border-right: none; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-  .msg-thread { height: calc(65vh - 65px); flex-shrink: 0; } /* minus tab bar */
-  .bubble { max-width: 85%; }
+  .msg-layout { flex-direction: column; overflow: visible; height: auto; }
+  /* Show list by default, hide thread */
+  .msg-list { width: 100%; height: auto; border-right: none; display: flex; }
+  .msg-thread { display: none; width: 100%; height: calc(100dvh - 65px - env(safe-area-inset-bottom)); position: fixed; top: 0; left: 0; z-index: 200; }
+  
+  /* When thread is active (via JS toggle class), show thread, hide list */
+  .msg-layout.thread-open .msg-list { display: none; }
+  .msg-layout.thread-open .msg-thread { display: flex; }
+  
+  .msg-back-btn { display: block; } /* Show back button on mobile */
+  .bubble { max-width: 88%; font-size: 15px; }
+  .msg-compose { padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
 }
 </style>
 </head>
@@ -293,7 +331,6 @@ input { font-family: inherit; }
 
 <!-- SIDEBAR / BOTTOM NAV -->
 <nav class="sidebar">
-  <div class="logo"><i class="ti ti-music" aria-hidden="true"></i></div>
   <button class="nav-btn active" data-page="feed" title="Feed"><i class="ti ti-home" aria-hidden="true"></i></button>
   <button class="nav-btn" data-page="network" title="Network"><i class="ti ti-users" aria-hidden="true"></i></button>
   <button class="nav-btn" data-page="gigs" title="Gig Board"><i class="ti ti-calendar-event" aria-hidden="true"></i></button>
@@ -305,7 +342,7 @@ input { font-family: inherit; }
 <!-- ══════════ FEED PAGE ══════════ -->
 <div class="page active" id="page-feed">
   <div class="topbar">
-    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input id="global-search" placeholder="Search musicians, credits, gigs…" /></div>
+    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input id="global-search" placeholder="Search musicians, credits…" /></div>
     <button class="icon-btn" onclick="alert('No new notifications')"><i class="ti ti-bell" aria-hidden="true"></i><div class="badge">3</div></button>
   </div>
   <div class="page-body">
@@ -330,9 +367,9 @@ input { font-family: inherit; }
           </div>
           <div class="tag-row"><span class="tag tag-p">#Mixing</span><span class="tag tag-t">#Hyphy</span><span class="tag tag-a">#BayArea</span></div>
           <div class="post-actions">
-            <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:15px" aria-hidden="true"></i> 14</button>
-            <button class="act-btn"><i class="ti ti-message-circle" style="font-size:15px" aria-hidden="true"></i> 3</button>
-            <button class="act-btn" onclick="navigate('messages')"><i class="ti ti-send" style="font-size:15px" aria-hidden="true"></i> Message</button>
+            <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:16px" aria-hidden="true"></i> 14</button>
+            <button class="act-btn"><i class="ti ti-message-circle" style="font-size:16px" aria-hidden="true"></i> 3</button>
+            <button class="act-btn" onclick="navigate('messages')"><i class="ti ti-send" style="font-size:16px" aria-hidden="true"></i> Message</button>
           </div>
         </div>
 
@@ -342,10 +379,10 @@ input { font-family: inherit; }
             <span class="tag tag-p" style="font-size:11px;">Gig opportunity</span>
             <span style="font-size:11px;color:var(--text-3);">Posted 5h ago</span>
           </div>
-          <div class="gig-name" style="font-size:15px; font-weight: 600;">Custom Studio Fabrication — Trophy Mount</div>
-          <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> Remote / Local SF</div>
-          <div class="tag-row" style="margin-top:10px;"><span class="tag tag-b">#3DPrinting</span><span class="tag tag-c">#CAD</span><span class="tag tag-c">#Fabrication</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;">
+          <div class="gig-name" style="font-size:16px; font-weight: 600; margin-bottom: 4px;">Custom Studio Fabrication</div>
+          <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i> Remote / Local SF</div>
+          <div class="tag-row" style="margin-top:12px;"><span class="tag tag-b">#3DPrinting</span><span class="tag tag-c">#CAD</span><span class="tag tag-c">#Fabrication</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;">
             <span style="font-size:14px;font-weight:600;color:var(--green);">Negotiable Quote</span>
             <button class="btn btn-primary btn-sm" onclick="navigate('gigs')">View Details →</button>
           </div>
@@ -364,9 +401,9 @@ input { font-family: inherit; }
           <div class="post-body">Just finalized the flyer for the Lit in Chinese rave! Huge shoutout to the team for pulling this together. CHI Lounge is going to be insane on May 23rd. Ticket link in bio! 🪩✨</div>
           <div class="tag-row"><span class="tag tag-p">#Rave</span><span class="tag tag-t">#CHILounge</span><span class="tag tag-a">#SanFrancisco</span></div>
           <div class="post-actions">
-            <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:15px" aria-hidden="true"></i> 89</button>
-            <button class="act-btn"><i class="ti ti-message-circle" style="font-size:15px" aria-hidden="true"></i> 12</button>
-            <button class="act-btn" onclick="navigate('messages')"><i class="ti ti-send" style="font-size:15px" aria-hidden="true"></i> Message</button>
+            <button class="act-btn" onclick="likePost(this)"><i class="ti ti-heart" style="font-size:16px" aria-hidden="true"></i> 89</button>
+            <button class="act-btn"><i class="ti ti-message-circle" style="font-size:16px" aria-hidden="true"></i> 12</button>
+            <button class="act-btn" onclick="navigate('messages')"><i class="ti ti-send" style="font-size:16px" aria-hidden="true"></i> Message</button>
           </div>
         </div>
 
@@ -382,28 +419,21 @@ input { font-family: inherit; }
             <div class="date-chip"><div class="mo">Jun</div><div class="dy">13</div></div>
             <div class="gig-mini-info"><div class="gt">Keak da Sneak Show</div><div class="gl">Production Manager</div><div class="gp">Planning Phase</div></div>
           </div>
-          <button class="btn btn-outline btn-sm" style="width:100%;margin-top:10px;" onclick="navigate('gigs')">Browse Gig Board →</button>
+          <button class="btn btn-outline btn-sm" style="width:100%;margin-top:10px; height: 38px;" onclick="navigate('gigs')">Browse Gig Board →</button>
         </div>
         
         <div>
           <div class="sec-label">Network Suggestions</div>
           <div class="person-row">
-            <div class="avatar" style="width:32px;height:32px;background:var(--coral-light);color:#712B13;font-size:11px;">NK</div>
+            <div class="avatar" style="width:36px;height:36px;background:var(--coral-light);color:#712B13;font-size:12px;">NK</div>
             <div class="person-info"><div class="person-name">Nicole Kuhar</div><div class="person-role">Event Coordinator</div></div>
             <button class="conn-btn" onclick="connectPerson(this)">+ Connect</button>
           </div>
           <div class="person-row">
-            <div class="avatar" style="width:32px;height:32px;background:var(--blue-light);color:var(--blue);font-size:11px;">BW</div>
+            <div class="avatar" style="width:36px;height:36px;background:var(--blue-light);color:var(--blue);font-size:12px;">BW</div>
             <div class="person-info"><div class="person-name">Brandon Wynn</div><div class="person-role">Artist Management</div></div>
             <button class="conn-btn" onclick="connectPerson(this)">+ Connect</button>
           </div>
-        </div>
-
-        <div>
-          <div class="sec-label">Trending in Bay Area</div>
-          <div class="trend-row"><span class="trend-tag">#HyphyMovement</span><span class="trend-ct">1.2k posts</span></div>
-          <div class="trend-row"><span class="trend-tag">#FLStudio</span><span class="trend-ct">980 posts</span></div>
-          <div class="trend-row"><span class="trend-tag">#LivewireENT</span><span class="trend-ct">450 posts</span></div>
         </div>
       </div>
     </div>
@@ -423,7 +453,7 @@ input { font-family: inherit; }
               <div class="verified-dot"><i class="ti ti-check" aria-hidden="true"></i></div>
             </div>
             <div class="profile-actions">
-              <button class="btn btn-primary" onclick="alert('Edit Profile mode activated')"><i class="ti ti-pencil"></i> Edit Profile</button>
+              <button class="btn btn-primary" onclick="alert('Edit Profile mode activated')"><i class="ti ti-pencil"></i> Edit</button>
               <button class="icon-btn" style="width:36px;height:36px;"><i class="ti ti-share" aria-hidden="true"></i></button>
             </div>
             <div class="profile-name">DRE4K</div>
@@ -431,23 +461,21 @@ input { font-family: inherit; }
             <div class="profile-meta">
               <span class="meta-item"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i> San Francisco, CA</span>
               <span class="meta-item"><i class="ti ti-building" style="font-size:14px" aria-hidden="true"></i> MoxengineeringSF</span>
-              <span class="meta-item" style="color:var(--purple);"><i class="ti ti-headphones" style="font-size:14px" aria-hidden="true"></i> Audio Engineer</span>
             </div>
             <div class="tag-row" style="margin-top:14px;padding-bottom:18px;">
-              <span class="tag tag-p">Hip-Hop Production</span><span class="tag tag-p">Mixing</span><span class="tag tag-t">Event Promotion</span><span class="tag tag-b">3D CAD</span><span class="tag tag-a">Venue Management</span>
+              <span class="tag tag-p">Hip-Hop Production</span><span class="tag tag-p">Mixing</span><span class="tag tag-t">Event Promotion</span><span class="tag tag-b">3D CAD</span>
             </div>
           </div>
           <div class="stat-row">
             <div class="stat-item"><div class="stat-num">3.2k</div><div class="stat-lbl">Network</div></div>
-            <div class="stat-item"><div class="stat-num">47</div><div class="stat-lbl">Produced Tracks</div></div>
-            <div class="stat-item"><div class="stat-num">12</div><div class="stat-lbl">Events Hosted</div></div>
+            <div class="stat-item"><div class="stat-num">47</div><div class="stat-lbl">Tracks</div></div>
+            <div class="stat-item"><div class="stat-num">12</div><div class="stat-lbl">Events</div></div>
           </div>
         </div>
 
         <div class="card" style="border-radius:0;border-left:none;border-right:none;border-top:none;box-shadow:none;margin-top:10px;">
           <div class="profile-section-title">About</div>
           <p style="font-size:14px;color:var(--text-2);line-height:1.7;">Bay Area based music producer, audio engineer, and event manager. I specialize in Hip-Hop / Hyphy production, high-end mixing, and mastering using FL Studio and Waveform.</p>
-          <p style="font-size:14px;color:var(--text-2);line-height:1.7;margin-top:10px;">Currently managing event contracts and operations at CHI Lounge in SF Chinatown, and driving custom engineering solutions (like the Dre Force Ones tensegrity monitor stands) via MoxengineeringSF.</p>
         </div>
 
         <div class="card" style="border-radius:0;border-left:none;border-right:none;border-top:none;box-shadow:none;margin-top:10px;">
@@ -460,44 +488,20 @@ input { font-family: inherit; }
             <div class="profile-section-title">Recent Event Credits</div>
             <div class="credit-row">
               <div class="credit-art" style="background:var(--purple-light);">🎤</div>
-              <div><div class="credit-title">Keak da Sneak Showcase</div><div class="credit-sub">Production Manager · Upcoming (June 2026)</div><div class="credit-endorsed"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i> Contract Confirmed</div></div>
+              <div><div class="credit-title">Keak da Sneak Showcase</div><div class="credit-sub">Production Manager · Upcoming</div></div>
             </div>
             <div class="credit-row">
               <div class="credit-art" style="background:var(--teal-light);">🪩</div>
-              <div><div class="credit-title">Lit in Chinese Rave</div><div class="credit-sub">Co-Promoter (w/ Nicole Kuhar) · May 2026</div><div class="credit-endorsed"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i> CHI Lounge, SF</div></div>
+              <div><div class="credit-title">Lit in Chinese Rave</div><div class="credit-sub">Co-Promoter (w/ Nicole Kuhar)</div></div>
             </div>
-            <div class="credit-row">
-              <div class="credit-art" style="background:var(--amber-light);">🎶</div>
-              <div><div class="credit-title">J. Stalin & San Quinn Show</div><div class="credit-sub">Event Booking / Manager · April 3, 2026</div><div class="credit-endorsed"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i> Sold Out</div></div>
-            </div>
-          </div>
-
-          <div class="profile-section">
-            <div class="profile-section-title">Experience</div>
-            <div class="exp-item"><div class="exp-dot"></div><div><div class="exp-role">Manager & Event Promoter</div><div class="exp-org">CHI Lounge</div><div class="exp-date">2026 – Present</div></div></div>
-            <div class="exp-item"><div class="exp-dot" style="background:var(--teal);"></div><div><div class="exp-role">Founder / Lead Engineer</div><div class="exp-org">MoxengineeringSF</div><div class="exp-date">2026 – Present</div></div></div>
-            <div class="exp-item"><div class="exp-dot" style="background:var(--amber);"></div><div><div class="exp-role">Music Producer / Engineer</div><div class="exp-org">DRE4K Productions</div><div class="exp-date">2020 – Present</div></div></div>
           </div>
         </div>
       </div>
-
       <div class="right-col">
         <div>
           <div class="sec-label">Skills</div>
           <div class="skill-wrap"><div class="skill-label-row"><span>FL Studio</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:98%"></div></div></div>
           <div class="skill-wrap"><div class="skill-label-row"><span>Mixing & Mastering</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:92%"></div></div></div>
-          <div class="skill-wrap"><div class="skill-label-row"><span>Event Management</span><span>Advanced</span></div><div class="skill-track"><div class="skill-fill" style="width:88%"></div></div></div>
-          <div class="skill-wrap"><div class="skill-label-row"><span>Fusion 360 / CAD</span><span>Expert</span></div><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
-        </div>
-        
-        <div style="margin-top:20px;">
-          <div class="sec-label">Studio Gear & Setup</div>
-          <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text);">
-            <div>🎛 FL Studio Producer Edition</div>
-            <div>🔉 Dre Force Ones (Tensegrity Stands)</div>
-            <div>🎚 Waveform DAW</div>
-            <div>📺 Sony CRT (Retro Gaming breaks)</div>
-          </div>
         </div>
       </div>
     </div>
@@ -507,48 +511,35 @@ input { font-family: inherit; }
 <!-- ══════════ GIGS PAGE ══════════ -->
 <div class="page" id="page-gigs">
   <div class="topbar">
-    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input id="gig-search" placeholder="Search by genre, city, or role…" onkeyup="filterGigSearch()" /></div>
-    <button class="btn btn-primary btn-sm" onclick="document.getElementById('postGigModal').classList.add('active')"><i class="ti ti-plus" style="font-size:14px" aria-hidden="true"></i> Post a gig</button>
+    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input id="gig-search" placeholder="Search gigs…" onkeyup="filterGigSearch()" /></div>
+    <button class="btn btn-primary btn-sm" onclick="document.getElementById('postGigModal').classList.add('active')"><i class="ti ti-plus" style="font-size:14px" aria-hidden="true"></i> Post</button>
   </div>
   <div class="filter-bar">
     <span class="filter-chip active" onclick="filterGigs(this)">All gigs</span>
     <span class="filter-chip" onclick="filterGigs(this)">Production</span>
     <span class="filter-chip" onclick="filterGigs(this)">Live Venues</span>
     <span class="filter-chip" onclick="filterGigs(this)">Engineering</span>
-    <span class="filter-chip" onclick="filterGigs(this)">Promoters</span>
   </div>
   <div class="two-col" style="align-items:flex-start;">
     <div class="gig-list" id="gig-list-container" style="flex:1;">
       <div class="gig-card-full blue gig-item">
-        <div class="gig-title-row"><div class="gig-name">Custom Studio Fabrication — Trophy Mount</div><span class="gig-pay-badge" style="background:var(--blue-light); color:var(--blue);">Quote Required</span></div>
-        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> Remote / Local SF</div>
-        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-b">#3DPrinting</span><span class="tag tag-c">#CAD</span><span class="tag tag-c">#Fabrication</span></div>
-        <div class="gig-footer"><span class="gig-posted">Client: Brandon Wynn · Posted 3h ago</span><button class="btn btn-primary btn-sm" style="background:var(--blue);">Apply →</button></div>
+        <div class="gig-title-row">
+          <div class="gig-name">Custom Studio Fabrication — Trophy Mount</div>
+          <span class="gig-pay-badge" style="background:var(--blue-light); color:var(--blue);">Quote Req</span>
+        </div>
+        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:14px" aria-hidden="true"></i> Remote / Local SF</div>
+        <div class="tag-row" style="margin-top:10px;"><span class="tag tag-b">#3DPrinting</span><span class="tag tag-c">#CAD</span></div>
+        <div class="gig-footer"><span class="gig-posted">Client: Brandon Wynn</span><button class="btn btn-primary btn-sm" style="background:var(--blue);">Apply</button></div>
       </div>
       
       <div class="gig-card-full teal gig-item">
-        <div class="gig-title-row"><div class="gig-name">Mix Engineer Needed — EP Project</div><span class="gig-pay-badge">$300 / track</span></div>
-        <div class="gig-loc"><i class="ti ti-wifi" style="font-size:13px" aria-hidden="true"></i> Remote</div>
-        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-t">#Mixing</span><span class="tag tag-a">#HipHop</span><span class="tag tag-b">#Remote</span></div>
-        <div class="gig-footer"><span class="gig-posted">5 Track EP · Posted 1d ago</span><button class="btn btn-primary btn-sm" style="background:var(--teal);">Apply →</button></div>
-      </div>
-
-      <div class="gig-card-full coral gig-item">
-        <div class="gig-title-row"><div class="gig-name">Nightclub DJ slot opening</div><span class="gig-pay-badge">$250 / night</span></div>
-        <div class="gig-loc"><i class="ti ti-map-pin" style="font-size:13px" aria-hidden="true"></i> Downtown SF</div>
-        <div class="tag-row" style="margin-top:8px;"><span class="tag tag-c">#DJ</span><span class="tag tag-p">#Club</span><span class="tag tag-a">#Live</span></div>
-        <div class="gig-footer"><span class="gig-posted">Friday Nights · Posted 2d ago</span><button class="btn btn-primary btn-sm" style="background:var(--coral);">Apply →</button></div>
-      </div>
-    </div>
-    <div class="right-col">
-      <div>
-        <div class="sec-label">Your Active Listings</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="padding:12px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);">
-            <div style="font-size:13px;font-weight:600;color:var(--text);">Opening Act - CHI Lounge</div>
-            <div style="font-size:11px;color:var(--teal);margin-top:4px;">3 Applications pending</div>
-          </div>
+        <div class="gig-title-row">
+          <div class="gig-name">Mix Engineer Needed — EP Project</div>
+          <span class="gig-pay-badge" style="background:var(--teal-light); color:var(--teal);">$300/trk</span>
         </div>
+        <div class="gig-loc"><i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i> Remote</div>
+        <div class="tag-row" style="margin-top:10px;"><span class="tag tag-t">#Mixing</span><span class="tag tag-a">#HipHop</span></div>
+        <div class="gig-footer"><span class="gig-posted">5 Track EP</span><button class="btn btn-primary btn-sm" style="background:var(--teal);">Apply</button></div>
       </div>
     </div>
   </div>
@@ -556,41 +547,36 @@ input { font-family: inherit; }
 
 <!-- ══════════ MESSAGES PAGE ══════════ -->
 <div class="page" id="page-messages">
-  <div class="msg-layout">
+  <div class="msg-layout" id="mobile-msg-container">
     <div class="msg-list">
       <div class="msg-header">Messages <i class="ti ti-edit" style="font-size:18px; cursor:pointer; color:var(--text-3);" aria-hidden="true"></i></div>
       <div class="msg-search"><input placeholder="Search conversations…" onkeyup="filterMessages(this)" /></div>
       <div class="msg-items-container" id="msg-inbox">
         <div class="msg-item active" onclick="openThread(this,'Shan Taylor','Artist / Producer','#eeedfe','#3C3489','ST')">
-          <div class="avatar" style="width:40px;height:40px;background:#eeedfe;color:#3C3489;font-size:13px;flex-shrink:0;">ST</div>
+          <div class="avatar" style="width:46px;height:46px;background:#eeedfe;color:#3C3489;font-size:14px;flex-shrink:0;">ST</div>
           <div class="msg-item-info"><div class="msg-name">Shan Taylor</div><div class="msg-preview">Did you get those stems?</div></div>
           <div class="msg-time">10m</div>
         </div>
         <div class="msg-item" onclick="openThread(this,'Jourdan Jade','Event Promoter','#faeeda','#633806','JJ')">
-          <div class="avatar" style="width:40px;height:40px;background:#faeeda;color:#633806;font-size:13px;flex-shrink:0;">JJ</div>
+          <div class="avatar" style="width:46px;height:46px;background:#faeeda;color:#633806;font-size:14px;flex-shrink:0;">JJ</div>
           <div class="msg-item-info"><div class="msg-name">Jourdan Jade</div><div class="msg-preview">Rave flyer looks fire!</div></div>
           <div class="msg-time">2h</div>
         </div>
         <div class="msg-item" onclick="openThread(this,'Nicole Kuhar','Event Coordinator','#faece7','#712B13','NK')">
-          <div class="avatar" style="width:40px;height:40px;background:#faece7;color:#712B13;font-size:13px;flex-shrink:0;">NK</div>
+          <div class="avatar" style="width:46px;height:46px;background:#faece7;color:#712B13;font-size:14px;flex-shrink:0;">NK</div>
           <div class="msg-item-info"><div class="msg-name">Nicole Kuhar</div><div class="msg-preview">Contract looks good to me.</div></div>
-          <div class="msg-time">Yesterday</div>
-        </div>
-        <div class="msg-item" onclick="openThread(this,'Brandon Wynn','Artist Management','#e1f5ee','#085041','BW')">
-          <div class="avatar" style="width:40px;height:40px;background:#e1f5ee;color:#085041;font-size:13px;flex-shrink:0;">BW</div>
-          <div class="msg-item-info"><div class="msg-name">Brandon Wynn</div><div class="msg-preview">Quote approved for the 3D print.</div></div>
-          <div class="msg-time">May 12</div>
+          <div class="msg-time">1d</div>
         </div>
       </div>
     </div>
     
     <div class="msg-thread" id="msg-thread">
       <div class="msg-thread-header">
-        <div class="avatar" id="thread-av" style="width:40px;height:40px;background:#eeedfe;color:#3C3489;font-size:14px;flex-shrink:0;">ST</div>
-        <div><div class="msg-thread-name" id="thread-name">Shan Taylor</div><div class="msg-thread-status">Active now</div></div>
+        <button class="msg-back-btn" onclick="closeThread()"><i class="ti ti-chevron-left"></i></button>
+        <div class="avatar" id="thread-av" style="width:38px;height:38px;background:#eeedfe;color:#3C3489;font-size:14px;flex-shrink:0;">ST</div>
+        <div style="margin-left:4px;"><div class="msg-thread-name" id="thread-name">Shan Taylor</div><div class="msg-thread-status">Active now</div></div>
         <div class="msg-thread-actions">
-          <button class="icon-btn" style="width:36px;height:36px;"><i class="ti ti-phone" aria-hidden="true"></i></button>
-          <button class="icon-btn" style="width:36px;height:36px;" onclick="navigate('profile')"><i class="ti ti-info-circle" aria-hidden="true"></i></button>
+          <button class="icon-btn" style="width:36px;height:36px;"><i class="ti ti-info-circle" aria-hidden="true"></i></button>
         </div>
       </div>
       
@@ -606,10 +592,6 @@ input { font-family: inherit; }
           <div class="avatar" style="width:28px;height:28px;background:#eeedfe;color:#3C3489;font-size:10px;flex-shrink:0;" id="bubble-av-2">ST</div>
           <div class="bubble them">Just dropped the Dropbox link. Let me know when you pull them down.<div class="bubble-time">10:46 AM</div></div>
         </div>
-        <div class="bubble-wrap">
-          <div class="avatar" style="width:28px;height:28px;background:#eeedfe;color:#3C3489;font-size:10px;flex-shrink:0;" id="bubble-av-3">ST</div>
-          <div class="bubble them">Did you get those stems?<div class="bubble-time">10:55 AM</div></div>
-        </div>
       </div>
       
       <div class="msg-compose">
@@ -624,14 +606,12 @@ input { font-family: inherit; }
 <!-- ══════════ NETWORK PAGE ══════════ -->
 <div class="page" id="page-network">
   <div class="topbar">
-    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input placeholder="Search producers, artists, promoters…" /></div>
+    <div class="search-box"><i class="ti ti-search" style="font-size:15px;color:var(--text-3);" aria-hidden="true"></i><input placeholder="Search producers, artists…" /></div>
   </div>
   <div class="filter-bar" style="padding-top:16px;">
     <span class="filter-chip active">All Connections</span>
     <span class="filter-chip">Bay Area Local</span>
     <span class="filter-chip">Producers</span>
-    <span class="filter-chip">Promoters</span>
-    <span class="filter-chip">Artists</span>
   </div>
   <div class="network-grid">
     <div class="network-card">
@@ -639,32 +619,20 @@ input { font-family: inherit; }
       <div class="network-name">Shan Taylor</div>
       <div class="network-role">Artist / Producer</div>
       <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> Oakland, CA</div>
-      <div class="network-tags"><span class="tag tag-p" style="font-size:10px;">HipHop</span><span class="tag tag-t" style="font-size:10px;">Hyphy</span></div>
-      <div class="network-actions"><button class="btn btn-outline btn-sm">Profile</button><button class="conn-btn" onclick="navigate('messages')">Message</button></div>
+      <div class="network-actions">
+        <button class="btn btn-outline btn-sm" style="flex:1;">Profile</button>
+        <button class="btn btn-primary btn-sm" style="flex:1;" onclick="navigate('messages')">Message</button>
+      </div>
     </div>
     <div class="network-card">
       <div class="network-av" style="background:#faeeda;color:#633806;">JJ</div>
       <div class="network-name">Jourdan Jade</div>
       <div class="network-role">Event Promoter</div>
       <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> San Francisco, CA</div>
-      <div class="network-tags"><span class="tag tag-a" style="font-size:10px;">Events</span><span class="tag tag-p" style="font-size:10px;">Promoter</span></div>
-      <div class="network-actions"><button class="btn btn-outline btn-sm">Profile</button><button class="conn-btn" onclick="navigate('messages')">Message</button></div>
-    </div>
-    <div class="network-card">
-      <div class="network-av" style="background:#faece7;color:#712B13;">NK</div>
-      <div class="network-name">Nicole Kuhar</div>
-      <div class="network-role">Event Coordinator</div>
-      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> San Francisco, CA</div>
-      <div class="network-tags"><span class="tag tag-c" style="font-size:10px;">Logistics</span><span class="tag tag-t" style="font-size:10px;">Nightlife</span></div>
-      <div class="network-actions"><button class="btn btn-outline btn-sm">Profile</button><button class="conn-btn" onclick="connectPerson(this)">+ Connect</button></div>
-    </div>
-    <div class="network-card">
-      <div class="network-av" style="background:#e1f5ee;color:#085041;">BW</div>
-      <div class="network-name">Brandon Wynn</div>
-      <div class="network-role">Artist Management</div>
-      <div class="network-loc"><i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i> Los Angeles, CA</div>
-      <div class="network-tags"><span class="tag tag-b" style="font-size:10px;">Management</span><span class="tag tag-b" style="font-size:10px;">A&R</span></div>
-      <div class="network-actions"><button class="btn btn-outline btn-sm">Profile</button><button class="conn-btn" onclick="navigate('messages')">Message</button></div>
+      <div class="network-actions">
+         <button class="btn btn-outline btn-sm" style="flex:1;">Profile</button>
+         <button class="btn btn-primary btn-sm" style="flex:1;" onclick="navigate('messages')">Message</button>
+      </div>
     </div>
   </div>
 </div>
@@ -706,14 +674,16 @@ function navigate(page) {
   const pageEl = document.getElementById('page-' + page);
   if (pageEl) {
     pageEl.classList.add('active');
-    // Scroll page body to top
     pageEl.scrollTop = 0;
   }
   
   const btn = document.querySelector('.nav-btn[data-page="' + page + '"]');
   if (btn) btn.classList.add('active');
   
-  // Mobile specific: if body is scrolled, bring it back
+  // Close thread view if navigating to messages on mobile
+  if(page === 'messages' && window.innerWidth <= 768) {
+     document.getElementById('mobile-msg-container').classList.remove('thread-open');
+  }
   window.scrollTo(0,0);
 }
 
@@ -736,13 +706,12 @@ function togglePlay(btn, waveId) {
   }
 }
 
-// Social Actions
 function likePost(btn) {
   const parts = btn.innerHTML.split(' ');
   const count = parseInt(parts[parts.length - 1]) + 1;
   btn.style.color = '#E53E3E';
   btn.innerHTML = btn.innerHTML.replace(/\d+/, count);
-  btn.style.pointerEvents = 'none'; // Prevent multi-click
+  btn.style.pointerEvents = 'none'; 
 }
 
 function connectPerson(btn) {
@@ -753,7 +722,6 @@ function connectPerson(btn) {
   btn.disabled = true;
 }
 
-// Gig Board Filtering
 function filterGigs(chip) {
   document.querySelectorAll('#page-gigs .filter-chip').forEach(c => c.classList.remove('active'));
   chip.classList.add('active');
@@ -768,7 +736,6 @@ function filterGigSearch() {
   });
 }
 
-// Messaging System
 function filterMessages(input) {
   const query = input.value.toLowerCase();
   const items = document.querySelectorAll('#msg-inbox .msg-item');
@@ -778,32 +745,33 @@ function filterMessages(input) {
   });
 }
 
+// Messaging Logic
 function openThread(item, name, role, bg, color, initials) {
-  // Mobile View Logic: Scroll to thread if on mobile
-  if(window.innerWidth <= 768) {
-    document.getElementById('msg-thread').scrollIntoView({ behavior: 'smooth' });
-  }
-
   document.querySelectorAll('.msg-item').forEach(i => i.classList.remove('active'));
   item.classList.add('active');
+  
   document.getElementById('thread-name').textContent = name;
   
   const av = document.getElementById('thread-av');
   av.textContent = initials;
-  av.style.background = bg;
-  av.style.color = color;
+  av.style.background = bg; av.style.color = color;
   
-  // Update existing dummy bubbles to match the new person
+  // Dummy update
   document.getElementById('bubble-av-1').textContent = initials;
   document.getElementById('bubble-av-2').textContent = initials;
-  document.getElementById('bubble-av-3').textContent = initials;
-  
   document.getElementById('bubble-av-1').style.background = bg; document.getElementById('bubble-av-1').style.color = color;
   document.getElementById('bubble-av-2').style.background = bg; document.getElementById('bubble-av-2').style.color = color;
-  document.getElementById('bubble-av-3').style.background = bg; document.getElementById('bubble-av-3').style.color = color;
 
   document.getElementById('msg-input').placeholder = 'Message ' + name.split(' ')[0] + '…';
-  document.getElementById('msg-input').focus();
+  
+  // Mobile specific: transition to thread view
+  if(window.innerWidth <= 768) {
+    document.getElementById('mobile-msg-container').classList.add('thread-open');
+  }
+}
+
+function closeThread() {
+  document.getElementById('mobile-msg-container').classList.remove('thread-open');
 }
 
 function sendMsg(e) {
@@ -830,20 +798,16 @@ function sendMsgBtn() {
   input.value = '';
   bubbles.scrollTop = bubbles.scrollHeight;
   
-  // Update sidebar preview
   const activeChat = document.querySelector('.msg-item.active .msg-preview');
   if(activeChat) activeChat.textContent = "You: " + text;
 }
 
-// Modals
 function closeModal(id) {
   document.getElementById(id).classList.remove('active');
 }
 
-// Initialization Scripts (Waveforms & Profile Tracks)
 document.addEventListener('DOMContentLoaded', () => {
-  // Generate random waveforms
-  const waveHeights = [10,16,22,18,12,24,20,14,10,20,26,18,12,22,16,24,14,10,22,20,16,24,12,18,26,22,14,20,16,12,18];
+  const waveHeights = [10,16,22,18,12,24,20,14,10,20,26,18,12,22,16,24,14,10,22,20,16,24,12,18,26,22,14,20];
   ['wv1'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -855,11 +819,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Load Profile Tracks
   const profileTracks = [
-    { name: 'Bay Area Slapper — Demo Mix', meta: 'DRE4K Prod · 2026', dur: '2:45' },
-    { name: 'CHI Lounge Ambience Loop', meta: 'Event Audio · SF', dur: '1:30' },
-    { name: 'Heavy Bass / Synth Master', meta: 'Client Work · FL Studio', dur: '3:12' },
+    { name: 'Bay Area Slapper — Demo Mix', meta: 'DRE4K Prod', dur: '2:45' },
+    { name: 'CHI Lounge Ambience Loop', meta: 'Event Audio', dur: '1:30' }
   ];
   const trackEl = document.getElementById('profile-tracks');
   if (trackEl) profileTracks.forEach(t => {
@@ -871,7 +833,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </button>
       <div style="flex:1;min-width:0;">
         <div style="font-size:14px;font-weight:600;color:var(--text);">${t.name}</div>
-        <div style="font-size:12px;color:var(--text-3);margin-top:3px;">${t.meta}</div>
+        <div style="font-size:12px;color:var(--text-3);margin-top:2px;">${t.meta}</div>
       </div>
       <div style="font-size:12px;font-weight:500;color:var(--text-3);">${t.dur}</div>
     `;
