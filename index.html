@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- FIX 1: This tells mobile phones to scale the page properly -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tempoe</title>
+  <title>Tempoe — Professional Music Network</title>
 
   <style>
-    /* Basic Reset */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -15,8 +13,8 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f3f2ef; /* Light grey background typical for network feeds */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f3f2ef; 
       color: #333;
     }
 
@@ -33,15 +31,26 @@
       z-index: 100;
     }
 
+    .navbar-brand img {
+      height: 40px; 
+      width: auto;
+      display: block;
+    }
+
     .navbar-links {
       display: flex;
-      gap: 15px;
+      gap: 20px;
     }
 
     .navbar-links a {
       text-decoration: none;
       color: #555;
       font-weight: bold;
+      font-size: 14px;
+    }
+
+    .navbar-links a:hover {
+      color: #000;
     }
 
     /* Main Layout */
@@ -54,7 +63,6 @@
       align-items: flex-start;
     }
 
-    /* Columns Setup */
     .left-sidebar { flex: 1; }
     .main-feed { flex: 2; }
     .right-sidebar { flex: 1; }
@@ -68,84 +76,253 @@
       margin-bottom: 20px;
     }
 
-    /* FIX 2: Mobile Responsiveness */
-    /* When the screen is 768px or smaller (phones/small tablets), do this: */
+    .card h2, .card h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #000;
+    }
+
+    .card h4 {
+      font-size: 14px;
+      color: #000;
+    }
+
+    .text-muted {
+      color: #666;
+      font-size: 12px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .post-content {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .post-stats {
+      font-size: 12px;
+      color: #666;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 15px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .post-actions span {
+      cursor: pointer;
+    }
+
+    .button {
+      background-color: #0073b1;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid #eee;
+      margin: 15px 0;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    /* Mobile Responsiveness */
     @media screen and (max-width: 768px) {
       .main-container {
-        flex-direction: column; /* Stack the columns vertically */
+        flex-direction: column; 
       }
 
-      /* Make all columns take up the full width */
       .left-sidebar, .main-feed, .right-sidebar {
         width: 100%;
       }
 
-      /* Order them so the main feed shows first on mobile */
       .main-feed { order: 1; }
       .left-sidebar { order: 2; }
       .right-sidebar { order: 3; }
 
       .navbar {
         flex-direction: column;
-        gap: 10px;
+        gap: 15px;
+      }
+      
+      .navbar-links {
+        flex-wrap: wrap;
+        justify-content: center;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
   <nav class="navbar">
     <a href="index.html" class="navbar-brand">
-      <!-- FIX 3: Proper image tag for the logo -->
-      <img src="logo.png" alt="Tempoe Logo" style="height: 40px; width: auto;">
+      <img src="logo.png" alt="Tempoe">
     </a>
     <div class="navbar-links">
       <a href="#">Home</a>
-      <a href="#">Network</a>
-      <a href="#">Jobs</a>
+      <a href="#">Market</a>
+      <a href="#">Gigs</a>
       <a href="#">Messaging</a>
+      <a href="#">Alerts</a>
     </div>
   </nav>
 
-  <!-- Main Content Layout -->
   <div class="main-container">
 
-    <!-- Left Column: Profile -->
     <div class="left-sidebar">
-      <div class="card">
-        <h2>Your Profile</h2>
-        <p>Welcome to Tempoe!</p>
-        <br>
-        <p><em>(Add your profile details here)</em></p>
+      <div class="card" style="text-align: center;">
+        <div style="background-color: #ddd; width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 10px; line-height: 60px; font-size: 24px; font-weight: bold;">D</div>
+        <h2>DRE4K</h2>
+        <span class="text-muted">Music Producer & Engineer | Event Manager</span>
+        <hr>
+        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 5px;">
+          <span>Profile viewers</span>
+          <span style="color: #0073b1; font-weight: bold;">84</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #666;">
+          <span>Network connections</span>
+          <span style="color: #0073b1; font-weight: bold;">500+</span>
+        </div>
       </div>
     </div>
 
-    <!-- Center Column: Main Feed -->
     <div class="main-feed">
+      
       <div class="card">
-        <h3>Create a Post</h3>
-        <textarea style="width: 100%; margin-top: 10px; padding: 10px;" rows="3" placeholder="What's on your mind?"></textarea>
+        <textarea style="width: 100%; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; resize: none; font-family: inherit;" rows="2" placeholder="Start a post"></textarea>
+        <div style="display: flex; gap: 15px; margin-top: 15px; color: #555; font-weight: bold; font-size: 14px;">
+          <span>📷 Media</span>
+          <span>📅 Event</span>
+          <span>🎵 Audio</span>
+        </div>
       </div>
       
       <div class="card">
-        <h3>Recent Activity</h3>
-        <p>This is where your main feed content goes.</p>
-        <br>
-        <p><em>(Add your posts, updates, and articles here)</em></p>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">AM</div>
+          <div>
+            <h4>Alex Mercer</h4>
+            <span class="text-muted" style="margin-bottom: 0;">Event Coordinator | Promoter • 2h</span>
+          </div>
+        </div>
+        <p class="post-content">Excited to be ironing out the details for the next big event setup! The lineup is looking incredible. Locking down the final contracts this week. Stay tuned for dates! 🎵🔥</p>
+        <div class="post-stats">👍 34 • 5 comments</div>
+        <div class="post-actions">
+          <span>Like</span>
+          <span>Comment</span>
+          <span>Repost</span>
+          <span>Send</span>
+        </div>
       </div>
+
+      <div class="card">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">JR</div>
+          <div>
+            <h4>Jordan Rivers</h4>
+            <span class="text-muted" style="margin-bottom: 0;">Live Performer & Vocalist • 5h</span>
+          </div>
+        </div>
+        <p class="post-content">Just wrapped up a killer studio session. Huge shoutout to the engineering team for getting the mix perfectly balanced! 🎙️</p>
+        <div class="post-stats">👍 120 • 12 comments</div>
+        <div class="post-actions">
+          <span>Like</span>
+          <span>Comment</span>
+          <span>Repost</span>
+          <span>Send</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Marketplace Hub</h2>
+        <span class="text-muted">Discover studio gear, buy beats, or rent space from professionals.</span>
+        <hr>
+        <h4>Moog Sub 37 Synthesizer Rental</h4>
+        <span class="text-muted" style="color: #0073b1; font-weight: bold;">$75.00/day</span>
+        <p class="post-content">Looking to rent out my analog synth for studio sessions. Sunset Sound, LA drop-off available.</p>
+        <button class="button">Inquire</button>
+        <hr>
+        <h4>Cinematic Sci-Fi Beat Package</h4>
+        <span class="text-muted" style="color: #0073b1; font-weight: bold;">$250.00</span>
+        <p class="post-content">110 BPM, D Minor, Full Stems included. Exclusive rights transfer.</p>
+        <button class="button">Buy Now</button>
+      </div>
+
+      <div class="card">
+        <h2>Gigs & Opportunities</h2>
+        <span class="text-muted">Find booking slots, engineering roles, and live events.</span>
+        <hr>
+        <h4>Custom Studio Fabrication Project</h4>
+        <span class="text-muted">Remote / Local • Posted 5h ago</span>
+        <p class="post-content">Looking for someone skilled in CAD and 3D printing to finalize acoustic isolation stands. Negotiable Quote.</p>
+        <button class="button">Apply Now</button>
+      </div>
+
     </div>
 
-    <!-- Right Column: News / Extra -->
     <div class="right-sidebar">
+      
       <div class="card">
-        <h3>Tempoe News</h3>
-        <ul>
-          <li>Top story 1</li>
-          <li>Top story 2</li>
-          <li>Top story 3</li>
+        <h2>Messaging</h2>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <div style="background-color: #ddd; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; font-size: 12px; font-weight: bold; flex-shrink: 0;">SJ</div>
+          <div>
+            <h4>Sam Jenkins</h4>
+            <p style="font-size: 12px; color: #555;">Are we still locked in for the studio session tomorrow?</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Tempoe Industry News</h2>
+        <ul style="margin-top: 15px;">
+          <li>
+            <h4>Top Studio Monitors in 2026</h4>
+            <span class="text-muted">Top news • 10,934 readers</span>
+          </li>
+          <li>
+            <h4>Navigating Live Event Contracts</h4>
+            <span class="text-muted">1d ago • 5,432 readers</span>
+          </li>
+          <li>
+            <h4>The resurgence of Bay Area sounds</h4>
+            <span class="text-muted">2d ago • 8,912 readers</span>
+          </li>
         </ul>
       </div>
+
+      <div class="card">
+        <h2>Add to your network</h2>
+        <div style="display: flex; gap: 10px; margin-top: 10px; align-items: center;">
+          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; flex-shrink: 0;">BW</div>
+          <div>
+            <h4>Blake Winters</h4>
+            <span class="text-muted" style="margin-bottom: 0;">Artist Management</span>
+          </div>
+        </div>
+        <button class="button" style="background-color: transparent; color: #0073b1; border: 1px solid #0073b1; margin-top: 10px; width: 100%;">+ Connect</button>
+      </div>
+
     </div>
 
   </div>
