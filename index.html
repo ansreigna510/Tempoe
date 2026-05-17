@@ -6,158 +6,94 @@
   <title>Tempoe — Professional Music Network</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f3f2ef; color: #333; }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f3f2ef; 
-      color: #333;
-    }
+    /* Top Navigation */
+    .navbar { background-color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+    .navbar-brand h1 { font-size: 22px; font-weight: 800; color: #0073b1; letter-spacing: -0.5px; cursor: pointer; }
+    .navbar-links { display: flex; gap: 20px; align-items: center; }
+    .navbar-links a { text-decoration: none; color: #555; font-weight: bold; font-size: 14px; transition: color 0.2s; position: relative; }
+    .navbar-links a:hover, .navbar-links a.active { color: #0073b1; }
+    
+    /* Notification Badge */
+    .badge { position: absolute; top: -8px; right: -12px; background: #cc0000; color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px; font-weight: bold; }
 
-    /* Top Navigation Bar */
-    .navbar {
-      background-color: #fff;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .navbar-brand h1 {
-      font-size: 22px;
-      font-weight: 800;
-      color: #0073b1;
-      letter-spacing: -0.5px;
-    }
-
-    .navbar-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .navbar-links a {
-      text-decoration: none;
-      color: #555;
-      font-weight: bold;
-      font-size: 14px;
-      transition: color 0.2s;
-    }
-
-    .navbar-links a:hover {
-      color: #0073b1;
-    }
-
-    /* Main Layout */
-    .main-container {
-      display: flex;
-      max-width: 1128px;
-      margin: 20px auto;
-      gap: 20px;
-      padding: 0 15px;
-      align-items: flex-start;
-    }
-
-    .left-sidebar { flex: 1; }
+    /* Layout */
+    .main-container { display: flex; max-width: 1128px; margin: 20px auto; gap: 20px; padding: 0 15px; align-items: flex-start; }
+    .left-sidebar { flex: 1; position: sticky; top: 80px; }
     .main-feed { flex: 2; }
-    .right-sidebar { flex: 1; }
+    .right-sidebar { flex: 1; position: sticky; top: 80px; }
 
-    /* Card & Media Styling */
-    .card {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      margin-bottom: 20px;
-    }
+    /* Cards */
+    .card { background-color: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px; transition: box-shadow 0.2s; }
+    .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .post-image { width: 100%; border-radius: 8px; margin: 10px 0; object-fit: cover; }
+    .post-video { width: 100%; border-radius: 8px; margin: 10px 0; background-color: #000; max-height: 500px; }
 
-    .post-image {
-      width: 100%;
-      border-radius: 8px;
-      margin: 10px 0;
-      object-fit: cover;
-    }
+    /* Forms & Inputs */
+    .post-input-area { display: flex; flex-direction: column; gap: 10px; }
+    textarea { width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 15px; resize: none; font-family: inherit; font-size: 14px; transition: border-color 0.2s; }
+    textarea:focus { outline: none; border-color: #0073b1; }
+    
+    /* Buttons */
+    .button { background-color: #0073b1; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+    .button:hover { background-color: #005582; transform: scale(1.02); }
+    .button:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
+    .btn-outline { background-color: transparent; color: #0073b1; border: 1px solid #0073b1; width: 100%; margin-top: 10px; }
+    .btn-outline:hover { background-color: rgba(0, 115, 177, 0.1); }
 
-    .post-video {
-      width: 100%;
-      border-radius: 8px;
-      margin: 10px 0;
-      background-color: #000;
-      max-height: 500px;
-    }
-
-    /* Buttons with Hover Effects */
-    .button {
-      background-color: #0073b1;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background-color 0.2s, transform 0.1s;
-    }
-
-    .button:hover {
-      background-color: #005582;
-      transform: scale(1.02);
-    }
-
-    /* Typography & Spacing */
+    /* Typography */
     h2, h3 { font-size: 16px; margin-bottom: 10px; color: #000; }
     h4 { font-size: 14px; color: #000; }
-    
     .text-muted { color: #666; font-size: 12px; margin-bottom: 10px; display: block; }
     .post-content { font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
     .post-stats { font-size: 12px; color: #666; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
     
+    /* Interactive Post Actions */
     .post-actions { display: flex; gap: 15px; font-size: 14px; font-weight: bold; color: #555; }
-    .post-actions span { cursor: pointer; transition: color 0.2s; }
-    .post-actions span:hover { color: #0073b1; }
+    .action-btn { cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 5px; }
+    .action-btn:hover { background-color: #f3f2ef; color: #0073b1; }
+    .action-btn.liked { color: #0073b1; }
 
     hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
     ul { list-style-type: none; }
-    ul li { margin-bottom: 10px; font-size: 14px; }
+    ul li { margin-bottom: 10px; font-size: 14px; cursor: pointer; }
+    ul li:hover h4 { color: #0073b1; text-decoration: underline; }
+
+    /* Toast Notification */
+    .toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
+    .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
     /* Mobile Responsiveness */
     @media screen and (max-width: 768px) {
       .main-container { flex-direction: column; }
-      .left-sidebar, .main-feed, .right-sidebar { width: 100%; }
+      .left-sidebar, .main-feed, .right-sidebar { width: 100%; position: static; }
       .main-feed { order: 1; }
       .left-sidebar { order: 2; }
       .right-sidebar { order: 3; }
       .navbar { flex-direction: column; gap: 15px; }
-      .navbar-links { flex-wrap: wrap; justify-content: center; }
+      .navbar-links { flex-wrap: wrap; justify-content: center; width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
+  <!-- Navigation -->
   <nav class="navbar">
     <div class="navbar-brand">
       <h1>Tempoe</h1>
     </div>
     <div class="navbar-links">
-      <a href="#">Home</a>
+      <a href="#" class="active">Home</a>
       <a href="#">Market</a>
       <a href="#">Gigs</a>
-      <a href="#">Messaging</a>
+      <a href="#">Messaging <span class="badge">3</span></a>
     </div>
   </nav>
 
-  <!-- Main Content Layout -->
   <div class="main-container">
-
-    <!-- Left Column: Profile -->
+    <!-- Left Sidebar -->
     <div class="left-sidebar">
       <div class="card" style="text-align: center;">
         <div style="background-color: #111; color: #fff; width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; line-height: 80px; font-size: 32px; font-weight: bold;">D</div>
@@ -171,66 +107,68 @@
       </div>
     </div>
 
-    <!-- Center Column: Main Feed -->
-    <div class="main-feed">
+    <!-- Main Feed -->
+    <div class="main-feed" id="feed-container">
       
-      <!-- Create Post Box -->
+      <!-- Create Post Generator -->
       <div class="card">
-        <textarea style="width: 100%; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; resize: none; font-family: inherit;" rows="2" placeholder="Start a post"></textarea>
-        <div style="display: flex; gap: 15px; margin-top: 15px; color: #555; font-weight: bold; font-size: 14px;">
-          <span>📷 Media</span>
-          <span>📅 Event</span>
-          <span>🎵 Audio</span>
-        </div>
-      </div>
-
-      <!-- Event / Video Post -->
-      <div class="card">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-          <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
-          <div>
-            <h4>DRE4K</h4>
-            <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • 2h</span>
+        <div class="post-input-area">
+          <textarea id="new-post-text" rows="2" placeholder="Got a gig or studio update? Share it here..."></textarea>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+            <div style="display: flex; gap: 15px; color: #555; font-weight: bold; font-size: 14px; cursor: pointer;">
+              <span class="action-btn">📷 Media</span>
+              <span class="action-btn">🎵 Audio</span>
+            </div>
+            <button class="button" id="submit-post-btn" disabled>Post</button>
           </div>
         </div>
-        <p class="post-content">Getting everything dialed in for June 13th. We've got Keak da Sneak headlining CHI Lounge! Locking in the final promotions now. Pull up! 🔥</p>
-        
-        <!-- VIDEO/REEL SLOT -->
-        <video class="post-video" controls>
-          <source src="your-promo-video.mp4" type="video/mp4">
-        </video>
-
-        <div class="post-stats">👍 204 • 32 comments</div>
-        <div class="post-actions">
-          <span>Like</span>
-          <span>Comment</span>
-          <span>Repost</span>
-        </div>
       </div>
 
-      <!-- Engineering / Image Post -->
-      <div class="card">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-          <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
-          <div>
-            <h4>DRE4K</h4>
-            <span class="text-muted" style="margin-bottom: 0;">Music Producer • 1d</span>
+      <!-- Live Feed Content (Posts go here) -->
+      <div id="posts-wrapper">
+        
+        <!-- Post 1 -->
+        <div class="card post-card">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
+            <div>
+              <h4>DRE4K</h4>
+              <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • 2h</span>
+            </div>
+          </div>
+          <p class="post-content">Getting everything dialed in for June 13th. We've got Keak da Sneak headlining CHI Lounge! Locking in the final promotions now. Pull up! 🔥</p>
+          <div class="post-stats">👍 <span class="like-counter">204</span> • 32 comments</div>
+          <div class="post-actions">
+            <span class="action-btn like-btn">Like</span>
+            <span class="action-btn">Comment</span>
+            <span class="action-btn">Repost</span>
           </div>
         </div>
-        <p class="post-content">Just wrapped up the fabrication on this custom 2-foot tall 3D-printed gramophone display on a wood base. Finished in gold paint. Shoutout to our private client on the project!</p>
-        
-        <!-- IMAGE SLOT -->
-        <img class="post-image" src="gramophone.jpg" alt="Gramophone Build">
 
-        <div class="post-stats">👍 189 • 15 comments</div>
-        <div class="post-actions">
-          <span>Like</span>
-          <span>Comment</span>
-          <span>Repost</span>
+        <!-- Post 2 -->
+        <div class="card post-card">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
+            <div>
+              <h4>DRE4K</h4>
+              <span class="text-muted" style="margin-bottom: 0;">Music Producer • 1d</span>
+            </div>
+          </div>
+          <p class="post-content">Just wrapped up the fabrication on this custom 2-foot tall 3D-printed gramophone display on a wood base. Finished in gold paint. Shoutout to our private client on the project!</p>
+          <img class="post-image" src="gramophone.jpg" alt="Gramophone Build">
+          <div class="post-stats">👍 <span class="like-counter">189</span> • 15 comments</div>
+          <div class="post-actions">
+            <span class="action-btn like-btn">Like</span>
+            <span class="action-btn">Comment</span>
+            <span class="action-btn">Repost</span>
+          </div>
         </div>
-      </div>
 
-      <!-- Marketplace Hub -->
+      </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="right-sidebar">
       <div class="card">
         <h2>Marketplace Hub</h2>
         <span class="text-muted">Discover studio gear, engineering services, or rent space.</span>
@@ -238,52 +176,141 @@
         <h4>"Dre Force Ones" Monitor Stands</h4>
         <span class="text-muted" style="color: #0073b1; font-weight: bold;">Custom Quote</span>
         <p class="post-content">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation. Custom CAD modeled.</p>
-        
-        <!-- FUNCTIONAL LINK BUTTON -->
-        <a href="mailto:your-email@example.com" target="_blank">
-          <button class="button">Inquire Now</button>
-        </a>
+        <button class="button action-toast" data-message="Inquiry sent to seller!">Inquire Now</button>
       </div>
 
-    </div>
-
-    <!-- Right Column: Network & Messaging -->
-    <div class="right-sidebar">
-      
-      <!-- Messaging -->
-      <div class="card">
-        <h2>Messaging</h2>
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-          <div style="background-color: #ddd; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; font-size: 12px; font-weight: bold; flex-shrink: 0;">SJ</div>
-          <div>
-            <h4>Sarah Jenkins</h4>
-            <p style="font-size: 12px; color: #555;">Are the contracts for the June show ready to go out?</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Network -->
       <div class="card">
         <h2>Your Network</h2>
         <div style="display: flex; gap: 10px; margin-top: 15px; align-items: center;">
           <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; flex-shrink: 0;">MT</div>
-          <div>
+          <div style="flex-grow: 1;">
             <h4>Marcus Thorne</h4>
             <span class="text-muted" style="margin-bottom: 0;">Artist</span>
           </div>
         </div>
-        <div style="display: flex; gap: 10px; margin-top: 15px; align-items: center;">
+        <button class="button btn-outline connect-btn">Connect</button>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px; align-items: center;">
           <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; flex-shrink: 0;">EV</div>
-          <div>
+          <div style="flex-grow: 1;">
             <h4>Elias Vance</h4>
             <span class="text-muted" style="margin-bottom: 0;">Bay Area Music Figure</span>
           </div>
         </div>
+        <button class="button btn-outline connect-btn">Connect</button>
       </div>
-
     </div>
-
   </div>
 
+  <!-- System Toast Notification -->
+  <div id="system-toast" class="toast">Action successful!</div>
+
+  <!-- JavaScript Engine -->
+  <script>
+    // 1. TOAST NOTIFICATION SYSTEM
+    function showToast(message) {
+      const toast = document.getElementById("system-toast");
+      toast.innerText = message;
+      toast.className = "toast show";
+      setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+    }
+
+    // Bind generic toast buttons
+    document.querySelectorAll('.action-toast').forEach(btn => {
+      btn.addEventListener('click', function() {
+        showToast(this.getAttribute('data-message'));
+      });
+    });
+
+    // 2. NETWORK CONNECT BUTTONS
+    document.querySelectorAll('.connect-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if(this.innerText === "Connect") {
+          this.innerText = "Pending...";
+          this.style.backgroundColor = "#eee";
+          this.style.border = "1px solid #ccc";
+          this.style.color = "#555";
+          showToast("Connection request sent.");
+        }
+      });
+    });
+
+    // 3. POST CREATION ENGINE
+    const postInput = document.getElementById('new-post-text');
+    const submitBtn = document.getElementById('submit-post-btn');
+    const postsWrapper = document.getElementById('posts-wrapper');
+
+    // Enable/disable button based on typing
+    postInput.addEventListener('input', function() {
+      submitBtn.disabled = this.value.trim().length === 0;
+    });
+
+    // Create new post
+    submitBtn.addEventListener('click', function() {
+      const content = postInput.value.trim();
+      if(content === "") return;
+
+      // Build HTML for the new post
+      const newPostHTML = `
+        <div class="card post-card" style="animation: fadeIn 0.5s;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
+            <div>
+              <h4>DRE4K</h4>
+              <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • Just now</span>
+            </div>
+          </div>
+          <p class="post-content">${content}</p>
+          <div class="post-stats">👍 <span class="like-counter">0</span> • 0 comments</div>
+          <div class="post-actions">
+            <span class="action-btn like-btn">Like</span>
+            <span class="action-btn">Comment</span>
+            <span class="action-btn">Repost</span>
+          </div>
+        </div>
+      `;
+
+      // Insert at the top
+      postsWrapper.insertAdjacentHTML('afterbegin', newPostHTML);
+      
+      // Reset input
+      postInput.value = "";
+      submitBtn.disabled = true;
+      showToast("Post published to your network.");
+      
+      // Re-bind like buttons for the new post
+      bindLikeButtons();
+    });
+
+    // 4. INTERACTIVE LIKE BUTTONS
+    function bindLikeButtons() {
+      // Remove old listeners to prevent double-firing
+      const likeBtns = document.querySelectorAll('.like-btn');
+      const cloneBtns = Array.from(likeBtns).map(btn => {
+        const clone = btn.cloneNode(true);
+        btn.parentNode.replaceChild(clone, btn);
+        return clone;
+      });
+
+      cloneBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          this.classList.toggle('liked');
+          const counterSpan = this.closest('.post-card').querySelector('.like-counter');
+          let count = parseInt(counterSpan.innerText);
+          
+          if(this.classList.contains('liked')) {
+            this.innerText = "Liked";
+            counterSpan.innerText = count + 1;
+          } else {
+            this.innerText = "Like";
+            counterSpan.innerText = count - 1;
+          }
+        });
+      });
+    }
+
+    // Initial binding on page load
+    bindLikeButtons();
+  </script>
 </body>
 </html>
