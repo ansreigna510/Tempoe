@@ -6,100 +6,138 @@
   <title>Tempoe — Professional Music Network</title>
 
   <style>
+    /* 1. DYNAMIC THEME VARIABLES */
+    :root {
+      --bg-color: #f3f2ef;
+      --card-bg: #fff;
+      --text-main: #333;
+      --text-muted: #666;
+      --border-color: #ddd;
+      --nav-bg: #fff;
+      --primary-color: #0073b1;
+      --primary-hover: #005582;
+      --input-bg: #fff;
+      --input-border: #ccc;
+      --icon-bg: #ddd;
+      --overlay-bg: #0073b1;
+    }
+
+    body.dark-mode {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-main: #e0e0e0;
+      --text-muted: #aaa;
+      --border-color: #333;
+      --nav-bg: #1e1e1e;
+      --primary-color: #4da6ff;
+      --primary-hover: #80c1ff;
+      --input-bg: #2c2c2c;
+      --input-border: #444;
+      --icon-bg: #333;
+      --overlay-bg: #1a1a1a;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f3f2ef; color: #333; overflow-x: hidden; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
 
     /* Top Navigation */
-    .navbar { background-color: #fff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-    .navbar-brand h1 { font-size: 22px; font-weight: 800; color: #0073b1; letter-spacing: -0.5px; cursor: pointer; }
+    .navbar { background-color: var(--nav-bg); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; transition: background-color 0.3s; }
+    .navbar-brand h1 { font-size: 22px; font-weight: 800; color: var(--primary-color); letter-spacing: -0.5px; cursor: pointer; }
     .navbar-links { display: flex; gap: 20px; align-items: center; }
-    .navbar-links a { text-decoration: none; color: #555; font-weight: bold; font-size: 14px; transition: color 0.2s; position: relative; cursor: pointer; }
-    .navbar-links a:hover, .navbar-links a.active { color: #0073b1; }
+    .navbar-links a { text-decoration: none; color: var(--text-muted); font-weight: bold; font-size: 14px; transition: color 0.2s; position: relative; cursor: pointer; }
+    .navbar-links a:hover, .navbar-links a.active { color: var(--primary-color); }
     
-    /* Notification Badge */
+    /* Theme Toggle Button */
+    #theme-toggle { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); padding: 5px 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: bold; margin-left: 15px; transition: all 0.2s; }
+    #theme-toggle:hover { border-color: var(--primary-color); color: var(--primary-color); }
+
     .badge { position: absolute; top: -8px; right: -12px; background: #cc0000; color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px; font-weight: bold; }
 
-    /* Layout */
-    .main-container { display: flex; max-width: 1128px; margin: 20px auto; gap: 20px; padding: 0 15px; align-items: flex-start; }
+    /* APP ROUTING & VIEWS */
+    .view { display: none; max-width: 1128px; margin: 20px auto; gap: 20px; padding: 0 15px; align-items: flex-start; }
+    .view.active { display: flex; animation: fadeInView 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    
+    @keyframes fadeInView {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Column Layouts */
     .left-sidebar { flex: 1; position: sticky; top: 80px; }
-    .main-feed { flex: 2; }
+    .main-content { flex: 2; display: flex; flex-direction: column; gap: 20px; }
     .right-sidebar { flex: 1; position: sticky; top: 80px; }
 
     /* Cards */
-    .card { background-color: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px; transition: box-shadow 0.2s; }
-    .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .post-image { width: 100%; border-radius: 8px; margin: 10px 0; object-fit: cover; }
-    .post-video { width: 100%; border-radius: 8px; margin: 10px 0; background-color: #000; max-height: 500px; }
-
-    /* Forms & Inputs */
-    .post-input-area { display: flex; flex-direction: column; gap: 10px; }
-    textarea { width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 15px; resize: none; font-family: inherit; font-size: 14px; transition: border-color 0.2s; }
-    textarea:focus { outline: none; border-color: #0073b1; }
+    .card { background-color: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); transition: box-shadow 0.2s, background-color 0.3s, border-color 0.3s; }
+    .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     
+    /* Typography */
+    h2, h3 { font-size: 16px; margin-bottom: 10px; color: var(--text-main); }
+    h4 { font-size: 14px; color: var(--text-main); }
+    .text-muted { color: var(--text-muted); font-size: 12px; margin-bottom: 10px; display: block; }
+    p { font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
+
+    /* Inputs & Forms */
+    textarea, input[type="text"] { width: 100%; background-color: var(--input-bg); color: var(--text-main); border: 1px solid var(--input-border); border-radius: 8px; padding: 15px; resize: none; font-family: inherit; font-size: 14px; transition: border-color 0.2s, background-color 0.3s; }
+    textarea:focus, input[type="text"]:focus { outline: none; border-color: var(--primary-color); }
+
     /* Buttons */
-    .button { background-color: #0073b1; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
-    .button:hover:not(:disabled) { background-color: #005582; transform: scale(1.02); }
-    .button:disabled { background-color: #ccc; cursor: not-allowed; }
-    .btn-outline { background-color: transparent; color: #0073b1; border: 1px solid #0073b1; width: 100%; margin-top: 10px; }
+    .button { background-color: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+    .button:hover:not(:disabled) { background-color: var(--primary-hover); transform: scale(1.02); }
+    .button:disabled { background-color: var(--border-color); color: var(--text-muted); cursor: not-allowed; }
+    .btn-outline { background-color: transparent; color: var(--primary-color); border: 1px solid var(--primary-color); width: 100%; margin-top: 10px; }
     .btn-outline:hover { background-color: rgba(0, 115, 177, 0.1); }
 
-    /* Typography */
-    h2, h3 { font-size: 16px; margin-bottom: 10px; color: #000; }
-    h4 { font-size: 14px; color: #000; }
-    .text-muted { color: #666; font-size: 12px; margin-bottom: 10px; display: block; }
-    .post-content { font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
-    .post-stats { font-size: 12px; color: #666; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
-    
-    /* Interactive Post Actions */
-    .post-actions { display: flex; gap: 15px; font-size: 14px; font-weight: bold; color: #555; }
+    /* Icons and Avatars */
+    .avatar { background-color: var(--icon-bg); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+    .avatar.large { width: 80px; height: 80px; font-size: 32px; background-color: #111; color: #fff; margin: 0 auto 10px; }
+
+    /* Post specific */
+    .post-stats { font-size: 12px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 10px; }
+    .post-actions { display: flex; gap: 15px; font-size: 14px; font-weight: bold; color: var(--text-muted); }
     .action-btn { cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 5px; user-select: none; }
-    .action-btn:hover { background-color: #f3f2ef; color: #0073b1; }
-    .action-btn.liked { color: #0073b1; }
+    .action-btn:hover { background-color: var(--bg-color); color: var(--primary-color); }
+    .action-btn.liked { color: var(--primary-color); }
+    hr { border: 0; border-top: 1px solid var(--border-color); margin: 15px 0; }
 
-    hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
+    /* MARKETPLACE GRID */
+    .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .market-item { border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; }
+    .price-tag { color: var(--primary-color); font-weight: bold; font-size: 18px; margin-bottom: 10px; }
 
-    /* Toast Notification */
-    .toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; pointer-events: none; }
+    /* MESSAGING UI */
+    .chat-container { display: flex; border: 1px solid var(--border-color); border-radius: 8px; height: 60vh; overflow: hidden; }
+    .chat-list { flex: 1; border-right: 1px solid var(--border-color); overflow-y: auto; }
+    .chat-contact { padding: 15px; border-bottom: 1px solid var(--border-color); cursor: pointer; display: flex; gap: 10px; transition: background-color 0.2s; }
+    .chat-contact:hover, .chat-contact.active { background-color: var(--bg-color); }
+    .chat-window { flex: 2; display: flex; flex-direction: column; background-color: var(--bg-color); }
+    .chat-history { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+    .msg-bubble { max-width: 70%; padding: 10px 15px; border-radius: 20px; font-size: 14px; }
+    .msg-bubble.received { background-color: var(--card-bg); align-self: flex-start; border: 1px solid var(--border-color); }
+    .msg-bubble.sent { background-color: var(--primary-color); color: white; align-self: flex-end; }
+    .chat-input { padding: 15px; background-color: var(--card-bg); border-top: 1px solid var(--border-color); display: flex; gap: 10px; }
+
+    /* Toast */
+    .toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; opacity: 0; transition: opacity 0.3s, bottom 0.3s; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
     .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
-    /* =========================================================
-       NEW: LANDSCAPE ORIENTATION LOCK FOR MOBILE
-       ========================================================= */
-    #orientation-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background-color: #0073b1;
-      color: white;
-      z-index: 9999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 30px;
-    }
-
+    /* Landscape Overlay */
+    #orientation-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--overlay-bg); color: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; }
     #orientation-overlay h2 { color: white; font-size: 28px; margin-bottom: 15px; }
-    #orientation-overlay p { font-size: 16px; line-height: 1.5; max-width: 300px; }
     .device-icon { font-size: 60px; margin-bottom: 20px; animation: tilt 2s ease-in-out infinite; }
+    @keyframes tilt { 0% { transform: rotate(0deg); } 50% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
 
-    @keyframes tilt {
-      0% { transform: rotate(0deg); }
-      50% { transform: rotate(-90deg); }
-      100% { transform: rotate(0deg); }
-    }
-
-    /* If it's a mobile device AND it is held vertically (portrait) */
     @media screen and (max-width: 768px) and (orientation: portrait) {
       #orientation-overlay { display: flex; }
-      body { overflow: hidden; } /* Locks scrolling while overlay is visible */
+      body { overflow: hidden; }
     }
-
-    /* Standard mobile stacking just in case viewport is extremely small even in landscape */
     @media screen and (max-width: 600px) {
-      .main-container { flex-direction: column; }
-      .left-sidebar, .main-feed, .right-sidebar { width: 100%; position: static; }
-      .navbar-links { flex-wrap: wrap; justify-content: center; }
+      .view { flex-direction: column; }
+      .left-sidebar, .main-content, .right-sidebar { width: 100%; position: static; }
+      .market-grid { grid-template-columns: 1fr; }
+      .chat-container { flex-direction: column; height: 80vh; }
+      .chat-list { flex: none; height: 30%; border-right: none; border-bottom: 1px solid var(--border-color); }
+      .chat-window { flex: auto; height: 70%; }
     }
   </style>
 </head>
@@ -108,7 +146,7 @@
   <div id="orientation-overlay">
     <div class="device-icon">📱</div>
     <h2>Turn Your Phone</h2>
-    <p>Tempoe is designed for a panoramic studio experience. Please rotate your device sideways to enter the network.</p>
+    <p>Tempoe is designed for a panoramic studio experience. Please rotate your device sideways.</p>
   </div>
 
   <nav class="navbar">
@@ -116,109 +154,64 @@
       <h1>Tempoe</h1>
     </div>
     <div class="navbar-links">
-      <a class="nav-btn active" data-toast="Refreshing Home Feed...">Home</a>
-      <a class="nav-btn" data-toast="Loading Marketplace...">Market</a>
-      <a class="nav-btn" data-toast="Searching available gigs...">Gigs</a>
-      <a class="nav-btn" data-toast="Opening Inbox...">Messaging <span class="badge">3</span></a>
+      <a class="nav-btn active" data-target="view-home">Home</a>
+      <a class="nav-btn" data-target="view-market">Market</a>
+      <a class="nav-btn" data-target="view-gigs">Gigs</a>
+      <a class="nav-btn" data-target="view-messaging">Inbox <span class="badge">1</span></a>
+      <button id="theme-toggle">🌙 Dark Mode</button>
     </div>
   </nav>
 
-  <div class="main-container">
+  <div id="view-home" class="view active">
     <div class="left-sidebar">
       <div class="card" style="text-align: center;">
-        <div style="background-color: #111; color: #fff; width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; line-height: 80px; font-size: 32px; font-weight: bold;">D</div>
+        <div class="avatar large">D</div>
         <h2>DRE4K</h2>
         <span class="text-muted">Manager @ CHI Lounge | Music Producer</span>
         <hr>
-        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 5px;">
-          <span>Profile viewers</span>
-          <span style="color: #0073b1; font-weight: bold;">142</span>
+        <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">
+          <span>Profile viewers</span><span style="color: var(--primary-color); font-weight: bold;">142</span>
         </div>
       </div>
     </div>
 
-    <div class="main-feed" id="feed-container">
-      
+    <div class="main-content" id="feed-container">
       <div class="card">
-        <div class="post-input-area">
-          <textarea id="new-post-text" rows="2" placeholder="Got a gig or studio update? Share it here..."></textarea>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
-            <div style="display: flex; gap: 15px; color: #555; font-weight: bold; font-size: 14px;">
-              <span class="action-btn gen-action" data-toast="Opening device camera roll...">📷 Media</span>
-              <span class="action-btn gen-action" data-toast="Selecting audio file...">🎵 Audio</span>
-            </div>
-            <button class="button" id="submit-post-btn" disabled>Post</button>
+        <textarea id="new-post-text" rows="2" placeholder="Got a gig or studio update? Share it here..."></textarea>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+          <div style="display: flex; gap: 15px; color: var(--text-muted); font-weight: bold; font-size: 14px;">
+            <span class="action-btn gen-action" data-toast="Opening media library...">📷 Media</span>
+            <span class="action-btn gen-action" data-toast="Attaching audio stems...">🎵 Audio</span>
           </div>
+          <button class="button" id="submit-post-btn" disabled>Post</button>
         </div>
       </div>
 
       <div id="posts-wrapper">
-        
         <div class="card post-card">
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
+            <div class="avatar">D</div>
             <div>
-              <h4>DRE4K</h4>
-              <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • 2h</span>
+              <h4>DRE4K</h4><span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • 2h</span>
             </div>
           </div>
-          <p class="post-content">Getting everything dialed in for June 13th. We've got Keak da Sneak headlining CHI Lounge! Locking in the final promotions now. Pull up! 🔥</p>
+          <p>Getting everything dialed in for June 13th. We've got Keak da Sneak headlining CHI Lounge! Locking in the final promotions now. Pull up! 🔥</p>
           <div class="post-stats">👍 <span class="like-counter">204</span> • 32 comments</div>
           <div class="post-actions">
             <span class="action-btn like-btn">Like</span>
-            <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
-            <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
+            <span class="action-btn gen-action" data-toast="Comments loading...">Comment</span>
           </div>
         </div>
-
-        <div class="card post-card">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
-            <div>
-              <h4>DRE4K</h4>
-              <span class="text-muted" style="margin-bottom: 0;">Music Producer • 1d</span>
-            </div>
-          </div>
-          <p class="post-content">Just wrapped up the fabrication on this custom 2-foot tall 3D-printed gramophone display on a wood base. Finished in gold paint. Shoutout to our private client on the project!</p>
-          <img class="post-image" src="gramophone.jpg" alt="Gramophone Build">
-          <div class="post-stats">👍 <span class="like-counter">189</span> • 15 comments</div>
-          <div class="post-actions">
-            <span class="action-btn like-btn">Like</span>
-            <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
-            <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
-          </div>
-        </div>
-
       </div>
     </div>
 
     <div class="right-sidebar">
       <div class="card">
-        <h2>Marketplace Hub</h2>
-        <span class="text-muted">Discover studio gear, engineering services, or rent space.</span>
-        <hr>
-        <h4>"Dre Force Ones" Monitor Stands</h4>
-        <span class="text-muted" style="color: #0073b1; font-weight: bold;">Custom Quote</span>
-        <p class="post-content">Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation. Custom CAD modeled.</p>
-        <button class="button gen-action" data-toast="Direct message thread created with seller.">Inquire Now</button>
-      </div>
-
-      <div class="card">
         <h2>Your Network</h2>
         <div style="display: flex; gap: 10px; margin-top: 15px; align-items: center;">
-          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; flex-shrink: 0;">MT</div>
+          <div class="avatar">ST</div>
           <div style="flex-grow: 1;">
-            <h4>Marcus Thorne</h4>
-            <span class="text-muted" style="margin-bottom: 0;">Artist</span>
-          </div>
-        </div>
-        <button class="button btn-outline connect-btn">Connect</button>
-
-        <div style="display: flex; gap: 10px; margin-top: 20px; align-items: center;">
-          <div style="background-color: #ddd; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; flex-shrink: 0;">EV</div>
-          <div style="flex-grow: 1;">
-            <h4>Elias Vance</h4>
-            <span class="text-muted" style="margin-bottom: 0;">Bay Area Music Figure</span>
+            <h4>Shan Taylor</h4><span class="text-muted" style="margin-bottom: 0;">Artist</span>
           </div>
         </div>
         <button class="button btn-outline connect-btn">Connect</button>
@@ -226,122 +219,260 @@
     </div>
   </div>
 
+  <div id="view-market" class="view">
+    <div class="left-sidebar">
+      <div class="card">
+        <h2>Categories</h2>
+        <hr>
+        <p class="action-btn" style="padding: 10px 5px;">🎛️ Studio Gear</p>
+        <p class="action-btn" style="padding: 10px 5px;">🎹 Beats & Stems</p>
+        <p class="action-btn" style="padding: 10px 5px;">🛠️ Fabrication & CAD</p>
+        <p class="action-btn" style="padding: 10px 5px;">🏢 Studio Time</p>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="card">
+        <h2>Marketplace Hub</h2>
+        <span class="text-muted">Buy, sell, and rent gear directly from industry professionals.</span>
+        <hr>
+        <div class="market-grid">
+          
+          <div class="market-item">
+            <div>
+              <h4>"Dre Force Ones" Monitor Stands</h4>
+              <span class="text-muted">MoxengineeringSF</span>
+              <div class="price-tag">$120.00 / Pair</div>
+              <p>Tensegrity-based studio monitor stands designed strictly for superior acoustic isolation.</p>
+            </div>
+            <button class="button btn-outline gen-action" data-toast="Added to cart!">Buy Now</button>
+          </div>
+
+          <div class="market-item">
+            <div>
+              <h4>Moog Sub 37 Synthesizer</h4>
+              <span class="text-muted">Rental • Sunset Sound Drop-off</span>
+              <div class="price-tag">$75.00 / Day</div>
+              <p>Analog synth in perfect condition. Flight case included.</p>
+            </div>
+            <button class="button btn-outline gen-action" data-toast="Booking request sent.">Request Dates</button>
+          </div>
+
+          <div class="market-item">
+            <div>
+              <h4>Custom CAD Reverse Engineering</h4>
+              <span class="text-muted">MoxengineeringSF</span>
+              <div class="price-tag">Custom Quote</div>
+              <p>Specializing in 3D scanning, CAD design, and reverse engineering for custom parts.</p>
+            </div>
+            <button class="button btn-outline gen-action" data-toast="Messaging designer...">Request Quote</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-gigs" class="view">
+    <div class="left-sidebar">
+      <div class="card">
+        <h2>Your Gig Profile</h2>
+        <p><strong>Roles:</strong> Producer, Event Manager</p>
+        <p><strong>Location:</strong> Bay Area</p>
+        <button class="button btn-outline" style="margin-top: 15px;">Update Resume</button>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="card">
+        <h2>Open Opportunities</h2>
+        <span class="text-muted">Based on your skills and network.</span>
+        
+        <hr>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h4>Live Sound Engineer - Weekend Residency</h4>
+            <span class="text-muted">CHI Lounge • San Francisco, CA</span>
+            <p>Looking for a reliable engineer to handle front-of-house for Friday and Saturday night sets.</p>
+          </div>
+          <button class="button gen-action" data-toast="Application Submitted!">Easy Apply</button>
+        </div>
+
+        <hr>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h4>Freelance CAD Designer (Music Tech)</h4>
+            <span class="text-muted">Remote • Contract</span>
+            <p>Need an Autodesk Fusion 360 professional to finalize prototyping for a new microphone chassis.</p>
+          </div>
+          <button class="button gen-action" data-toast="Application Submitted!">Easy Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-messaging" class="view">
+    <div class="card chat-container" style="width: 100%; padding: 0;">
+      
+      <div class="chat-list">
+        <div class="chat-contact active">
+          <div class="avatar">NK</div>
+          <div>
+            <h4>Nicole Kuhar</h4>
+            <span class="text-muted" style="margin-bottom:0;">Contract details...</span>
+          </div>
+        </div>
+        <div class="chat-contact">
+          <div class="avatar">BW</div>
+          <div>
+            <h4>Brandon Wynn</h4>
+            <span class="text-muted" style="margin-bottom:0;">Gramophone looks great...</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-window">
+        <div style="padding: 15px; border-bottom: 1px solid var(--border-color); background-color: var(--card-bg);">
+          <h4 style="margin:0;">Nicole Kuhar</h4>
+        </div>
+        
+        <div class="chat-history">
+          <div class="msg-bubble received">Hey Dre, are the contracts for the June show ready to go out?</div>
+          <div class="msg-bubble sent">Almost done. Just finalizing the headliner guarantees.</div>
+          <div class="msg-bubble received">Perfect. Let me know when they are signed so I can push the promo.</div>
+        </div>
+
+        <div class="chat-input">
+          <input type="text" placeholder="Write a message..." style="flex: 1;" id="chat-input-field">
+          <button class="button gen-action" data-toast="Message sent." id="chat-send-btn">Send</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <div id="system-toast" class="toast">Action successful!</div>
 
   <script>
-    // 1. TOAST NOTIFICATION SYSTEM
+    // 1. TOAST SYSTEM
     let toastTimeout;
     function showToast(message) {
       const toast = document.getElementById("system-toast");
       clearTimeout(toastTimeout);
       toast.innerText = message;
       toast.className = "toast show";
-      toastTimeout = setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+      toastTimeout = setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
     }
 
-    // Bind all generic action buttons and nav links to the toast system
-    document.querySelectorAll('.gen-action, .nav-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault(); // Stop links from jumping to top of page
-        
-        // If it's a nav link, update the active state
-        if(this.classList.contains('nav-btn')) {
-          document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
-          this.classList.add('active');
-        }
+    // 2. THEME TOGGLE (Dark/Light Mode)
+    const themeBtn = document.getElementById('theme-toggle');
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      if (document.body.classList.contains('dark-mode')) {
+        themeBtn.innerText = "☀️ Light Mode";
+      } else {
+        themeBtn.innerText = "🌙 Dark Mode";
+      }
+    });
 
+    // 3. SPA ROUTING (View Switcher)
+    const navLinks = document.querySelectorAll('.nav-btn');
+    const views = document.querySelectorAll('.view');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Update active nav button
+        navLinks.forEach(n => n.classList.remove('active'));
+        this.classList.add('active');
+
+        // Switch Views
+        const targetId = this.getAttribute('data-target');
+        views.forEach(view => {
+          view.classList.remove('active'); // Hide all
+          if(view.id === targetId) {
+            view.classList.add('active');  // Show target with CSS animation
+          }
+        });
+      });
+    });
+
+    // 4. BIND ACTION BUTTONS
+    document.querySelectorAll('.gen-action').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
         showToast(this.getAttribute('data-toast'));
       });
     });
 
-    // 2. NETWORK CONNECT BUTTONS
     document.querySelectorAll('.connect-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         if(this.innerText === "Connect") {
           this.innerText = "Pending...";
-          this.style.backgroundColor = "#eee";
-          this.style.border = "1px solid #ccc";
-          this.style.color = "#555";
-          showToast("Connection request sent to user.");
+          this.style.backgroundColor = "var(--bg-color)";
+          this.style.borderColor = "var(--border-color)";
+          this.style.color = "var(--text-muted)";
+          showToast("Connection request sent.");
         }
       });
     });
 
-    // 3. POST CREATION ENGINE
+    // 5. POST ENGINE
     const postInput = document.getElementById('new-post-text');
     const submitBtn = document.getElementById('submit-post-btn');
     const postsWrapper = document.getElementById('posts-wrapper');
 
-    postInput.addEventListener('input', function() {
-      submitBtn.disabled = this.value.trim().length === 0;
-    });
+    postInput.addEventListener('input', function() { submitBtn.disabled = this.value.trim().length === 0; });
 
     submitBtn.addEventListener('click', function() {
       const content = postInput.value.trim();
       if(content === "") return;
-
       const newPostHTML = `
-        <div class="card post-card" style="animation: fadeIn 0.5s;">
+        <div class="card post-card" style="animation: fadeInView 0.5s;">
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-            <div style="background-color: #111; color: #fff; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold;">D</div>
-            <div>
-              <h4>DRE4K</h4>
-              <span class="text-muted" style="margin-bottom: 0;">Manager @ CHI Lounge • Just now</span>
-            </div>
+            <div class="avatar">D</div>
+            <div><h4>DRE4K</h4><span class="text-muted" style="margin-bottom: 0;">Just now</span></div>
           </div>
-          <p class="post-content">${content}</p>
+          <p>${content}</p>
           <div class="post-stats">👍 <span class="like-counter">0</span> • 0 comments</div>
-          <div class="post-actions">
-            <span class="action-btn like-btn">Like</span>
-            <span class="action-btn gen-action" data-toast="Loading comments...">Comment</span>
-            <span class="action-btn gen-action" data-toast="Post added to your repost queue.">Repost</span>
-          </div>
-        </div>
-      `;
-
+          <div class="post-actions"><span class="action-btn like-btn">Like</span></div>
+        </div>`;
       postsWrapper.insertAdjacentHTML('afterbegin', newPostHTML);
-      
-      postInput.value = "";
-      submitBtn.disabled = true;
-      showToast("Post published to your network.");
-      
-      bindLikeButtons(); // Rebind likes for new post
-      
-      // Rebind toasts for new generated buttons
-      postsWrapper.firstElementChild.querySelectorAll('.gen-action').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          showToast(this.getAttribute('data-toast'));
-        });
-      });
+      postInput.value = ""; submitBtn.disabled = true; showToast("Post published.");
+      bindLikeButtons();
     });
 
-    // 4. INTERACTIVE LIKE BUTTONS
+    // 6. LIKES SYSTEM
     function bindLikeButtons() {
-      const likeBtns = document.querySelectorAll('.like-btn');
-      const cloneBtns = Array.from(likeBtns).map(btn => {
+      document.querySelectorAll('.like-btn').forEach(btn => {
+        // Prevent double binding by replacing clone
         const clone = btn.cloneNode(true);
         btn.parentNode.replaceChild(clone, btn);
-        return clone;
-      });
-
-      cloneBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        clone.addEventListener('click', function() {
           this.classList.toggle('liked');
-          const counterSpan = this.closest('.post-card').querySelector('.like-counter');
-          let count = parseInt(counterSpan.innerText);
-          
-          if(this.classList.contains('liked')) {
-            this.innerText = "Liked";
-            counterSpan.innerText = count + 1;
-          } else {
-            this.innerText = "Like";
-            counterSpan.innerText = count - 1;
-          }
+          const counter = this.closest('.post-card').querySelector('.like-counter');
+          let count = parseInt(counter.innerText);
+          if(this.classList.contains('liked')) { this.innerText = "Liked"; counter.innerText = count + 1; } 
+          else { this.innerText = "Like"; counter.innerText = count - 1; }
         });
       });
     }
-
     bindLikeButtons();
+
+    // 7. CHAT SIMULATION
+    const chatInput = document.getElementById('chat-input-field');
+    const chatSendBtn = document.getElementById('chat-send-btn');
+    const chatHistory = document.querySelector('.chat-history');
+
+    chatSendBtn.addEventListener('click', function() {
+      if(chatInput.value.trim() !== "") {
+        const msgHTML = `<div class="msg-bubble sent">${chatInput.value}</div>`;
+        chatHistory.insertAdjacentHTML('beforeend', msgHTML);
+        chatInput.value = "";
+        chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll to bottom
+      }
+    });
   </script>
 </body>
 </html>
