@@ -287,9 +287,29 @@ select option{background:var(--bg3)}
 
 @media(max-width:900px){.sidebar-r{display:none}}
 @media(max-width:640px){.sidebar-l{display:none}.shell{padding:12px 10px}}
+
+/* ── ORIENTATION OVERLAY ── */
+#orient-overlay{display:none;position:fixed;inset:0;z-index:9999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;gap:20px}
+#orient-overlay.show{display:flex}
+.orient-phone{font-size:64px;animation:tilt 1.8s ease-in-out infinite}
+@keyframes tilt{0%,100%{transform:rotate(0deg)}45%{transform:rotate(90deg)}55%{transform:rotate(90deg)}}
+.orient-title{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.5px}
+.orient-sub{font-size:13px;color:var(--text3);line-height:1.6;max-width:280px}
+.orient-badge{font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(79,156,249,.1);border:1px solid rgba(79,156,249,.2);padding:4px 14px;border-radius:12px;letter-spacing:.6px}
+@media screen and (max-width:768px) and (orientation:portrait){
+  #orient-overlay{display:flex}
+  body{overflow:hidden}
+}
 </style>
 </head>
 <body>
+
+<div id="orient-overlay">
+  <div class="orient-phone">📱</div>
+  <div class="orient-badge">PANORAMIC MODE REQUIRED</div>
+  <div class="orient-title">Rotate Your Device</div>
+  <div class="orient-sub">Tempoe's studio workspace grid is built for landscape view. Flip your device sideways to unlock the full suite.</div>
+</div>
 
 <nav class="nav">
   <div class="nav-brand" onclick="switchTab('home')">TMP<span>OE</span></div>
