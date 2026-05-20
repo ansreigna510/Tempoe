@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Tempoe — Audio Professional Suite</title>
+<title>TempoBay — Audio Professional Suite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
 <style>
@@ -37,6 +37,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:h
 .nav{position:sticky;top:0;z-index:200;background:rgba(13,13,15,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;height:52px}
 .nav-brand{padding:0 20px;font-family:var(--mono);font-weight:700;font-size:18px;color:var(--accent);letter-spacing:-1px;white-space:nowrap;cursor:pointer;border-right:1px solid var(--border);height:100%;display:flex;align-items:center}
 .nav-brand span{color:var(--text3)}
+.nav-brand img{
+  height:36px;
+  width:auto;
+  display:block;
+}
+
 .nav-tabs{display:flex;align-items:center;gap:2px;padding:0 12px;overflow-x:auto;flex:1;height:100%;-ms-overflow-style:none;scrollbar-width:none}
 .nav-tabs::-webkit-scrollbar{display:none}
 .nav-tab{padding:0 14px;height:36px;display:flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--text2);border-radius:6px;cursor:pointer;white-space:nowrap;transition:all .15s;border:none;background:none;letter-spacing:.3px}
@@ -308,11 +314,11 @@ select option{background:var(--bg3)}
   <div class="orient-phone">📱</div>
   <div class="orient-badge">PANORAMIC MODE REQUIRED</div>
   <div class="orient-title">Rotate Your Device</div>
-  <div class="orient-sub">Tempoe's studio workspace grid is built for landscape view. Flip your device sideways to unlock the full suite.</div>
+  <div class="orient-sub">TempoBay's studio workspace grid is built for landscape view. Flip your device sideways to unlock the full suite.</div>
 </div>
 
 <nav class="nav">
-  <div class="nav-brand" onclick="switchTab('home')">TMP<span>OE</span></div>
+  <div class="nav-brand" onclick="switchTab('home')"><img src="logo final.png" alt="TempoBay Logo" style="height:38px;object-fit:contain;"></div>
   <div class="nav-tabs" id="nav-tabs">
     <button class="nav-tab active" data-tab="home" onclick="switchTab('home')">Home</button>
     <button class="nav-tab" data-tab="reels" onclick="switchTab('reels')">Reels</button>
@@ -398,7 +404,7 @@ select option{background:var(--bg3)}
     <div id="tab-reels" class="tab-panel">
       <div class="card" style="background:#000;border:none">
         <div class="card-hd" style="background:#000;border-color:rgba(255,255,255,.06)">
-          <h3 style="color:#fff">Tempoe Reels</h3>
+          <h3 style="color:#fff">TempoBay Reels</h3>
           <span class="badge" style="color:rgba(255,255,255,.4)">BEAT SHORTS</span>
         </div>
         <div class="card-pad" style="padding-top:16px">
