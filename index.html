@@ -3,28 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TempoBay — Audio Professional Suite</title>
+<title>Tempoe — Audio Professional Suite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0d0d0f;
-  --bg2: #141417;
-  --bg3: #1c1c21;
-  --bg4: #242429;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.13);
-  --text: #f0ede8;
-  --text2: #9d9a95;
-  --text3: #5e5c58;
-  --accent: #4f9cf9;
-  --accent2: #2d7fe8;
-  --green: #3fcf8e;
-  --amber: #f5a623;
-  --red: #e84b4b;
-  --purple: #a78bfa;
-  --mono: 'Space Mono', monospace;
-  --sans: 'DM Sans', sans-serif;
+:root{
+  --bg:#0d0d0f;--bg2:#141417;--bg3:#1c1c21;--bg4:#242429;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#f0ede8;--text2:#9d9a95;--text3:#5e5c58;
+  --accent:#4f9cf9;--accent2:#2d7fe8;
+  --green:#3fcf8e;--amber:#f5a623;--red:#e84b4b;--purple:#a78bfa;
+  --mono:'Space Mono',monospace;--sans:'DM Sans',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -33,69 +22,143 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:h
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
 
-/* ── NAV ── */
-.nav{position:sticky;top:0;z-index:200;background:rgba(13,13,15,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;height:52px}
+/* AUTH */
+#auth-overlay{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#auth-overlay.hidden{display:none}
+.auth-box{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:36px 32px;width:100%;max-width:440px;animation:fadeUp .3s ease;margin:auto}
+.auth-logo{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--accent);letter-spacing:-2px;text-align:center;margin-bottom:4px}
+.auth-logo span{color:var(--text3)}
+.auth-tagline{text-align:center;font-size:12px;color:var(--text3);font-family:var(--mono);letter-spacing:.6px;margin-bottom:28px}
+.auth-tabs{display:flex;background:var(--bg3);border-radius:8px;padding:3px;margin-bottom:24px;gap:2px}
+.auth-tab{flex:1;padding:8px;text-align:center;font-size:13px;font-weight:600;border-radius:6px;cursor:pointer;color:var(--text2);transition:all .15s;border:none;background:none}
+.auth-tab.active{background:var(--bg4);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.auth-panel{display:none}
+.auth-panel.active{display:block}
+.auth-err{background:rgba(232,75,75,.12);border:1px solid rgba(232,75,75,.3);border-radius:6px;padding:9px 12px;font-size:12px;color:var(--red);margin-bottom:12px;display:none}
+.auth-err.show{display:block}
+.auth-ok{background:rgba(63,207,142,.12);border:1px solid rgba(63,207,142,.3);border-radius:6px;padding:9px 12px;font-size:12px;color:var(--green);margin-bottom:12px;display:none}
+.auth-ok.show{display:block}
+.pw-wrap{position:relative}
+.pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:4px}
+.av-pick{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.av-pick-thumb{width:56px;height:56px;border-radius:50%;background:var(--bg4);border:2px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;flex-shrink:0}
+.av-pick-thumb img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.role-opt{border:1px solid var(--border2);border-radius:8px;padding:10px 12px;cursor:pointer;transition:all .15s;text-align:left;background:none}
+.role-opt:hover{border-color:var(--accent);background:rgba(79,156,249,.05)}
+.role-opt.sel{border-color:var(--accent);background:rgba(79,156,249,.1)}
+.role-opt .ri{font-size:18px;margin-bottom:4px}
+.role-opt .rn{font-size:12px;font-weight:600;color:var(--text)}
+.role-opt .rs{font-size:10px;color:var(--text3);font-family:var(--mono)}
+.or-line{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--text3);font-size:11px;font-family:var(--mono)}
+.or-line::before,.or-line::after{content:'';flex:1;height:1px;background:var(--border)}
+.demo-box{margin-top:16px;padding:12px;background:var(--bg3);border-radius:8px;font-size:11px;color:var(--text3);font-family:var(--mono)}
+
+/* PROFILE MODAL */
+#profile-modal{position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#profile-modal.open{display:flex}
+.modal-box{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:fadeUp .2s ease;margin:auto}
+.modal-hd{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:2}
+.modal-hd h3{font-size:15px;font-weight:700}
+.modal-close{background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:4px}
+.modal-close:hover{color:var(--text);background:var(--bg3)}
+.modal-body{padding:22px}
+.banner-wrap{height:90px;border-radius:8px;margin-bottom:48px;cursor:pointer;overflow:hidden;border:1px dashed var(--border2);background:linear-gradient(135deg,#1a1f3c,#0d1526);position:relative}
+.banner-wrap:hover::after{content:'Change Banner';position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:600}
+.banner-wrap img{width:100%;height:100%;object-fit:cover;display:none}
+.av-edit-over{position:absolute;bottom:-44px;left:18px;width:60px;height:60px;border-radius:50%;border:3px solid var(--bg2);background:var(--bg4);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--accent);font-family:var(--mono)}
+.av-edit-over img{width:100%;height:100%;object-fit:cover}
+.av-edit-over:hover::after{content:'✏️';position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:18px}
+
+/* UPLOAD MODAL */
+#upload-modal{position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+#upload-modal.open{display:flex}
+.upload-zone{border:2px dashed var(--border2);border-radius:10px;padding:32px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg3)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:rgba(79,156,249,.05)}
+.upload-zone .uico{font-size:36px;margin-bottom:8px}
+.upload-zone p{font-size:13px;color:var(--text2)}
+.upload-zone small{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.uprev{display:none;padding:14px;background:var(--bg3);border-radius:8px;border:1px solid var(--border2);margin-top:12px}
+.uprev.show{display:block}
+.uprev-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.uprev-meta{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.up-prog-bar{height:4px;background:var(--bg4);border-radius:2px;margin-top:10px;overflow:hidden}
+.up-prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--purple));border-radius:2px;width:0%;transition:width .15s}
+.utype-tabs{display:flex;gap:6px;margin-bottom:16px}
+.utype-tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border2);color:var(--text2);background:none;transition:all .15s}
+.utype-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:rgba(13,13,15,0.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;height:52px}
 .nav-brand{padding:0 20px;font-family:var(--mono);font-weight:700;font-size:18px;color:var(--accent);letter-spacing:-1px;white-space:nowrap;cursor:pointer;border-right:1px solid var(--border);height:100%;display:flex;align-items:center}
 .nav-brand span{color:var(--text3)}
-.nav-brand img{
-  height:36px;
-  width:auto;
-  display:block;
-}
-
 .nav-tabs{display:flex;align-items:center;gap:2px;padding:0 12px;overflow-x:auto;flex:1;height:100%;-ms-overflow-style:none;scrollbar-width:none}
 .nav-tabs::-webkit-scrollbar{display:none}
 .nav-tab{padding:0 14px;height:36px;display:flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--text2);border-radius:6px;cursor:pointer;white-space:nowrap;transition:all .15s;border:none;background:none;letter-spacing:.3px}
 .nav-tab:hover{color:var(--text);background:var(--bg3)}
 .nav-tab.active{color:var(--text);background:var(--bg3);box-shadow:inset 0 0 0 1px var(--border2)}
-.nav-tab .dot{width:6px;height:6px;border-radius:50%;background:var(--red);margin-left:4px}
 .nav-tab .cnt{background:var(--accent);color:#fff;font-size:9px;font-family:var(--mono);padding:1px 5px;border-radius:10px;font-weight:700}
-.nav-right{padding:0 16px;border-left:1px solid var(--border);height:100%;display:flex;align-items:center;gap:10px}
-.avatar-sm{width:30px;height:30px;border-radius:50%;background:url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100') center/cover;border:1.5px solid var(--accent)}
+.nav-right{padding:0 16px;border-left:1px solid var(--border);height:100%;display:flex;align-items:center;gap:10px;position:relative}
+.nav-user-btn{display:flex;align-items:center;gap:8px;cursor:pointer;padding:4px 8px;border-radius:8px;transition:background .15s}
+.nav-user-btn:hover{background:var(--bg3)}
+.av-sm{width:30px;height:30px;border-radius:50%;background:var(--bg4);border:1.5px solid var(--accent);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0}
+.av-sm img{width:100%;height:100%;object-fit:cover}
+.nav-uname{font-size:12px;font-weight:600;color:var(--text);font-family:var(--mono)}
+.user-menu{position:absolute;top:52px;right:0;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:6px;min-width:190px;z-index:300;display:none;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.user-menu.open{display:block}
+.um-item{padding:9px 12px;border-radius:6px;cursor:pointer;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:8px;transition:all .15s}
+.um-item:hover{background:var(--bg4);color:var(--text)}
+.um-item.danger{color:var(--red)}
+.um-item.danger:hover{background:rgba(232,75,75,.1)}
+.um-div{height:1px;background:var(--border);margin:4px 0}
 
-/* ── LAYOUT ── */
+/* LAYOUT */
 .shell{display:flex;max-width:1340px;margin:0 auto;gap:18px;padding:18px 16px;align-items:flex-start}
 .sidebar-l{width:224px;flex-shrink:0;position:sticky;top:70px}
 .sidebar-r{width:248px;flex-shrink:0;position:sticky;top:70px}
 .feed{flex:1;min-width:0}
 
-/* ── CARDS ── */
+/* CARDS */
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px}
 .card-pad{padding:16px 18px}
 .card-hd{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.card-hd h3{font-size:13px;font-weight:600;letter-spacing:.3px;color:var(--text)}
+.card-hd h3{font-size:13px;font-weight:600;letter-spacing:.3px}
 .card-hd .badge{font-family:var(--mono);font-size:10px;color:var(--text3)}
 
-/* ── PROFILE SIDEBAR ── */
-.profile-banner{height:60px;background:linear-gradient(135deg,#1a1f3c 0%,#0d1526 100%);position:relative}
-.profile-avatar{width:56px;height:56px;border-radius:50%;border:3px solid var(--bg2);background:url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150') center/cover;position:absolute;bottom:-28px;left:18px}
-.profile-body{padding:36px 18px 16px}
-.profile-name{font-weight:700;font-size:15px;color:var(--text);margin-bottom:2px}
-.profile-role{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:14px}
-.profile-stat{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--border)}
-.profile-stat span{font-size:11px;color:var(--text3)}
-.profile-stat strong{font-size:13px;color:var(--accent);font-family:var(--mono)}
+/* PROFILE SIDEBAR */
+.prof-banner{height:60px;background:linear-gradient(135deg,#1a1f3c,#0d1526);position:relative;overflow:hidden}
+.prof-banner img{width:100%;height:100%;object-fit:cover}
+.prof-av{width:56px;height:56px;border-radius:50%;border:3px solid var(--bg2);background:var(--bg4);position:absolute;bottom:-28px;left:18px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--accent);font-family:var(--mono)}
+.prof-av img{width:100%;height:100%;object-fit:cover}
+.prof-body{padding:36px 18px 16px}
+.prof-name{font-weight:700;font-size:15px;color:var(--text);margin-bottom:2px}
+.prof-role{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:8px}
+.prof-bio{font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.prof-stat{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--border)}
+.prof-stat span{font-size:11px;color:var(--text3)}
+.prof-stat strong{font-size:13px;color:var(--accent);font-family:var(--mono)}
 .nav-quick{display:flex;flex-direction:column;gap:2px;padding:8px 0}
-.nav-quick-item{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:8px;cursor:pointer;transition:all .15s;color:var(--text2);font-size:13px;font-weight:500}
-.nav-quick-item:hover{background:var(--bg3);color:var(--text)}
-.nav-quick-item.active{background:var(--bg3);color:var(--accent)}
-.nav-quick-item .ico{font-size:15px;width:18px;text-align:center}
+.nqi{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:8px;cursor:pointer;transition:all .15s;color:var(--text2);font-size:13px;font-weight:500}
+.nqi:hover{background:var(--bg3);color:var(--text)}
+.nqi.active{background:var(--bg3);color:var(--accent)}
+.nqi .ico{font-size:15px;width:18px;text-align:center}
 
-/* ── BUTTONS ── */
+/* BUTTONS */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:7px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:none;white-space:nowrap}
 .btn-primary{background:var(--accent);color:#fff}
 .btn-primary:hover{background:var(--accent2)}
 .btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2)}
 .btn-ghost:hover{background:var(--bg3);color:var(--text)}
 .btn-danger{background:var(--red);color:#fff}
+.btn-danger:hover{opacity:.85}
 .btn-sm{padding:5px 12px;font-size:12px;border-radius:6px}
 .btn-full{width:100%}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .btn-icon{width:32px;height:32px;padding:0;border-radius:7px;background:var(--bg3);color:var(--text2);border:1px solid var(--border);font-size:15px}
 .btn-icon:hover{background:var(--bg4);color:var(--text)}
 
-/* ── INPUTS ── */
-input[type=text],input[type=email],input[type=number],textarea,select{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:9px 12px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}
+/* INPUTS */
+input[type=text],input[type=email],input[type=password],input[type=number],input[type=url],textarea,select{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:9px 12px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}
 input:focus,textarea:focus,select:focus{border-color:var(--accent)}
 textarea{resize:none}
 ::placeholder{color:var(--text3)}
@@ -104,42 +167,60 @@ select option{background:var(--bg3)}
 .form-row{display:flex;gap:10px}
 .form-row>*{flex:1}
 .form-group{margin-bottom:12px}
+input[type=file]{display:none}
 
-/* ── TABS VISIBILITY ── */
+/* TAB PANELS */
 .tab-panel{display:none}
 .tab-panel.active{display:block}
 
-/* ── POST CARD ── */
+/* POSTS */
 .post{margin-bottom:14px}
 .post-author{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.post-author .av{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.post-author .av{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--bg4);background-size:cover;background-position:center}
 .post-author-info h4{font-size:14px;font-weight:600;color:var(--text)}
 .post-author-info span{font-size:11px;color:var(--text3)}
 .post-body{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px}
-.post-img{width:100%;border-radius:8px;margin-bottom:12px;aspect-ratio:16/9;object-fit:cover}
+.post-img{width:100%;border-radius:8px;margin-bottom:12px;max-height:360px;object-fit:cover}
+.post-attach{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:12px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)}
 .post-stats{font-size:11px;color:var(--text3);font-family:var(--mono);padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:10px}
 .post-actions{display:flex;gap:4px}
 .post-action{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;color:var(--text2);transition:all .15s;border:none;background:none}
 .post-action:hover{background:var(--bg3);color:var(--accent)}
 .post-action.active{color:var(--accent)}
+.you-badge{font-size:9px;font-family:var(--mono);color:var(--accent);background:rgba(79,156,249,.1);padding:1px 6px;border-radius:3px;margin-left:4px}
 
-/* ── COMPOSE ── */
+/* COMPOSE */
 .compose{display:flex;gap:10px;align-items:flex-start;margin-bottom:14px}
-.compose .av{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;background:url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100') center/cover}
+.compose .cav{width:38px;height:38px;border-radius:50%;flex-shrink:0;background:var(--bg4);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--accent);font-family:var(--mono)}
+.compose .cav img{width:100%;height:100%;object-fit:cover}
 .compose-box{flex:1}
 .compose-box textarea{margin-bottom:8px}
-.compose-toolbar{display:flex;align-items:center;justify-content:space-between}
-.compose-tools{display:flex;gap:6px}
+.compose-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.compose-tools{display:flex;gap:6px;flex-wrap:wrap}
+.catth{background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.catth button{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;margin-left:auto}
 
-/* ── REELS ── */
+/* REELS */
+.reels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.reel-thumb{border-radius:10px;overflow:hidden;aspect-ratio:9/16;position:relative;cursor:pointer;background:var(--bg3);border:1px solid var(--border)}
+.reel-thumb-bg{width:100%;height:100%;background-size:cover;background-position:center}
+.reel-thumb-ov{position:absolute;inset:0;background:linear-gradient(transparent 35%,rgba(0,0,0,.85));display:flex;flex-direction:column;justify-content:flex-end;padding:10px}
+.reel-thumb-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;font-size:16px;opacity:0;transition:opacity .2s}
+.reel-thumb:hover .reel-thumb-play{opacity:1}
+.reel-thumb-creator{font-size:11px;font-weight:700;color:var(--accent);font-family:var(--mono)}
+.reel-thumb-desc{font-size:10px;color:rgba(255,255,255,.75);line-height:1.3;margin-top:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.reel-thumb-stats{display:flex;gap:8px;margin-top:4px;font-size:10px;color:rgba(255,255,255,.5);font-family:var(--mono)}
+
+/* REEL PLAYER */
 .reels-wrap{background:#000;border-radius:10px;padding:20px;display:flex;gap:20px;align-items:center;min-height:560px}
 .reel-phone{width:320px;flex-shrink:0;height:560px;border-radius:32px;overflow:hidden;position:relative;border:2px solid var(--bg4);box-shadow:0 0 0 1px rgba(255,255,255,.04)}
 .reel-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:background-image .4s}
+.reel-bg video{width:100%;height:100%;object-fit:cover}
 .reel-gradient{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.92))}
 .reel-side{position:absolute;right:14px;bottom:120px;display:flex;flex-direction:column;gap:18px;align-items:center}
 .reel-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;transition:all .2s;color:#fff;backdrop-filter:blur(4px)}
 .reel-btn:hover{background:var(--accent);transform:scale(1.08)}
-.reel-btn-label{font-size:10px;color:rgba(255,255,255,.7);text-align:center;font-family:var(--mono);margin-top:2px}
+.reel-btn-lbl{font-size:10px;color:rgba(255,255,255,.7);text-align:center;font-family:var(--mono);margin-top:2px}
 .reel-info{position:absolute;bottom:0;left:0;right:0;padding:20px 16px;display:flex;flex-direction:column;gap:4px}
 .reel-creator{font-size:14px;font-weight:700;color:var(--accent)}
 .reel-desc{font-size:12px;color:rgba(255,255,255,.82);line-height:1.4}
@@ -149,10 +230,10 @@ select option{background:var(--bg3)}
 .reel-progress{background:rgba(255,255,255,.1);height:3px;border-radius:2px;cursor:pointer;overflow:hidden}
 .reel-progress-fill{height:100%;background:var(--accent);width:35%;transition:width .3s}
 
-/* ── WAVEFORM ── */
-.waveform-canvas{width:100%;height:60px;border-radius:6px;cursor:pointer;display:block}
+/* WAVEFORM */
+.wf-canvas{width:100%;height:60px;border-radius:6px;cursor:pointer;display:block}
 
-/* ── SOUND ITEM ── */
+/* SOUNDS */
 .sound-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .sound-item:last-child{border-bottom:none}
 .play-btn{width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;flex-shrink:0;transition:all .15s}
@@ -161,9 +242,10 @@ select option{background:var(--bg3)}
 .sound-info{flex:1;min-width:0}
 .sound-info h4{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sound-info span{font-size:11px;color:var(--text3);font-family:var(--mono)}
-.sound-bpm{font-size:11px;font-family:var(--mono);color:var(--accent);background:rgba(79,156,249,.1);padding:2px 8px;border-radius:4px}
+.sbpm{font-size:11px;font-family:var(--mono);color:var(--accent);background:rgba(79,156,249,.1);padding:2px 8px;border-radius:4px}
+.mine-badge{font-size:9px;font-family:var(--mono);padding:1px 6px;border-radius:3px;background:rgba(63,207,142,.15);color:var(--green);margin-left:4px}
 
-/* ── COURSES ── */
+/* COURSES */
 .course-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .course-card{border-radius:8px;overflow:hidden;border:1px solid var(--border)}
 .course-thumb{height:110px;background-size:cover;background-position:center;position:relative}
@@ -171,11 +253,11 @@ select option{background:var(--bg3)}
 .course-body{padding:12px}
 .course-body h4{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.3}
 .course-body .level{font-size:10px;font-family:var(--mono);color:var(--text3);margin-bottom:10px;display:block}
-.progress-wrap{background:var(--bg4);height:4px;border-radius:2px;margin-bottom:6px;overflow:hidden}
-.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .6s ease;width:0}
-.progress-meta{display:flex;justify-content:space-between;font-size:10px;font-family:var(--mono);color:var(--text3);margin-bottom:10px}
+.prog-wrap{background:var(--bg4);height:4px;border-radius:2px;margin-bottom:6px;overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .6s ease}
+.prog-meta{display:flex;justify-content:space-between;font-size:10px;font-family:var(--mono);color:var(--text3);margin-bottom:10px}
 
-/* ── METRICS ── */
+/* METRICS */
 .metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .metric-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
 .metric-card .label{font-size:10px;font-family:var(--mono);color:var(--text3);margin-bottom:4px;display:block;letter-spacing:.4px}
@@ -183,11 +265,9 @@ select option{background:var(--bg3)}
 .metric-card .delta{font-size:10px;font-family:var(--mono);margin-top:3px}
 .delta-up{color:var(--green)}
 .delta-down{color:var(--red)}
-
-/* ── CHART ── */
 .chart-wrap{position:relative;width:100%;height:200px;margin-bottom:16px}
 
-/* ── MESSAGING ── */
+/* MESSAGING */
 .msg-layout{display:flex;height:520px;gap:0}
 .inbox{width:220px;border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0}
 .inbox-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
@@ -211,18 +291,18 @@ select option{background:var(--bg3)}
 .chat-compose input{flex:1}
 .typing-ind{font-size:11px;color:var(--text3);font-family:var(--mono);padding:4px 16px;font-style:italic}
 
-/* ── MARKETPLACE ── */
+/* MARKET */
 .market-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
 .market-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .15s}
 .market-card:hover{border-color:var(--border2)}
 .market-img{height:120px;background-size:cover;background-position:center;position:relative}
-.market-badge{position:absolute;top:8px;right:8px;font-size:9px;font-family:var(--mono);padding:2px 7px;border-radius:4px;font-weight:700}
+.market-badge{position:absolute;top:8px;right:8px;font-size:9px;font-family:var(--mono);padding:2px 7px;border-radius:4px;font-weight:700;background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
 .market-info{padding:12px 14px}
 .market-info h4{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
 .market-info .price{font-size:15px;font-family:var(--mono);font-weight:700;color:var(--accent);margin-bottom:6px}
 .market-info p{font-size:11px;color:var(--text3);line-height:1.5;margin-bottom:10px}
 
-/* ── GIGS ── */
+/* GIGS */
 .gig-card{padding:14px;border-bottom:1px solid var(--border)}
 .gig-card:last-child{border-bottom:none}
 .gig-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
@@ -230,78 +310,67 @@ select option{background:var(--bg3)}
 .gig-pay{font-size:13px;font-family:var(--mono);font-weight:700;color:var(--green)}
 .gig-meta{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .gig-tag{font-size:10px;font-family:var(--mono);padding:2px 7px;border-radius:4px;background:var(--bg4);color:var(--text3)}
-.gig-tag.featured{background:rgba(79,156,249,.15);color:var(--accent)}
+.gig-tag.feat{background:rgba(79,156,249,.15);color:var(--accent)}
 .gig-card p{font-size:12px;color:var(--text3);line-height:1.5;margin-bottom:10px}
 
-/* ── BOOKING ── */
+/* BOOKING */
 .booking-item{padding:14px;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:flex-start}
-.booking-date{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:8px 10px;text-align:center;min-width:50px}
-.booking-date .month{font-size:9px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
-.booking-date .day{font-size:22px;font-family:var(--mono);font-weight:700;color:var(--text);line-height:1}
-.booking-info{flex:1}
-.booking-info h4{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
-.booking-info p{font-size:11px;color:var(--text3);margin-bottom:6px}
-.status-pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-family:var(--mono);padding:2px 8px;border-radius:10px;font-weight:600}
-.status-confirmed{background:rgba(63,207,142,.12);color:var(--green)}
-.status-pending{background:rgba(245,166,35,.12);color:var(--amber)}
-.status-cancelled{background:rgba(232,75,75,.12);color:var(--red)}
+.bk-date{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:8px 10px;text-align:center;min-width:50px}
+.bk-date .month{font-size:9px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.bk-date .day{font-size:22px;font-family:var(--mono);font-weight:700;color:var(--text);line-height:1}
+.bk-info{flex:1}
+.bk-info h4{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.bk-info p{font-size:11px;color:var(--text3);margin-bottom:6px}
+.spill{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-family:var(--mono);padding:2px 8px;border-radius:10px;font-weight:600}
+.s-confirmed{background:rgba(63,207,142,.12);color:var(--green)}
+.s-pending{background:rgba(245,166,35,.12);color:var(--amber)}
+.s-cancelled{background:rgba(232,75,75,.12);color:var(--red)}
 
-/* ── PROMOTER ── */
-.ticket-bar-wrap{height:12px;background:var(--bg4);border-radius:6px;overflow:hidden;margin:8px 0}
-.ticket-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--purple));border-radius:6px;transition:width .8s ease}
+/* PROMOTER */
+.tix-bar-wrap{height:12px;background:var(--bg4);border-radius:6px;overflow:hidden;margin:8px 0}
+.tix-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--purple));border-radius:6px;transition:width .8s ease}
 
-/* ── MANAGEMENT LEDGER ── */
+/* LEDGER */
 .ledger-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
 .ledger-row:last-child{border-bottom:none}
-.ledger-name{color:var(--text);font-weight:500}
-.ledger-split{font-family:var(--mono);font-size:12px;color:var(--text3)}
-.ledger-amount{font-family:var(--mono);font-weight:700;color:var(--green)}
+.l-name{color:var(--text);font-weight:500}
+.l-split{font-family:var(--mono);font-size:12px;color:var(--text3)}
+.l-amt{font-family:var(--mono);font-weight:700;color:var(--green)}
 
-/* ── ANALYTICS PILLS ── */
+/* PILLS */
 .pill-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
 .pill{font-size:11px;font-family:var(--mono);padding:4px 12px;border-radius:12px;cursor:pointer;border:1px solid var(--border2);color:var(--text3);transition:all .15s;background:none}
 .pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-/* ── TOAST ── */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:11px 20px;border-radius:8px;font-size:13px;z-index:999;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:11px 20px;border-radius:8px;font-size:13px;z-index:9999;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ── RIGHT PANEL ── */
+/* RIGHT PANEL */
 .trending-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer}
 .trending-item:last-child{border-bottom:none}
-.trending-rank{font-size:11px;font-family:var(--mono);color:var(--text3);width:16px}
-.trending-info h5{font-size:12px;font-weight:600;color:var(--text)}
-.trending-info span{font-size:10px;color:var(--text3);font-family:var(--mono)}
-.suggest-item{display:flex;align-items:center;gap:10px;padding:8px 0}
-.suggest-av{width:34px;height:34px;border-radius:50%;background-size:cover;background-position:center;flex-shrink:0}
-
-/* ── ONLINE INDICATOR ── */
+.t-rank{font-size:11px;font-family:var(--mono);color:var(--text3);width:16px}
+.t-info h5{font-size:12px;font-weight:600;color:var(--text)}
+.t-info span{font-size:10px;color:var(--text3);font-family:var(--mono)}
+.sug-item{display:flex;align-items:center;gap:10px;padding:8px 0}
+.sug-av{width:34px;height:34px;border-radius:50%;background-size:cover;background-position:center;flex-shrink:0}
 .online{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:var(--mono);color:var(--green)}
-.online::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;flex-shrink:0}
+.online::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block}
 
-/* ── MISC ── */
+/* MISC */
 .section-title{font-size:11px;font-family:var(--mono);color:var(--text3);letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px;display:block}
 .divider{border:0;border-top:1px solid var(--border);margin:14px 0}
-.tag{display:inline-flex;align-items:center;font-size:10px;font-family:var(--mono);padding:2px 8px;border-radius:4px;font-weight:600;background:var(--bg4);color:var(--text3)}
-.empty-state{text-align:center;padding:40px 20px;color:var(--text3);font-size:13px}
-.row{display:flex;gap:10px;align-items:center}
-.spacer{flex:1}
 
 @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
 @media(max-width:900px){.sidebar-r{display:none}}
 @media(max-width:640px){.sidebar-l{display:none}.shell{padding:12px 10px}}
 
-/* ── ORIENTATION OVERLAY ── */
+/* ORIENTATION */
 #orient-overlay{display:none;position:fixed;inset:0;z-index:9999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;gap:20px}
-#orient-overlay.show{display:flex}
 .orient-phone{font-size:64px;animation:tilt 1.8s ease-in-out infinite}
 @keyframes tilt{0%,100%{transform:rotate(0deg)}45%{transform:rotate(90deg)}55%{transform:rotate(90deg)}}
-.orient-title{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.5px}
-.orient-sub{font-size:13px;color:var(--text3);line-height:1.6;max-width:280px}
-.orient-badge{font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(79,156,249,.1);border:1px solid rgba(79,156,249,.2);padding:4px 14px;border-radius:12px;letter-spacing:.6px}
 @media screen and (max-width:768px) and (orientation:portrait){
   #orient-overlay{display:flex}
   body{overflow:hidden}
@@ -312,14 +381,254 @@ select option{background:var(--bg3)}
 
 <div id="orient-overlay">
   <div class="orient-phone">📱</div>
-  <div class="orient-badge">PANORAMIC MODE REQUIRED</div>
-  <div class="orient-title">Rotate Your Device</div>
-  <div class="orient-sub">TempoBay's studio workspace grid is built for landscape view. Flip your device sideways to unlock the full suite.</div>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(79,156,249,.1);border:1px solid rgba(79,156,249,.2);padding:4px 14px;border-radius:12px;letter-spacing:.6px">PANORAMIC MODE REQUIRED</div>
+  <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--text)">Rotate Your Device</div>
+  <div style="font-size:13px;color:var(--text3);line-height:1.6;max-width:280px">Tempoe's studio workspace is built for landscape view. Flip your device sideways to unlock the full suite.</div>
 </div>
 
-<nav class="nav">
-  <div class="nav-brand" onclick="switchTab('home')"><img src="logo final.png" alt="TempoBay Logo" style="height:38px;object-fit:contain;"></div>
-  <div class="nav-tabs" id="nav-tabs">
+<!-- ═══════════════ AUTH OVERLAY ═══════════════ -->
+<div id="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-logo">TMP<span>OE</span></div>
+    <div class="auth-tagline">AUDIO PROFESSIONAL SUITE</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="atab-login" onclick="showAuthPanel('login')">Sign In</button>
+      <button class="auth-tab" id="atab-signup" onclick="showAuthPanel('signup')">Create Account</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="auth-login" class="auth-panel active">
+      <div class="auth-err" id="login-err"></div>
+      <div class="form-group">
+        <label class="form-label">USERNAME OR EMAIL</label>
+        <input type="text" id="login-user" placeholder="username or email" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label class="form-label">PASSWORD</label>
+        <div class="pw-wrap">
+          <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+          <button class="pw-toggle" onclick="togglePw('login-pass',this)">👁</button>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()">Sign In →</button>
+      <div class="or-line">or</div>
+      <div style="font-size:12px;color:var(--text3);text-align:center">New here? <span style="color:var(--accent);cursor:pointer" onclick="showAuthPanel('signup')">Create a free account →</span></div>
+      <div class="demo-box">
+        <div style="color:var(--text2);font-weight:700;margin-bottom:4px">DEMO ACCOUNT:</div>
+        <div>Username: <span style="color:var(--accent)">dre4k</span> &nbsp;·&nbsp; Password: <span style="color:var(--accent)">studio123</span></div>
+      </div>
+    </div>
+
+    <!-- SIGNUP -->
+    <div id="auth-signup" class="auth-panel">
+      <div class="auth-err" id="signup-err"></div>
+      <div class="auth-ok" id="signup-ok"></div>
+      <div class="av-pick">
+        <div class="av-pick-thumb" id="su-av-thumb" onclick="document.getElementById('su-av-file').click()">👤
+          <img id="su-av-img" src="" alt="" style="display:none">
+        </div>
+        <input type="file" id="su-av-file" accept="image/*" onchange="previewSignupAv(event)">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">Profile Photo</div>
+          <div style="font-size:11px;color:var(--text3)">Tap to upload · Optional</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">USERNAME *</label>
+          <input type="text" id="su-username" placeholder="@yourname" maxlength="24">
+        </div>
+        <div class="form-group">
+          <label class="form-label">DISPLAY NAME *</label>
+          <input type="text" id="su-display" placeholder="Full / Artist name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">EMAIL ADDRESS *</label>
+        <input type="email" id="su-email" placeholder="you@email.com">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">PASSWORD *</label>
+          <div class="pw-wrap">
+            <input type="password" id="su-pass" placeholder="Min 8 chars">
+            <button class="pw-toggle" onclick="togglePw('su-pass',this)">👁</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">CONFIRM PASSWORD *</label>
+          <div class="pw-wrap">
+            <input type="password" id="su-pass2" placeholder="Repeat password">
+            <button class="pw-toggle" onclick="togglePw('su-pass2',this)">👁</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">YOUR ROLE</label>
+        <div class="role-grid">
+          <div class="role-opt sel" onclick="pickRole(this,'Producer')"><div class="ri">🎛️</div><div class="rn">Producer</div><div class="rs">Beat maker</div></div>
+          <div class="role-opt" onclick="pickRole(this,'Mix Engineer')"><div class="ri">🎚️</div><div class="rn">Mix Engineer</div><div class="rs">Mixing & stems</div></div>
+          <div class="role-opt" onclick="pickRole(this,'Artist')"><div class="ri">🎤</div><div class="rn">Artist</div><div class="rs">Vocalist / MC</div></div>
+          <div class="role-opt" onclick="pickRole(this,'A&R / Manager')"><div class="ri">📋</div><div class="rn">A&R / Manager</div><div class="rs">Industry side</div></div>
+          <div class="role-opt" onclick="pickRole(this,'DJ')"><div class="ri">🎧</div><div class="rn">DJ</div><div class="rs">Performance</div></div>
+          <div class="role-opt" onclick="pickRole(this,'Mastering Engineer')"><div class="ri">🔊</div><div class="rn">Mastering</div><div class="rs">Final chain</div></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">BIO (OPTIONAL)</label>
+        <textarea id="su-bio" rows="2" placeholder="Quick intro about yourself..."></textarea>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doSignup()">Create My Account →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PROFILE MODAL ═══════════════ -->
+<div id="profile-modal">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <h3>Edit Profile</h3>
+      <button class="modal-close" onclick="closeProfileModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="form-label">PROFILE BANNER</label>
+      <div class="banner-wrap" id="banner-wrap" onclick="document.getElementById('banner-file').click()">
+        <img id="banner-img" src="" alt="">
+      </div>
+      <input type="file" id="banner-file" accept="image/*" onchange="prevBanner(event)">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+        <div class="av-edit-over" id="av-edit-wrap" onclick="document.getElementById('av-edit-file').click()">
+          <img id="av-edit-img" src="" alt="">
+        </div>
+        <input type="file" id="av-edit-file" accept="image/*" onchange="prevAvEdit(event)">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">Profile Photo</div>
+          <div style="font-size:11px;color:var(--text3)">Click avatar to change</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">DISPLAY NAME</label>
+          <input type="text" id="edit-display">
+        </div>
+        <div class="form-group">
+          <label class="form-label">USERNAME</label>
+          <input type="text" id="edit-uname">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ROLE / TITLE</label>
+        <input type="text" id="edit-role" placeholder="e.g. Executive Producer">
+      </div>
+      <div class="form-group">
+        <label class="form-label">BIO</label>
+        <textarea id="edit-bio" rows="3" placeholder="Tell the community about yourself..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">WEBSITE</label>
+        <input type="url" id="edit-site" placeholder="https://...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">NEW PASSWORD</label>
+          <div class="pw-wrap">
+            <input type="password" id="edit-pass" placeholder="Leave blank to keep">
+            <button class="pw-toggle" onclick="togglePw('edit-pass',this)">👁</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">CONFIRM NEW PASSWORD</label>
+          <div class="pw-wrap">
+            <input type="password" id="edit-pass2" placeholder="Confirm">
+            <button class="pw-toggle" onclick="togglePw('edit-pass2',this)">👁</button>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+        <button class="btn btn-ghost" onclick="closeProfileModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ UPLOAD MODAL ═══════════════ -->
+<div id="upload-modal">
+  <div class="modal-box" style="max-width:500px">
+    <div class="modal-hd">
+      <h3>Upload Content</h3>
+      <button class="modal-close" onclick="closeUploadModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="utype-tabs">
+        <button class="utype-tab active" onclick="setUType('audio',this)">🎵 Audio</button>
+        <button class="utype-tab" onclick="setUType('reel',this)">🎬 Reel / Video</button>
+        <button class="utype-tab" onclick="setUType('image',this)">📷 Image</button>
+      </div>
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('u-file-input').click()" ondragover="ev.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
+        <div class="uico" id="uico">🎵</div>
+        <p>Drop your file here or <span style="color:var(--accent)">browse</span></p>
+        <small id="uhint">MP3, WAV, FLAC, AIFF · max 200MB</small>
+      </div>
+      <input type="file" id="u-file-input" onchange="handleFileSelect(event)">
+      <div class="uprev" id="uprev">
+        <div class="uprev-name" id="uprev-name">—</div>
+        <div class="uprev-meta" id="uprev-meta">—</div>
+        <div class="up-prog-bar"><div class="up-prog-fill" id="up-prog-fill"></div></div>
+      </div>
+      <div id="u-meta" style="margin-top:14px">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">TITLE *</label>
+            <input type="text" id="u-title" placeholder="Title for your upload">
+          </div>
+          <div class="form-group" id="u-bpm-g">
+            <label class="form-label">BPM</label>
+            <input type="number" id="u-bpm" placeholder="e.g. 93">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" id="u-key-g">
+            <label class="form-label">KEY</label>
+            <input type="text" id="u-key" placeholder="e.g. F min">
+          </div>
+          <div class="form-group" id="u-type-g">
+            <label class="form-label">SOUND TYPE</label>
+            <select id="u-stype">
+              <option value="beats">Beat</option>
+              <option value="stems">Stems</option>
+              <option value="loops">Loop</option>
+              <option value="sfx">SFX</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">DESCRIPTION</label>
+          <textarea id="u-desc" rows="2" placeholder="Optional description..."></textarea>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="btn btn-primary" id="u-submit-btn" onclick="submitUpload()">Upload & Publish</button>
+        <button class="btn btn-ghost" onclick="closeUploadModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ USER DROPDOWN ═══════════════ -->
+<div id="user-menu" class="user-menu">
+  <div class="um-item" onclick="openProfileModal();closeMenu()">✏️ Edit Profile</div>
+  <div class="um-item" onclick="switchTab('analytics');closeMenu()">📊 My Insights</div>
+  <div class="um-item" onclick="switchTab('sounds');closeMenu()">🎵 My Sounds</div>
+  <div class="um-item" onclick="openUploadModal('audio');closeMenu()">⬆️ Upload Content</div>
+  <div class="um-div"></div>
+  <div class="um-item danger" onclick="doLogout()">🚪 Sign Out</div>
+</div>
+
+<!-- ═══════════════ MAIN NAV ═══════════════ -->
+<nav class="nav" id="main-nav" style="display:none">
+  <div class="nav-brand" onclick="switchTab('home')">TMP<span>OE</span></div>
+  <div class="nav-tabs">
     <button class="nav-tab active" data-tab="home" onclick="switchTab('home')">Home</button>
     <button class="nav-tab" data-tab="reels" onclick="switchTab('reels')">Reels</button>
     <button class="nav-tab" data-tab="sounds" onclick="switchTab('sounds')">Sounds</button>
@@ -333,46 +642,48 @@ select option{background:var(--bg3)}
     <button class="nav-tab" data-tab="messaging" onclick="switchTab('messaging')">Inbox <span class="cnt" id="inbox-count">3</span></button>
   </div>
   <div class="nav-right">
-    <div class="avatar-sm"></div>
+    <div class="nav-user-btn" onclick="toggleMenu()">
+      <div class="av-sm" id="nav-av">?</div>
+      <span class="nav-uname" id="nav-uname">—</span>
+    </div>
   </div>
 </nav>
 
-<div class="shell">
+<!-- ═══════════════ MAIN SHELL ═══════════════ -->
+<div class="shell" id="main-shell" style="display:none">
 
   <!-- LEFT SIDEBAR -->
   <div class="sidebar-l">
     <div class="card" style="margin-bottom:14px">
-      <div class="profile-banner"></div>
-      <div class="profile-avatar"></div>
-      <div class="profile-body">
-        <div class="profile-name">DRE4K</div>
-        <div class="profile-role">EXEC. PRODUCER</div>
-        <div class="profile-stat">
-          <span>Studio Viewers</span>
-          <strong id="viewer-count">1,492</strong>
-        </div>
-        <div class="profile-stat">
-          <span>Collaborators</span>
-          <strong>247</strong>
-        </div>
-        <div class="profile-stat">
-          <span>Streams</span>
-          <strong>42.1k</strong>
-        </div>
+      <div class="prof-banner" id="sb-banner">
+        <img id="sb-banner-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover">
+      </div>
+      <div class="prof-av" id="sb-av">
+        <img id="sb-av-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover">
+      </div>
+      <div class="prof-body">
+        <div class="prof-name" id="sb-name">—</div>
+        <div class="prof-role" id="sb-role">—</div>
+        <div class="prof-bio" id="sb-bio" style="display:none"></div>
+        <div class="prof-stat"><span>Studio Viewers</span><strong id="viewer-count">1,492</strong></div>
+        <div class="prof-stat"><span>Collaborators</span><strong>247</strong></div>
+        <div class="prof-stat"><span>Streams</span><strong>42.1k</strong></div>
+        <button class="btn btn-ghost btn-sm btn-full" style="margin-top:8px" onclick="openProfileModal()">✏️ Edit Profile</button>
       </div>
     </div>
     <div class="card">
       <div class="nav-quick">
-        <div class="nav-quick-item active" onclick="switchTab('home');setActive(this)"><span class="ico">🏠</span>Home</div>
-        <div class="nav-quick-item" onclick="switchTab('sounds');setActive(this)"><span class="ico">🎵</span>My Sounds</div>
-        <div class="nav-quick-item" onclick="switchTab('analytics');setActive(this)"><span class="ico">📊</span>Insights</div>
-        <div class="nav-quick-item" onclick="switchTab('management');setActive(this)"><span class="ico">💼</span>Management</div>
-        <div class="nav-quick-item" onclick="switchTab('messaging');setActive(this)"><span class="ico">✉️</span>Inbox</div>
+        <div class="nqi active" onclick="switchTab('home');setNQA(this)"><span class="ico">🏠</span>Home</div>
+        <div class="nqi" onclick="switchTab('sounds');setNQA(this)"><span class="ico">🎵</span>My Sounds</div>
+        <div class="nqi" onclick="openUploadModal('audio')"><span class="ico">⬆️</span>Upload</div>
+        <div class="nqi" onclick="switchTab('analytics');setNQA(this)"><span class="ico">📊</span>Insights</div>
+        <div class="nqi" onclick="switchTab('management');setNQA(this)"><span class="ico">💼</span>Management</div>
+        <div class="nqi" onclick="switchTab('messaging');setNQA(this)"><span class="ico">✉️</span>Inbox</div>
       </div>
     </div>
   </div>
 
-  <!-- MAIN FEED -->
+  <!-- FEED -->
   <div class="feed">
 
     <!-- HOME -->
@@ -380,13 +691,17 @@ select option{background:var(--bg3)}
       <div class="card">
         <div class="card-pad">
           <div class="compose">
-            <div class="av"></div>
+            <div class="cav" id="compose-av">
+              <img id="compose-av-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
+            </div>
             <div class="compose-box">
               <textarea id="compose-text" rows="3" placeholder="Share a studio update, milestone, or routing notice..."></textarea>
+              <div id="compose-attach-area"></div>
               <div class="compose-toolbar">
                 <div class="compose-tools">
-                  <button class="btn btn-ghost btn-sm" onclick="toast('Opening media picker...')">📷 Media</button>
-                  <button class="btn btn-ghost btn-sm" onclick="toast('Loading audio attach...')">🎵 Audio</button>
+                  <button class="btn btn-ghost btn-sm" onclick="openUploadModal('image')">📷 Media</button>
+                  <button class="btn btn-ghost btn-sm" onclick="openUploadModal('audio')">🎵 Audio</button>
+                  <button class="btn btn-ghost btn-sm" onclick="openUploadModal('reel')">🎬 Reel</button>
                 </div>
                 <button class="btn btn-primary btn-sm" id="post-btn" disabled onclick="submitPost()">Post</button>
               </div>
@@ -394,64 +709,51 @@ select option{background:var(--bg3)}
           </div>
         </div>
       </div>
-
-      <div id="posts-feed">
-        <!-- posts rendered by JS -->
-      </div>
+      <div id="posts-feed"></div>
     </div>
 
     <!-- REELS -->
     <div id="tab-reels" class="tab-panel">
-      <div class="card" style="background:#000;border:none">
-        <div class="card-hd" style="background:#000;border-color:rgba(255,255,255,.06)">
-          <h3 style="color:#fff">TempoBay Reels</h3>
-          <span class="badge" style="color:rgba(255,255,255,.4)">BEAT SHORTS</span>
+      <div class="card">
+        <div class="card-hd">
+          <h3>Tempoe Reels</h3>
+          <button class="btn btn-primary btn-sm" onclick="openUploadModal('reel')">📹 Upload Reel</button>
         </div>
-        <div class="card-pad" style="padding-top:16px">
+        <div class="card-pad">
+          <span class="section-title">YOUR REELS</span>
+          <div class="reels-grid" id="user-reels-grid" style="margin-top:8px;margin-bottom:20px"></div>
           <div class="reels-wrap">
             <div class="reel-phone">
-              <div class="reel-bg" id="reel-bg" style="background-image:url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500')"></div>
+              <div class="reel-bg" id="reel-bg" style="background-image:url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500')">
+                <video id="reel-video" style="width:100%;height:100%;object-fit:cover;display:none" loop muted playsinline></video>
+              </div>
               <div class="reel-gradient"></div>
               <div class="reel-side">
-                <div>
-                  <div class="reel-btn" onclick="likeReel(this)">❤️</div>
-                  <div class="reel-btn-label" id="reel-likes">12.4k</div>
-                </div>
-                <div>
-                  <div class="reel-btn" onclick="toast('Loading comments...')">💬</div>
-                  <div class="reel-btn-label" id="reel-comments">412</div>
-                </div>
-                <div>
-                  <div class="reel-btn" onclick="toast('Share link copied!')">🔗</div>
-                  <div class="reel-btn-label">Share</div>
-                </div>
-                <div>
-                  <div class="reel-btn" onclick="toast('Added to saved!')">🔖</div>
-                  <div class="reel-btn-label">Save</div>
-                </div>
+                <div><div class="reel-btn" onclick="likeReel()">❤️</div><div class="reel-btn-lbl" id="reel-likes">12.4k</div></div>
+                <div><div class="reel-btn" onclick="toast('Loading comments...')">💬</div><div class="reel-btn-lbl" id="reel-comments">412</div></div>
+                <div><div class="reel-btn" onclick="toast('Share link copied!')">🔗</div><div class="reel-btn-lbl">Share</div></div>
+                <div><div class="reel-btn" onclick="toast('Saved!')">🔖</div><div class="reel-btn-lbl">Save</div></div>
               </div>
               <div class="reel-info">
                 <div class="reel-creator" id="reel-creator">@MarcusThorne_Audio</div>
                 <div class="reel-desc" id="reel-desc">Testing omnidirectional array config in booth B. Bass translation check!</div>
                 <div class="reel-audio-pill">
                   <div class="reel-disc" id="reel-disc" style="background-image:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=80')"></div>
-                  🎵 Original Audio Matrix
+                  🎵 Original Audio
                 </div>
               </div>
             </div>
             <div class="reel-controls">
-              <div style="color:rgba(255,255,255,.9);font-size:15px;font-weight:600;margin-bottom:8px" id="reel-idx-label">1 / 4</div>
-              <div class="reel-progress" onclick="scrubReel(event, this)">
-                <div class="reel-progress-fill" id="reel-prog"></div>
-              </div>
+              <div style="color:rgba(255,255,255,.9);font-size:15px;font-weight:600;margin-bottom:8px" id="reel-idx-lbl">1 / 4</div>
+              <div class="reel-progress" onclick="scrubReel(event,this)"><div class="reel-progress-fill" id="reel-prog"></div></div>
               <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
                 <button class="btn btn-primary btn-sm" onclick="nextReel()">Next Reel →</button>
                 <button class="btn btn-ghost btn-sm" style="color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.1)" onclick="prevReel()">← Previous</button>
                 <hr style="border-color:rgba(255,255,255,.08)">
-                <button class="btn btn-ghost btn-sm" style="color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.1)" onclick="toast('Opening camera for reel recording...')">📷 Publish Reel</button>
+                <button class="btn btn-ghost btn-sm" style="color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.1)" onclick="openUploadModal('reel')">📹 Upload Your Reel</button>
               </div>
               <div style="margin-top:20px;padding:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px">
-                <div style="font-size:11px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);margin-bottom:8px">TRENDING SOUNDS</div>
+                <div style="font-size:11px;font-family:var(--mono);color:rgba(255,255,255,.4);margin-bottom:8px">TRENDING SOUNDS</div>
                 <div style="font-size:12px;color:rgba(255,255,255,.7)">🎵 Bay Area Hyphy Bounce — 14.2k uses</div>
                 <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:6px">🎵 Lo-fi Studio Trap — 9.8k uses</div>
               </div>
@@ -464,10 +766,7 @@ select option{background:var(--bg3)}
     <!-- SOUNDS -->
     <div id="tab-sounds" class="tab-panel">
       <div class="card">
-        <div class="card-hd">
-          <h3>Sounds Library</h3>
-          <button class="btn btn-primary btn-sm" onclick="toast('Opening upload dialog...')">+ Upload</button>
-        </div>
+        <div class="card-hd"><h3>Sounds Library</h3><button class="btn btn-primary btn-sm" onclick="openUploadModal('audio')">+ Upload Audio</button></div>
         <div class="card-pad">
           <div class="pill-row">
             <button class="pill active" onclick="filterSounds('all',this)">All</button>
@@ -475,20 +774,21 @@ select option{background:var(--bg3)}
             <button class="pill" onclick="filterSounds('stems',this)">Stems</button>
             <button class="pill" onclick="filterSounds('loops',this)">Loops</button>
             <button class="pill" onclick="filterSounds('sfx',this)">SFX</button>
+            <button class="pill" onclick="filterSounds('mine',this)">My Uploads</button>
           </div>
-          <div id="sounds-list"><!-- rendered by JS --></div>
+          <div id="sounds-list"></div>
         </div>
       </div>
       <div class="card">
         <div class="card-hd"><h3>Active Player</h3><span class="badge online" id="player-status" style="font-size:10px">STOPPED</span></div>
         <div class="card-pad">
-          <canvas class="waveform-canvas" id="waveform" onclick="seekWaveform(event,this)"></canvas>
+          <canvas class="wf-canvas" id="waveform" onclick="seekWF(event,this)"></canvas>
           <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
-            <button class="btn btn-ghost btn-sm" onclick="waveformPrev()">⏮</button>
+            <button class="btn btn-ghost btn-sm" onclick="wfPrev()">⏮</button>
             <button class="btn btn-primary" id="main-play-btn" onclick="toggleMainPlay()">▶ Play</button>
-            <button class="btn btn-ghost btn-sm" onclick="waveformNext()">⏭</button>
+            <button class="btn btn-ghost btn-sm" onclick="wfNext()">⏭</button>
             <span style="flex:1"></span>
-            <span id="time-display" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text3)">0:00 / 0:00</span>
+            <span id="time-display" style="font-family:var(--mono);font-size:11px;color:var(--text3)">0:00 / 0:00</span>
           </div>
         </div>
       </div>
@@ -500,30 +800,15 @@ select option{background:var(--bg3)}
         <div class="card-hd"><h3>Marketplace</h3><button class="btn btn-primary btn-sm" onclick="openListingForm()">+ List Item</button></div>
         <div class="card-pad" id="list-form-wrap" style="display:none">
           <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">ITEM NAME</label>
-              <input type="text" id="m-title" placeholder="Product or service name">
-            </div>
-            <div class="form-group">
-              <label class="form-label">PRICE ($)</label>
-              <input type="number" id="m-price" placeholder="0.00">
-            </div>
+            <div class="form-group"><label class="form-label">ITEM NAME</label><input type="text" id="m-title" placeholder="Product name"></div>
+            <div class="form-group"><label class="form-label">PRICE ($)</label><input type="number" id="m-price" placeholder="0.00"></div>
           </div>
-          <div class="form-group">
-            <label class="form-label">CATEGORY</label>
-            <select id="m-cat"><option>Hardware</option><option>Software</option><option>Services</option><option>Stems</option><option>Presets</option></select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">DESCRIPTION</label>
-            <textarea id="m-desc" rows="2" placeholder="Describe the item..."></textarea>
-          </div>
-          <div style="display:flex;gap:8px">
-            <button class="btn btn-primary" onclick="submitListing()">Publish Listing</button>
-            <button class="btn btn-ghost" onclick="closeListingForm()">Cancel</button>
-          </div>
+          <div class="form-group"><label class="form-label">CATEGORY</label><select id="m-cat"><option>Hardware</option><option>Software</option><option>Services</option><option>Stems</option><option>Presets</option></select></div>
+          <div class="form-group"><label class="form-label">DESCRIPTION</label><textarea id="m-desc" rows="2" placeholder="Describe the item..."></textarea></div>
+          <div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="submitListing()">Publish</button><button class="btn btn-ghost" onclick="closeListingForm()">Cancel</button></div>
           <hr class="divider">
         </div>
-        <div class="market-grid" id="market-grid"><!-- rendered by JS --></div>
+        <div class="market-grid" id="market-grid"></div>
       </div>
     </div>
 
@@ -533,26 +818,14 @@ select option{background:var(--bg3)}
         <div class="card-hd"><h3>Gig Board</h3><button class="btn btn-primary btn-sm" onclick="openGigForm()">+ Post Gig</button></div>
         <div class="card-pad" id="gig-form-wrap" style="display:none">
           <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">ROLE TITLE</label>
-              <input type="text" id="g-title" placeholder="e.g. Resident DJ">
-            </div>
-            <div class="form-group">
-              <label class="form-label">PAY</label>
-              <input type="text" id="g-pay" placeholder="$350/night">
-            </div>
+            <div class="form-group"><label class="form-label">ROLE TITLE</label><input type="text" id="g-title" placeholder="e.g. Resident DJ"></div>
+            <div class="form-group"><label class="form-label">PAY</label><input type="text" id="g-pay" placeholder="$350/night"></div>
           </div>
-          <div class="form-group">
-            <label class="form-label">DESCRIPTION</label>
-            <textarea id="g-desc" rows="2" placeholder="Role requirements..."></textarea>
-          </div>
-          <div style="display:flex;gap:8px">
-            <button class="btn btn-primary" onclick="submitGig()">Post Gig</button>
-            <button class="btn btn-ghost" onclick="closeGigForm()">Cancel</button>
-          </div>
+          <div class="form-group"><label class="form-label">DESCRIPTION</label><textarea id="g-desc" rows="2" placeholder="Role requirements..."></textarea></div>
+          <div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="submitGig()">Post Gig</button><button class="btn btn-ghost" onclick="closeGigForm()">Cancel</button></div>
           <hr class="divider">
         </div>
-        <div id="gigs-list"><!-- rendered by JS --></div>
+        <div id="gigs-list"></div>
       </div>
     </div>
 
@@ -562,32 +835,17 @@ select option{background:var(--bg3)}
         <div class="card-hd"><h3>Artist Booking</h3><button class="btn btn-primary btn-sm" onclick="openBookingForm()">+ New Booking</button></div>
         <div class="card-pad" id="booking-form-wrap" style="display:none">
           <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">ARTIST</label>
-              <input type="text" id="b-artist" placeholder="Artist name">
-            </div>
-            <div class="form-group">
-              <label class="form-label">VENUE</label>
-              <input type="text" id="b-venue" placeholder="Venue name">
-            </div>
+            <div class="form-group"><label class="form-label">ARTIST</label><input type="text" id="b-artist" placeholder="Artist name"></div>
+            <div class="form-group"><label class="form-label">VENUE</label><input type="text" id="b-venue" placeholder="Venue name"></div>
           </div>
           <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">DATE</label>
-              <input type="text" id="b-date" placeholder="e.g. Jul 4">
-            </div>
-            <div class="form-group">
-              <label class="form-label">FEE ($)</label>
-              <input type="number" id="b-fee" placeholder="0">
-            </div>
+            <div class="form-group"><label class="form-label">DATE</label><input type="text" id="b-date" placeholder="e.g. Jul 4"></div>
+            <div class="form-group"><label class="form-label">FEE ($)</label><input type="number" id="b-fee" placeholder="0"></div>
           </div>
-          <div style="display:flex;gap:8px">
-            <button class="btn btn-primary" onclick="submitBooking()">Send Offer</button>
-            <button class="btn btn-ghost" onclick="closeBookingForm()">Cancel</button>
-          </div>
+          <div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="submitBooking()">Send Offer</button><button class="btn btn-ghost" onclick="closeBookingForm()">Cancel</button></div>
           <hr class="divider">
         </div>
-        <div id="bookings-list"><!-- rendered by JS --></div>
+        <div id="bookings-list"></div>
       </div>
     </div>
 
@@ -601,21 +859,20 @@ select option{background:var(--bg3)}
             <div class="metric-card"><span class="label">GROSS REVENUE</span><div class="value">$10.2k</div><div class="delta delta-up">↑ 8.4%</div></div>
             <div class="metric-card"><span class="label">CONVERSION</span><div class="value">14.2%</div><div class="delta delta-down">↓ 1.1%</div></div>
           </div>
-          <div style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
             <span class="section-title">TICKET PROGRESS</span>
-            <span style="font-size:12px;font-family:'Space Mono',monospace;color:var(--accent)" id="ticket-pct">342 / 500</span>
+            <span style="font-size:12px;font-family:var(--mono);color:var(--accent)" id="tix-pct">342 / 500</span>
           </div>
-          <div class="ticket-bar-wrap"><div class="ticket-bar-fill" id="ticket-bar" style="width:68%"></div></div>
-          <div style="display:flex;justify-content:space-between;font-size:10px;font-family:'Space Mono',monospace;color:var(--text3);margin-bottom:16px"><span>0</span><span>250</span><span>500</span></div>
+          <div class="tix-bar-wrap"><div class="tix-bar-fill" id="tix-bar" style="width:0"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;font-family:var(--mono);color:var(--text3);margin-bottom:16px"><span>0</span><span>250</span><span>500</span></div>
           <hr class="divider">
           <span class="section-title" style="margin-bottom:12px">CHANNEL BREAKDOWN</span>
-          <div class="chart-wrap" style="height:160px"><canvas id="promo-chart" role="img" aria-label="Ticket sales by channel: Online 45%, Door 28%, Presale 27%">Online: 45%, Door: 28%, Presale: 27%</canvas></div>
+          <div class="chart-wrap" style="height:160px"><canvas id="promo-chart"></canvas></div>
           <hr class="divider">
-          <span class="section-title" style="margin-bottom:10px">SELL MORE TICKETS</span>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button class="btn btn-primary btn-sm" onclick="sellTickets()">+ Sell 10 Tickets</button>
-            <button class="btn btn-ghost btn-sm" onclick="toast('Generating promo code...')">🎟 Promo Code</button>
-            <button class="btn btn-ghost btn-sm" onclick="toast('Launching email blast...')">📧 Email Blast</button>
+            <button class="btn btn-ghost btn-sm" onclick="toast('Promo code generated!')">🎟 Promo Code</button>
+            <button class="btn btn-ghost btn-sm" onclick="toast('Email blast sent!')">📧 Email Blast</button>
           </div>
         </div>
       </div>
@@ -624,7 +881,7 @@ select option{background:var(--bg3)}
     <!-- MANAGEMENT -->
     <div id="tab-management" class="tab-panel">
       <div class="card">
-        <div class="card-hd"><h3>Roster & Split Ledger</h3><button class="btn btn-primary btn-sm" onclick="addLedgerEntry()">+ Add Entry</button></div>
+        <div class="card-hd"><h3>Roster & Split Ledger</h3><button class="btn btn-primary btn-sm" onclick="addLedger()">+ Add Entry</button></div>
         <div class="card-pad">
           <div class="metrics-row">
             <div class="metric-card"><span class="label">TOTAL GROSS</span><div class="value">$28,450</div></div>
@@ -633,14 +890,12 @@ select option{background:var(--bg3)}
           </div>
           <hr class="divider">
           <span class="section-title">SPLIT BREAKDOWN</span>
-          <div id="ledger-list"><!-- rendered by JS --></div>
+          <div id="ledger-list"></div>
         </div>
       </div>
       <div class="card">
         <div class="card-hd"><h3>Revenue by Month</h3></div>
-        <div class="card-pad">
-          <div class="chart-wrap"><canvas id="mgmt-chart" role="img" aria-label="Monthly revenue chart showing 6 months of data">Monthly revenue for artist management.</canvas></div>
-        </div>
+        <div class="card-pad"><div class="chart-wrap"><canvas id="mgmt-chart"></canvas></div></div>
       </div>
     </div>
 
@@ -648,9 +903,7 @@ select option{background:var(--bg3)}
     <div id="tab-academy" class="tab-panel">
       <div class="card">
         <div class="card-hd"><h3>Industrial Credentialing & Academy</h3><span class="badge">3 ENROLLED</span></div>
-        <div class="card-pad">
-          <div class="course-grid" id="course-grid"><!-- rendered by JS --></div>
-        </div>
+        <div class="card-pad"><div class="course-grid" id="course-grid"></div></div>
       </div>
     </div>
 
@@ -666,18 +919,16 @@ select option{background:var(--bg3)}
             <button class="pill" onclick="updateAnalytics('1y',this)">1 Year</button>
           </div>
           <div class="metrics-row">
-            <div class="metric-card"><span class="label">STREAMS</span><div class="value" id="a-streams">42.1k</div><div class="delta delta-up" id="a-streams-d">+12.4%</div></div>
-            <div class="metric-card"><span class="label">ROYALTIES</span><div class="value" id="a-royalties">$284</div><div class="delta delta-up" id="a-royalties-d">+8.2%</div></div>
-            <div class="metric-card"><span class="label">PLAYLISTS</span><div class="value" id="a-playlists">114</div><div class="delta delta-up" id="a-playlists-d">+7</div></div>
+            <div class="metric-card"><span class="label">STREAMS</span><div class="value" id="a-streams">42.1k</div><div class="delta delta-up" id="a-sd">+12.4%</div></div>
+            <div class="metric-card"><span class="label">ROYALTIES</span><div class="value" id="a-roy">$284</div><div class="delta delta-up" id="a-rd">+8.2%</div></div>
+            <div class="metric-card"><span class="label">PLAYLISTS</span><div class="value" id="a-pl">114</div><div class="delta delta-up" id="a-pd">+7</div></div>
           </div>
-          <div class="chart-wrap"><canvas id="analytics-chart" role="img" aria-label="Stream count over the selected time period">Stream analytics data.</canvas></div>
+          <div class="chart-wrap"><canvas id="analytics-chart"></canvas></div>
         </div>
       </div>
       <div class="card">
         <div class="card-hd"><h3>Audience Geography</h3></div>
-        <div class="card-pad">
-          <div id="geo-list"><!-- rendered by JS --></div>
-        </div>
+        <div class="card-pad"><div id="geo-list"></div></div>
       </div>
     </div>
 
@@ -685,7 +936,7 @@ select option{background:var(--bg3)}
     <div id="tab-messaging" class="tab-panel">
       <div class="card" style="padding:0">
         <div class="msg-layout">
-          <div class="inbox" id="inbox"><!-- rendered by JS --></div>
+          <div class="inbox" id="inbox"></div>
           <div class="chat-panel">
             <div class="chat-header">
               <div class="status"></div>
@@ -697,9 +948,9 @@ select option{background:var(--bg3)}
             <div class="chat-messages" id="chat-msgs"></div>
             <div id="typing-area" style="display:none" class="typing-ind">Marcus is typing...</div>
             <div class="chat-compose">
-              <button class="btn btn-icon btn-sm" onclick="toast('Attaching audio file...')">🎵</button>
-              <input type="text" id="chat-input" placeholder="Write a message..." onkeydown="if(event.key==='Enter')sendMessage()">
-              <button class="btn btn-primary btn-sm" onclick="sendMessage()">Send</button>
+              <button class="btn btn-icon btn-sm" onclick="openUploadModal('audio')">🎵</button>
+              <input type="text" id="chat-input" placeholder="Write a message..." onkeydown="if(event.key==='Enter')sendMsg()">
+              <button class="btn btn-primary btn-sm" onclick="sendMsg()">Send</button>
             </div>
           </div>
         </div>
@@ -713,13 +964,13 @@ select option{background:var(--bg3)}
     <div class="card" style="margin-bottom:14px">
       <div class="card-pad" style="padding-bottom:6px">
         <span class="section-title">TRENDING SOUNDS</span>
-        <div id="trending-sounds"><!-- rendered by JS --></div>
+        <div id="trending-sounds"></div>
       </div>
     </div>
     <div class="card">
       <div class="card-pad" style="padding-bottom:6px">
         <span class="section-title">WHO TO FOLLOW</span>
-        <div id="suggestions"><!-- rendered by JS --></div>
+        <div id="suggestions"></div>
       </div>
     </div>
     <div class="card" style="margin-top:14px">
@@ -733,858 +984,837 @@ select option{background:var(--bg3)}
   </div>
 
 </div><!-- /shell -->
-
 <div id="toast" class="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-
-// ────────────────────────────────────────────────
-// DATA
-// ────────────────────────────────────────────────
-
-const POSTS = [
-  {id:1,av:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80',name:'Elias Vance',role:'Lead Mastering Engineer',time:'2h ago',body:'Just wrapped precision dynamic matching on the upcoming Keak da Sneak tracking blocks. The analog saturation on the low end is completely locked in. Check out the master bus workspace view below! 🎧🔥',img:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800',likes:512,comments:84,liked:false},
-  {id:2,av:'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80',name:'Kayla Rents',role:'A&R Coordinator',time:'4h ago',body:'New roster additions going live next week. If you\'re a producer in the Bay Area with at least 3 placements, slide into the Gigs tab. We\'re building something major.',img:null,likes:301,comments:47,liked:false},
-  {id:3,av:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80',name:'Tommy Lam',role:'Mix Engineer',time:'6h ago',body:'Mono compatibility check passes on the new 808 patch. Subs translate well to earbuds. Frequency response chart looking pristine at 40Hz. 🎛️',img:'https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=800',likes:189,comments:22,liked:false}
-];
-
-const SOUNDS = [
-  {id:1,name:'Bay Area Hyphy Bounce Stems',artist:'DRE4K',bpm:98,key:'F min',type:'stems',playing:false},
-  {id:2,name:'Lo-fi Studio Trap Loop',artist:'EliasMastering',bpm:73,key:'C# maj',type:'loops',playing:false},
-  {id:3,name:'808 Sub Kick Pack',artist:'TommyLam',bpm:140,key:'—',type:'beats',playing:false},
-  {id:4,name:'Vintage Room Reverb Tail',artist:'KaylaA&R',bpm:0,key:'—',type:'sfx',playing:false},
-  {id:5,name:'Filtered Brass Stab Loop',artist:'DRE4K',bpm:95,key:'Bb maj',type:'loops',playing:false}
-];
-
-const MARKET_ITEMS = [
-  {id:1,name:'"Dre Force Ones" Monitor Stands',price:'Custom',category:'Hardware',img:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400',desc:'Tensegrity-based monitor alignment units. Decouples transient structural frequencies from studio desks.',badge:'CUSTOM'},
-  {id:2,name:'Neve 1073 Clone Channel Strip',price:'$2,400',category:'Hardware',img:'https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=400',desc:'Hand-wired replica with transformer-balanced I/O. 7 units available.',badge:'IN STOCK'},
-  {id:3,name:'Hyphy Starter Preset Pack',price:'$29',category:'Presets',img:'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400',desc:'60 curated presets for Bay Area sound. Compatible with Serum and Vital.',badge:'DIGITAL'},
-  {id:4,name:'Full Album Mix Session',price:'$800',category:'Services',img:'https://images.unsplash.com/photo-1516280440614-37939bbacd6a?w=400',desc:'Professional mixing for up to 12 stems. 2 revisions included. 3-day turnaround.',badge:'SERVICE'}
-];
-
-const GIGS = [
-  {id:1,title:'CHI Lounge Resident DJ Set',pay:'$350/night',tags:['FEATURED','RECURRING'],desc:'Seeking multi-genre pacing, deep bass coordination, and live sequence tracking. Weekly Friday residency.',applied:false},
-  {id:2,title:'Album Mix Engineer — 12 Tracks',pay:'$1,200',tags:['REMOTE','URGENT'],desc:'10-12 song project needs mixing in 2 weeks. Stems provided. Hip-hop / R&B blend.',applied:false},
-  {id:3,title:'Festival Stage Manager — Bay Area',pay:'$600',tags:['ON-SITE'],desc:'3-day festival in July. Need someone to coordinate stage transitions and sound checks.',applied:false}
-];
-
-const BOOKINGS = [
-  {id:1,artist:'Keak da Sneak',venue:'CHI Lounge',date:{month:'JUN',day:'13'},fee:2500,status:'confirmed',notes:'Headliner set. 90 min. Rider doc attached.'},
-  {id:2,artist:'Too Short',venue:'Oakland Arena',date:{month:'JUL',day:'4'},fee:8000,status:'pending',notes:'Offer sheet sent. Awaiting management approval.'},
-  {id:3,artist:'E-40',venue:'The Paramount',date:{month:'AUG',day:'18'},fee:6500,status:'confirmed',notes:'Confirmed via email. Contract signed.'}
-];
-
-const LEDGER = [
-  {name:'Keak da Sneak',split:'15%',amount:'$375'},
-  {name:'Tommy Lam (Mix)',split:'12%',amount:'$300'},
-  {name:'Elias Vance (Master)',split:'8%',amount:'$200'},
-  {name:'Kayla Rents (A&R)',split:'10%',amount:'$250'},
-  {name:'Studio Overhead',split:'5%',amount:'$125'}
-];
-
-const COURSES = [
-  {key:'spatial',title:'Spatial Audio & Dolby Atmos',level:'Advanced Operator',img:'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400',tag:'ADVANCED',tagColor:'rgba(167,139,250,.2)',tagText:'#a78bfa',progress:0,status:'Not Enrolled'},
-  {key:'legal',title:'Music Rights, Licensing & Splits',level:'Administrative Lead',img:'https://images.unsplash.com/photo-1516280440614-37939bbacd6a?w=400',tag:'BUSINESS',tagColor:'rgba(245,166,35,.2)',tagText:'#f5a623',progress:0,status:'Not Enrolled'},
-  {key:'mixing',title:'Advanced Mixing Techniques',level:'Intermediate',img:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400',tag:'POPULAR',tagColor:'rgba(63,207,142,.2)',tagText:'#3fcf8e',progress:65,status:'65% Complete'},
-  {key:'biz',title:'Music Business Fundamentals',level:'Beginner',img:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400',tag:'BEGINNER',tagColor:'rgba(79,156,249,.2)',tagText:'#4f9cf9',progress:100,status:'Completed ✓'}
-];
-
-const REELS = [
-  {bg:'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500',creator:'@MarcusThorne_Audio',desc:'Testing omnidirectional array config in booth B. Bass translation check!',likes:'12.4k',comments:'412',disc:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=80'},
-  {bg:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=500',creator:'@DRE4K_Matrix',desc:'Tracking live automation macros on the vintage mixing console. Pure analog harmonics.',likes:'45.1k',comments:'801',disc:'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=80'},
-  {bg:'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500',creator:'@EliasMastering',desc:'Main floor overview at the festival launch grid. Subwoofer array alignment tracking.',likes:'9.8k',comments:'234',disc:'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=80'},
-  {bg:'https://images.unsplash.com/photo-1516280440614-37939bbacd6a?w=500',creator:'@KaylaA&R',desc:'New artist showcase preview. Look out for these names in 2025. FR.',likes:'21.3k',comments:'556',disc:'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=80'}
-];
-
-const CHATS = {
-  marcus:{name:'Marcus Thorne',av:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80',online:true,messages:[
-    {text:'Yo! Did you complete verification on the Dolby Atmos array track curves?',type:'in',time:'2:14 PM'},
-    {text:'Yes, alignment tracking coefficients fully deployed. Runs clean at 7.1.4.',type:'out',time:'2:16 PM'},
-    {text:'Perfect. Can you send me the session file? Need to check the LFE bleed.',type:'in',time:'2:18 PM'},
-    {text:'Dropping it in the shared Drive folder now.',type:'out',time:'2:19 PM'}
-  ]},
-  elias:{name:'Elias Vance',av:'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80',online:false,messages:[
-    {text:'Hey, the master files are ready for review. Let me know what you think.',type:'in',time:'Yesterday'},
-    {text:'Will check today and get back to you with notes.',type:'out',time:'Yesterday'}
-  ]},
-  tommy:{name:'Tommy Lam',av:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80',online:true,messages:[
-    {text:'That 808 patch I sent — does it work for the new project?',type:'in',time:'10:30 AM'}
-  ]}
+// ╔═══════════════════════════════════════╗
+// ║  STORAGE / AUTH ENGINE                ║
+// ╚═══════════════════════════════════════╝
+const SK={U:'tmpoe_users',S:'tmpoe_session',SN:'tmpoe_sounds',P:'tmpoe_posts',R:'tmpoe_reels'};
+const DB={
+  g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
+  s:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}},
+  users:()=>DB.g(SK.U)||{},
+  setUsers:v=>DB.s(SK.U,v),
+  session:()=>DB.g(SK.S),
+  setSession:v=>DB.s(SK.S,v),
+  clearSession:()=>localStorage.removeItem(SK.S),
+  sounds:()=>DB.g(SK.SN)||[],
+  setSounds:v=>DB.s(SK.SN,v),
+  posts:()=>DB.g(SK.P)||[],
+  setPosts:v=>DB.s(SK.P,v),
+  reels:()=>DB.g(SK.R)||[],
+  setReels:v=>DB.s(SK.R,v)
 };
 
-const GEO_DATA = [
-  {city:'Oakland, CA',pct:34},
-  {city:'Los Angeles, CA',pct:22},
-  {city:'Atlanta, GA',pct:14},
-  {city:'New York, NY',pct:12},
-  {city:'Chicago, IL',pct:8},
-  {city:'Other',pct:10}
-];
-
-const TRENDING_SOUNDS = [
-  {rank:1,name:'Bay Area Hyphy Bounce',count:'14.2k uses'},
-  {rank:2,name:'Drill 808 Pack v3',count:'11.8k uses'},
-  {rank:3,name:'Melodic Trap Loop',count:'9.1k uses'},
-  {rank:4,name:'Vintage Room Verb',count:'7.3k uses'},
-  {rank:5,name:'Lo-fi Crate Drums',count:'5.6k uses'}
-];
-
-const SUGGESTIONS = [
-  {name:'Marcus Thorne',role:'Mix Engineer',av:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80'},
-  {name:'Elias Vance',role:'Mastering',av:'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80'},
-  {name:'Kayla Rents',role:'A&R Coordinator',av:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80'}
-];
-
-// ────────────────────────────────────────────────
-// STATE
-// ────────────────────────────────────────────────
-
-let currentReelIdx = 0;
-let currentChat = 'marcus';
-let currentSoundFilter = 'all';
-let mainPlaying = false;
-let wavePosition = 0;
-let waveTimer = null;
-let activeSoundIdx = -1;
-let analyticsChart = null;
-let promoChart = null;
-let mgmtChart = null;
-
-// ────────────────────────────────────────────────
-// INIT
-// ────────────────────────────────────────────────
-
-document.addEventListener('DOMContentLoaded', () => {
-  renderPosts();
-  renderSounds();
-  renderMarket();
-  renderGigs();
-  renderBookings();
-  renderLedger();
-  renderCourses();
-  renderInbox();
-  loadChat('marcus');
-  renderTrending();
-  renderSuggestions();
-  renderGeo();
-  drawWaveform();
-  initCharts();
-  document.getElementById('compose-text').addEventListener('input', function(){
-    document.getElementById('post-btn').disabled = this.value.trim().length === 0;
-  });
-  // Animate ticket bar
-  setTimeout(() => { document.getElementById('ticket-bar').style.width = '68%'; }, 300);
-});
-
-// ────────────────────────────────────────────────
-// TOAST
-// ────────────────────────────────────────────────
-
-let toastT;
-function toast(msg) {
-  const el = document.getElementById('toast');
-  clearTimeout(toastT);
-  el.textContent = msg;
-  el.classList.add('show');
-  toastT = setTimeout(() => el.classList.remove('show'), 3000);
+function hashPw(pw){
+  let h=0;for(let i=0;i<pw.length;i++){h=((h<<5)-h)+pw.charCodeAt(i);h|=0;}
+  return 'h'+Math.abs(h).toString(36)+'_'+pw.length;
 }
 
-// ────────────────────────────────────────────────
-// TAB SWITCHING
-// ────────────────────────────────────────────────
-
-function switchTab(name) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  const panel = document.getElementById('tab-' + name);
-  const tab = document.querySelector(`[data-tab="${name}"]`);
-  if (panel) panel.classList.add('active');
-  if (tab) tab.classList.add('active');
-  if (name === 'messaging') {
-    document.getElementById('inbox-count').style.display = 'none';
-    loadChat(currentChat);
+// ── SEED ──────────────────────────────────────────────
+function seedDefaults(){
+  const u=DB.users();
+  if(!u['dre4k']){
+    u['dre4k']={username:'dre4k',password:hashPw('studio123'),displayName:'DRE4K',email:'dre4k@tempoe.com',role:'Executive Producer',bio:'Bay Area-based exec producer. Hyphy movement veteran. 20+ years in the mix.',avatar:'',banner:'',website:'',createdAt:Date.now()-86400000*30};
+    DB.setUsers(u);
   }
-  if (name === 'analytics') setTimeout(initAnalyticsChart, 50);
-  if (name === 'promoter') setTimeout(initPromoChart, 50);
-  if (name === 'management') setTimeout(initMgmtChart, 50);
+  if(!DB.posts().length){
+    DB.setPosts([
+      {id:1,username:'elias_v',displayName:'Elias Vance',role:'Lead Mastering Engineer',ts:Date.now()-7200000,avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80',body:'Just wrapped precision dynamic matching on the upcoming Keak da Sneak tracking blocks. The analog saturation on the low end is completely locked in. Check out the master bus workspace view below! 🎧🔥',img:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800',likes:512,comments:84,liked:false,attach:null},
+      {id:2,username:'kayla_r',displayName:'Kayla Rents',role:'A&R Coordinator',ts:Date.now()-14400000,avatar:'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80',body:"New roster additions going live next week. If you're a producer in the Bay Area with at least 3 placements, slide into the Gigs tab. We're building something major.",img:null,likes:301,comments:47,liked:false,attach:null},
+      {id:3,username:'tommy_l',displayName:'Tommy Lam',role:'Mix Engineer',ts:Date.now()-21600000,avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80',body:'Mono compatibility check passes on the new 808 patch. Subs translate well to earbuds. Frequency response chart looking pristine at 40Hz. 🎛️',img:'https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=800',likes:189,comments:22,liked:false,attach:null}
+    ]);
+  }
+  if(!DB.sounds().length){
+    DB.setSounds([
+      {id:1,name:'Bay Area Hyphy Bounce Stems',artist:'DRE4K',username:'dre4k',bpm:98,key:'F min',type:'stems',playing:false,fileUrl:null},
+      {id:2,name:'Lo-fi Studio Trap Loop',artist:'EliasMastering',username:'elias_v',bpm:73,key:'C# maj',type:'loops',playing:false,fileUrl:null},
+      {id:3,name:'808 Sub Kick Pack',artist:'TommyLam',username:'tommy_l',bpm:140,key:'—',type:'beats',playing:false,fileUrl:null},
+      {id:4,name:'Vintage Room Reverb Tail',artist:'KaylaA&R',username:'kayla_r',bpm:0,key:'—',type:'sfx',playing:false,fileUrl:null},
+      {id:5,name:'Filtered Brass Stab Loop',artist:'DRE4K',username:'dre4k',bpm:95,key:'Bb maj',type:'loops',playing:false,fileUrl:null}
+    ]);
+  }
+  if(!DB.reels().length){
+    DB.setReels([
+      {id:1,username:'marcus_t',creator:'@MarcusThorne_Audio',desc:'Testing omnidirectional array config in booth B. Bass translation check!',bg:'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500',likes:'12.4k',comments:'412',videoUrl:null},
+      {id:2,username:'dre4k',creator:'@DRE4K_Matrix',desc:'Tracking live automation macros on the vintage mixing console. Pure analog harmonics.',bg:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=500',likes:'45.1k',comments:'801',videoUrl:null},
+      {id:3,username:'elias_v',creator:'@EliasMastering',desc:'Main floor overview at the festival launch grid. Subwoofer array alignment tracking.',bg:'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500',likes:'9.8k',comments:'234',videoUrl:null},
+      {id:4,username:'kayla_r',creator:'@KaylaA&R',desc:'New artist showcase preview. Look out for these names. FR.',bg:'https://images.unsplash.com/photo-1516280440614-37939bbacd6a?w=500',likes:'21.3k',comments:'556',videoUrl:null}
+    ]);
+  }
 }
 
-function setActive(el) {
-  document.querySelectorAll('.nav-quick-item').forEach(i => i.classList.remove('active'));
-  el.classList.add('active');
+// ── AUTH STATE ─────────────────────────────────────────
+let CU=null; // current user
+let SURole='Producer';
+let suAvData='';
+
+function showAuthPanel(p){
+  document.querySelectorAll('.auth-panel').forEach(x=>x.classList.remove('active'));
+  document.getElementById('auth-'+p).classList.add('active');
+  document.getElementById('atab-login').classList.toggle('active',p==='login');
+  document.getElementById('atab-signup').classList.toggle('active',p==='signup');
 }
 
-// ────────────────────────────────────────────────
-// HOME / POSTS
-// ────────────────────────────────────────────────
+function togglePw(id,btn){
+  const el=document.getElementById(id);
+  el.type=el.type==='password'?'text':'password';
+  btn.textContent=el.type==='password'?'👁':'🙈';
+}
 
-function renderPosts() {
-  const wrap = document.getElementById('posts-feed');
-  wrap.innerHTML = '';
-  POSTS.forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'card post';
-    div.setAttribute('data-post-id', p.id);
-    div.innerHTML = `
-      <div class="card-pad">
-        <div class="post-author">
-          <img class="av" src="${p.av}" alt="${p.name}">
-          <div class="post-author-info">
-            <h4>${p.name}</h4>
-            <span>${p.role} · ${p.time}</span>
-          </div>
+function pickRole(el,role){
+  document.querySelectorAll('.role-opt').forEach(r=>r.classList.remove('sel'));
+  el.classList.add('sel'); SURole=role;
+}
+
+function previewSignupAv(e){
+  const f=e.target.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    suAvData=ev.target.result;
+    const img=document.getElementById('su-av-img');
+    img.src=suAvData; img.style.display='block';
+    const th=document.getElementById('su-av-thumb');
+    th.textContent=''; th.appendChild(img);
+  };
+  r.readAsDataURL(f);
+}
+
+function doLogin(){
+  const raw=document.getElementById('login-user').value.trim().toLowerCase();
+  const pw=document.getElementById('login-pass').value;
+  const err=document.getElementById('login-err');
+  err.classList.remove('show');
+  if(!raw||!pw){err.textContent='Please fill in all fields.';err.classList.add('show');return;}
+  const users=DB.users(); let found=null;
+  for(const k in users){if(k===raw||users[k].email===raw){found=users[k];break;}}
+  if(!found){err.textContent='No account found with that username or email.';err.classList.add('show');return;}
+  if(found.password!==hashPw(pw)){err.textContent='Incorrect password. Please try again.';err.classList.add('show');return;}
+  DB.setSession({username:found.username});
+  startSession(found.username);
+}
+
+function doSignup(){
+  const uname=document.getElementById('su-username').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+  const dname=document.getElementById('su-display').value.trim();
+  const email=document.getElementById('su-email').value.trim().toLowerCase();
+  const pw=document.getElementById('su-pass').value;
+  const pw2=document.getElementById('su-pass2').value;
+  const bio=document.getElementById('su-bio').value.trim();
+  const err=document.getElementById('signup-err');
+  const ok=document.getElementById('signup-ok');
+  err.classList.remove('show'); ok.classList.remove('show');
+  if(uname.length<2){err.textContent='Username must be at least 2 characters (letters, numbers, underscores only).';err.classList.add('show');return;}
+  if(!dname){err.textContent='Please enter a display name.';err.classList.add('show');return;}
+  if(!email.includes('@')||!email.includes('.')){err.textContent='Please enter a valid email address.';err.classList.add('show');return;}
+  if(pw.length<8){err.textContent='Password must be at least 8 characters.';err.classList.add('show');return;}
+  if(pw!==pw2){err.textContent='Passwords do not match.';err.classList.add('show');return;}
+  const users=DB.users();
+  if(users[uname]){err.textContent='That username is already taken.';err.classList.add('show');return;}
+  for(const k in users){if(users[k].email===email){err.textContent='An account with that email already exists.';err.classList.add('show');return;}}
+  users[uname]={username:uname,password:hashPw(pw),displayName:dname,email,role:SURole,bio,avatar:suAvData,banner:'',website:'',createdAt:Date.now()};
+  DB.setUsers(users);
+  ok.textContent=`Welcome to Tempoe, ${dname}! 🎉 Signing you in...`;
+  ok.classList.add('show');
+  setTimeout(()=>{DB.setSession({username:uname});startSession(uname);},1200);
+}
+
+function doLogout(){
+  DB.clearSession(); CU=null; closeMenu();
+  document.getElementById('main-nav').style.display='none';
+  document.getElementById('main-shell').style.display='none';
+  document.getElementById('auth-overlay').classList.remove('hidden');
+  document.getElementById('login-user').value='';
+  document.getElementById('login-pass').value='';
+  document.getElementById('login-err').classList.remove('show');
+  showAuthPanel('login');
+}
+
+function startSession(uname){
+  const users=DB.users(); CU=users[uname];
+  if(!CU){doLogout();return;}
+  document.getElementById('auth-overlay').classList.add('hidden');
+  document.getElementById('main-nav').style.display='';
+  document.getElementById('main-shell').style.display='';
+  updateNavUI(); updateSidebarUI(); initApp();
+}
+
+// ── UI SYNC ────────────────────────────────────────────
+function updateNavUI(){
+  if(!CU)return;
+  const av=document.getElementById('nav-av');
+  document.getElementById('nav-uname').textContent='@'+CU.username;
+  if(CU.avatar){av.innerHTML=`<img src="${CU.avatar}" style="width:100%;height:100%;object-fit:cover">`;}
+  else{av.textContent=CU.displayName.charAt(0).toUpperCase();}
+}
+
+function updateSidebarUI(){
+  if(!CU)return;
+  document.getElementById('sb-name').textContent=CU.displayName;
+  document.getElementById('sb-role').textContent=CU.role.toUpperCase();
+  const bio=document.getElementById('sb-bio');
+  if(CU.bio){bio.textContent=CU.bio;bio.style.display='block';}else{bio.style.display='none';}
+  const avW=document.getElementById('sb-av');
+  const avI=document.getElementById('sb-av-img');
+  if(CU.avatar){avI.src=CU.avatar;avI.style.display='block';avW.textContent='';avW.appendChild(avI);}
+  else{avW.textContent=CU.displayName.charAt(0).toUpperCase();}
+  const bnI=document.getElementById('sb-banner-img');
+  if(CU.banner){bnI.src=CU.banner;bnI.style.display='block';}else{bnI.style.display='none';}
+  const cav=document.getElementById('compose-av');
+  const cavI=document.getElementById('compose-av-img');
+  if(CU.avatar){cavI.src=CU.avatar;cavI.style.display='block';cav.textContent='';cav.appendChild(cavI);}
+  else{cav.textContent=CU.displayName.charAt(0).toUpperCase();cavI.style.display='none';}
+}
+
+// ── DROPDOWN MENU ──────────────────────────────────────
+function toggleMenu(){document.getElementById('user-menu').classList.toggle('open');}
+function closeMenu(){document.getElementById('user-menu').classList.remove('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-user-btn')&&!e.target.closest('#user-menu'))closeMenu();});
+
+// ── PROFILE MODAL ──────────────────────────────────────
+let eBannerData='',eAvData='';
+function openProfileModal(){
+  if(!CU)return;
+  document.getElementById('edit-display').value=CU.displayName;
+  document.getElementById('edit-uname').value=CU.username;
+  document.getElementById('edit-role').value=CU.role;
+  document.getElementById('edit-bio').value=CU.bio||'';
+  document.getElementById('edit-site').value=CU.website||'';
+  document.getElementById('edit-pass').value='';
+  document.getElementById('edit-pass2').value='';
+  const avI=document.getElementById('av-edit-img');
+  avI.src=CU.avatar||''; avI.style.display=CU.avatar?'block':'none';
+  const bnI=document.getElementById('banner-img');
+  bnI.src=CU.banner||''; bnI.style.display=CU.banner?'block':'none';
+  eBannerData=''; eAvData='';
+  document.getElementById('profile-modal').classList.add('open');
+  closeMenu();
+}
+function closeProfileModal(){document.getElementById('profile-modal').classList.remove('open');}
+function prevBanner(e){
+  const f=e.target.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{eBannerData=ev.target.result;const i=document.getElementById('banner-img');i.src=eBannerData;i.style.display='block';};
+  r.readAsDataURL(f);
+}
+function prevAvEdit(e){
+  const f=e.target.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{eAvData=ev.target.result;const i=document.getElementById('av-edit-img');i.src=eAvData;i.style.display='block';};
+  r.readAsDataURL(f);
+}
+function saveProfile(){
+  if(!CU)return;
+  const np=document.getElementById('edit-pass').value;
+  const np2=document.getElementById('edit-pass2').value;
+  if(np&&np!==np2){toast('Passwords do not match!');return;}
+  if(np&&np.length<8){toast('New password must be at least 8 characters.');return;}
+  const users=DB.users(); const u=users[CU.username];
+  u.displayName=document.getElementById('edit-display').value.trim()||u.displayName;
+  u.role=document.getElementById('edit-role').value.trim()||u.role;
+  u.bio=document.getElementById('edit-bio').value.trim();
+  u.website=document.getElementById('edit-site').value.trim();
+  if(eAvData)u.avatar=eAvData;
+  if(eBannerData)u.banner=eBannerData;
+  if(np)u.password=hashPw(np);
+  DB.setUsers(users); CU=u;
+  eBannerData=''; eAvData='';
+  updateNavUI(); updateSidebarUI();
+  closeProfileModal();
+  toast('Profile updated!');
+}
+
+// ── UPLOAD MODAL ───────────────────────────────────────
+let uType='audio',uFileData=null,uFileName='',uFileSize=0,pendingAttach=null;
+const uCfg={
+  audio:{icon:'🎵',hint:'MP3, WAV, FLAC, AIFF · max 200MB',accept:'audio/*',btn:'Upload & Publish',bpm:true,key:true,stype:true},
+  reel:{icon:'🎬',hint:'MP4, MOV, WEBM · max 500MB — or drop an image as a reel cover',accept:'video/*,image/*',btn:'Publish Reel',bpm:false,key:false,stype:false},
+  image:{icon:'📷',hint:'JPG, PNG, GIF, WEBP · max 50MB',accept:'image/*',btn:'Attach to Post',bpm:false,key:false,stype:false}
+};
+
+function openUploadModal(type){
+  uType=type||'audio'; uFileData=null; uFileName=''; uFileSize=0;
+  document.getElementById('uprev').classList.remove('show');
+  document.getElementById('up-prog-fill').style.width='0';
+  ['u-title','u-bpm','u-key','u-desc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  setUType(uType, document.querySelector(`.utype-tab[onclick*="'${uType}'"]`));
+  document.getElementById('upload-modal').classList.add('open');
+}
+function closeUploadModal(){document.getElementById('upload-modal').classList.remove('open');}
+function setUType(type,btn){
+  uType=type;
+  document.querySelectorAll('.utype-tab').forEach(t=>t.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const c=uCfg[type];
+  document.getElementById('uico').textContent=c.icon;
+  document.getElementById('uhint').textContent=c.hint;
+  document.getElementById('u-file-input').accept=c.accept;
+  document.getElementById('u-submit-btn').textContent=c.btn;
+  document.getElementById('u-bpm-g').style.display=c.bpm?'':'none';
+  document.getElementById('u-key-g').style.display=c.key?'':'none';
+  document.getElementById('u-type-g').style.display=c.stype?'':'none';
+}
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('drag');
+  const f=e.dataTransfer.files[0]; if(f)procFile(f);
+}
+function handleFileSelect(e){const f=e.target.files[0];if(f)procFile(f);e.target.value='';}
+function procFile(f){
+  uFileName=f.name; uFileSize=f.size;
+  document.getElementById('uprev-name').textContent=f.name;
+  document.getElementById('uprev-meta').textContent=fmtBytes(f.size)+' · '+f.type;
+  document.getElementById('uprev').classList.add('show');
+  if(!document.getElementById('u-title').value)
+    document.getElementById('u-title').value=f.name.replace(/\.[^.]+$/,'').replace(/[_-]/g,' ');
+  const fill=document.getElementById('up-prog-fill');
+  let p=0;const iv=setInterval(()=>{p+=10+Math.random()*15;if(p>=100){p=100;clearInterval(iv);}fill.style.width=p+'%';},60);
+  const r=new FileReader();
+  r.onload=ev=>{uFileData=ev.target.result;};
+  r.readAsDataURL(f);
+}
+function fmtBytes(b){if(b<1024)return b+' B';if(b<1048576)return (b/1024).toFixed(1)+' KB';return (b/1048576).toFixed(1)+' MB';}
+function submitUpload(){
+  const title=document.getElementById('u-title').value.trim();
+  if(!title){toast('Please enter a title.');return;}
+  if(uType==='audio'){
+    const bpm=parseInt(document.getElementById('u-bpm').value)||0;
+    const key=document.getElementById('u-key').value.trim()||'—';
+    const st=document.getElementById('u-stype').value;
+    const snd=DB.sounds();
+    snd.unshift({id:Date.now(),name:title,artist:CU.displayName,username:CU.username,bpm,key,type:st,playing:false,fileUrl:uFileData||null,uploadedAt:Date.now()});
+    DB.setSounds(snd);
+    renderSounds(cSoundFilter);
+    toast(`"${title}" uploaded to your library!`);
+  } else if(uType==='reel'){
+    const desc=document.getElementById('u-desc').value.trim()||title;
+    const reels=DB.reels();
+    reels.unshift({id:Date.now(),username:CU.username,creator:'@'+CU.username,desc,bg:uFileData&&uFileData.startsWith('data:image')?uFileData:(CU.avatar||'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500'),likes:'0',comments:'0',videoUrl:uFileData&&uFileData.startsWith('data:video')?uFileData:null,uploadedAt:Date.now()});
+    DB.setReels(reels);
+    renderUserReelsGrid(); renderReel();
+    toast(`Reel "${title}" published!`);
+  } else if(uType==='image'){
+    pendingAttach={type:'image',url:uFileData,name:title};
+    renderComposeAttach();
+    toast('Image attached to your draft post.');
+  }
+  closeUploadModal();
+}
+function renderComposeAttach(){
+  const a=document.getElementById('compose-attach-area');
+  if(!pendingAttach){a.innerHTML='';return;}
+  const ico=pendingAttach.type==='image'?'📷':pendingAttach.type==='audio'?'🎵':'🎬';
+  a.innerHTML=`<div class="catth">${ico} <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${pendingAttach.name}</span><button onclick="pendingAttach=null;renderComposeAttach()">✕</button></div>`;
+}
+
+// ═══════════════════════════════════════
+// APP INIT
+// ═══════════════════════════════════════
+function initApp(){
+  renderPosts(); renderSounds(); renderMarket(); renderGigs();
+  renderBookings(); renderLedger(); renderCourses();
+  renderInbox(); loadChat('marcus');
+  renderTrending(); renderSuggestions(); renderGeo();
+  renderUserReelsGrid(); renderReel(); drawWF();
+  document.getElementById('compose-text').addEventListener('input',function(){
+    document.getElementById('post-btn').disabled=!this.value.trim();
+  });
+  setTimeout(()=>{document.getElementById('tix-bar').style.width='68%';},300);
+  setInterval(()=>{
+    const el=document.getElementById('viewer-count');
+    if(el){let v=parseInt(el.textContent.replace(',',''));v+=Math.floor(Math.random()*7)-3;if(v<1400)v=1400;el.textContent=v.toLocaleString();}
+  },4000);
+}
+
+// ── TOAST ──────────────────────────────────────────────
+let toastT;
+function toast(m){
+  const el=document.getElementById('toast');
+  clearTimeout(toastT);el.textContent=m;el.classList.add('show');
+  toastT=setTimeout(()=>el.classList.remove('show'),3200);
+}
+
+// ── TAB SWITCH ─────────────────────────────────────────
+function switchTab(name){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  const p=document.getElementById('tab-'+name);const t=document.querySelector(`[data-tab="${name}"]`);
+  if(p)p.classList.add('active');if(t)t.classList.add('active');
+  if(name==='messaging'){document.getElementById('inbox-count').style.display='none';loadChat(curChat);}
+  if(name==='analytics')setTimeout(initAChart,50);
+  if(name==='promoter')setTimeout(initPChart,50);
+  if(name==='management')setTimeout(initMChart,50);
+  closeMenu();
+}
+function setNQA(el){document.querySelectorAll('.nqi').forEach(i=>i.classList.remove('active'));el.classList.add('active');}
+
+// ── POSTS ──────────────────────────────────────────────
+function relT(ts){
+  const d=Date.now()-ts;
+  if(d<60000)return'just now';if(d<3600000)return Math.floor(d/60000)+'m ago';
+  if(d<86400000)return Math.floor(d/3600000)+'h ago';return Math.floor(d/86400000)+'d ago';
+}
+
+function renderPosts(){
+  const posts=DB.posts();
+  const w=document.getElementById('posts-feed');w.innerHTML='';
+  posts.forEach(p=>{
+    const own=CU&&p.username===CU.username;
+    let media='';
+    if(p.img)media=`<img class="post-img" src="${p.img}" alt="">`;
+    if(p.attach){
+      if(p.attach.type==='image')media=`<img class="post-img" src="${p.attach.url}" alt="${p.attach.name}">`;
+      else media=`<div class="post-attach">${p.attach.type==='audio'?'🎵':'🎬'} <span>${p.attach.name}</span><span style="margin-left:auto;font-size:10px;font-family:var(--mono);color:var(--text3)">${p.attach.type.toUpperCase()}</span></div>`;
+    }
+    const d=document.createElement('div');d.className='card post';
+    d.innerHTML=`<div class="card-pad">
+      <div class="post-author">
+        <div class="av" style="background-image:url('${p.avatar||''}')"></div>
+        <div class="post-author-info">
+          <h4>${p.displayName}${own?'<span class="you-badge">YOU</span>':''}</h4>
+          <span>${p.role} · ${relT(p.ts)}</span>
         </div>
-        <p class="post-body">${p.body}</p>
-        ${p.img ? `<img class="post-img" src="${p.img}" alt="Studio">` : ''}
-        <div class="post-stats">👍 <span class="like-num">${p.likes}</span> · ${p.comments} comments</div>
-        <div class="post-actions">
-          <button class="post-action like-btn ${p.liked?'active':''}" onclick="likePost(${p.id})">👍 Like</button>
-          <button class="post-action" onclick="toast('Opening comment thread...')">💬 Comment</button>
-          <button class="post-action" onclick="toast('Share link generated.')">↗ Share</button>
-        </div>
-      </div>`;
-    wrap.appendChild(div);
+        ${own?`<button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="delPost(${p.id})">🗑</button>`:''}
+      </div>
+      <p class="post-body">${p.body}</p>${media}
+      <div class="post-stats">👍 <span>${p.likes}</span> · ${p.comments} comments</div>
+      <div class="post-actions">
+        <button class="post-action like-btn${p.liked?' active':''}" onclick="likePost(${p.id})">👍 Like</button>
+        <button class="post-action" onclick="toast('Opening comment thread...')">💬 Comment</button>
+        <button class="post-action" onclick="toast('Share link generated.')">↗ Share</button>
+      </div>
+    </div>`;
+    w.appendChild(d);
   });
 }
 
-function likePost(id) {
-  const p = POSTS.find(x => x.id === id);
-  if (!p) return;
-  p.liked = !p.liked;
-  p.likes += p.liked ? 1 : -1;
-  renderPosts();
+function likePost(id){
+  const posts=DB.posts();const p=posts.find(x=>x.id===id);if(!p)return;
+  p.liked=!p.liked;p.likes+=p.liked?1:-1;DB.setPosts(posts);renderPosts();
 }
-
-function submitPost() {
-  const txt = document.getElementById('compose-text').value.trim();
-  if (!txt) return;
-  POSTS.unshift({id: Date.now(), av:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80', name:'DRE4K', role:'Executive Producer', time:'Just now', body: txt, img: null, likes: 0, comments: 0, liked: false});
-  document.getElementById('compose-text').value = '';
-  document.getElementById('post-btn').disabled = true;
-  renderPosts();
+function delPost(id){
+  DB.setPosts(DB.posts().filter(p=>p.id!==id));renderPosts();toast('Post deleted.');
+}
+function submitPost(){
+  const txt=document.getElementById('compose-text').value.trim();if(!txt)return;
+  const posts=DB.posts();
+  posts.unshift({id:Date.now(),username:CU.username,displayName:CU.displayName,role:CU.role,ts:Date.now(),avatar:CU.avatar||'',body:txt,img:null,likes:0,comments:0,liked:false,attach:pendingAttach});
+  DB.setPosts(posts);
+  document.getElementById('compose-text').value='';
+  document.getElementById('post-btn').disabled=true;
+  pendingAttach=null;renderComposeAttach();renderPosts();
   toast('Post dispatched to network.');
 }
 
-// ────────────────────────────────────────────────
-// REELS
-// ────────────────────────────────────────────────
-
-function renderReel() {
-  const r = REELS[currentReelIdx];
-  document.getElementById('reel-bg').style.backgroundImage = `url('${r.bg}')`;
-  document.getElementById('reel-creator').textContent = r.creator;
-  document.getElementById('reel-desc').textContent = r.desc;
-  document.getElementById('reel-likes').textContent = r.likes;
-  document.getElementById('reel-comments').textContent = r.comments;
-  document.getElementById('reel-disc').style.backgroundImage = `url('${r.disc}')`;
-  document.getElementById('reel-idx-label').textContent = `${currentReelIdx+1} / ${REELS.length}`;
-  document.getElementById('reel-prog').style.width = `${((currentReelIdx+1)/REELS.length)*100}%`;
-}
-
-function nextReel() {
-  currentReelIdx = (currentReelIdx + 1) % REELS.length;
-  renderReel();
-}
-function prevReel() {
-  currentReelIdx = (currentReelIdx - 1 + REELS.length) % REELS.length;
-  renderReel();
-}
-function likeReel(btn) {
-  btn.style.animation = 'none';
-  btn.offsetHeight;
-  btn.style.animation = null;
-  toast('Added to saved inspirations!');
-}
-function scrubReel(e, el) {
-  const pct = e.offsetX / el.offsetWidth;
-  currentReelIdx = Math.floor(pct * REELS.length);
-  renderReel();
-}
-
-// ────────────────────────────────────────────────
-// SOUNDS + WAVEFORM
-// ────────────────────────────────────────────────
-
-function renderSounds(filter) {
-  const list = document.getElementById('sounds-list');
-  const items = filter && filter !== 'all' ? SOUNDS.filter(s => s.type === filter) : SOUNDS;
-  list.innerHTML = '';
-  items.forEach((s, i) => {
-    const div = document.createElement('div');
-    div.className = 'sound-item';
-    div.innerHTML = `
-      <button class="play-btn ${s.playing?'playing':''}" onclick="toggleSound(${s.id})">${s.playing?'⏸':'▶'}</button>
-      <div class="sound-info">
-        <h4>${s.name}</h4>
-        <span>By ${s.artist} · ${s.bpm ? s.bpm + ' BPM' : 'SFX'} · ${s.key}</span>
-      </div>
-      <div class="sound-bpm">${s.bpm ? s.bpm + ' BPM' : 'SFX'}</div>
-      <button class="btn btn-ghost btn-sm" style="margin-left:6px" onclick="toast('Syncing stem files to workstation...')">Sync</button>`;
-    list.appendChild(div);
-  });
-}
-
-function filterSounds(type, el) {
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  currentSoundFilter = type;
-  renderSounds(type);
-}
-
-function toggleSound(id) {
-  const s = SOUNDS.find(x => x.id === id);
-  if (!s) return;
-  SOUNDS.forEach(x => x.playing = false);
-  if (activeSoundIdx !== id) {
-    s.playing = true;
-    activeSoundIdx = id;
-    document.getElementById('player-status').textContent = 'PLAYING';
-    document.getElementById('player-status').style.color = 'var(--green)';
-    mainPlaying = true;
-    startWaveformAnim();
-    document.getElementById('main-play-btn').textContent = '⏸ Pause';
-  } else {
-    activeSoundIdx = -1;
-    mainPlaying = false;
-    document.getElementById('player-status').textContent = 'STOPPED';
-    document.getElementById('player-status').style.color = 'var(--text3)';
-    stopWaveformAnim();
-    document.getElementById('main-play-btn').textContent = '▶ Play';
+// ── REELS ──────────────────────────────────────────────
+let cReelIdx=0;
+function renderUserReelsGrid(){
+  const mine=DB.reels().filter(r=>r.username===(CU&&CU.username));
+  const g=document.getElementById('user-reels-grid');
+  if(!mine.length){
+    g.innerHTML=`<div style="grid-column:1/-1;padding:20px;text-align:center;color:var(--text3);font-size:12px">No reels yet. <span style="color:var(--accent);cursor:pointer" onclick="openUploadModal('reel')">Upload your first →</span></div>`;
+    return;
   }
-  renderSounds(currentSoundFilter);
-}
-
-function toggleMainPlay() {
-  if (activeSoundIdx === -1 && SOUNDS.length > 0) toggleSound(SOUNDS[0].id);
-  else if (mainPlaying) {
-    mainPlaying = false;
-    stopWaveformAnim();
-    document.getElementById('main-play-btn').textContent = '▶ Play';
-    document.getElementById('player-status').textContent = 'PAUSED';
-    document.getElementById('player-status').style.color = 'var(--amber)';
-  } else {
-    mainPlaying = true;
-    startWaveformAnim();
-    document.getElementById('main-play-btn').textContent = '⏸ Pause';
-    document.getElementById('player-status').textContent = 'PLAYING';
-    document.getElementById('player-status').style.color = 'var(--green)';
-  }
-}
-function waveformPrev() { wavePosition = 0; drawWaveform(); toast('Rewound to start.'); }
-function waveformNext() { toast('Jumping to next track...'); }
-
-function drawWaveform() {
-  const canvas = document.getElementById('waveform');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const W = canvas.offsetWidth || 600;
-  const H = 60;
-  canvas.width = W;
-  canvas.height = H;
-  ctx.clearRect(0, 0, W, H);
-  const bars = Math.floor(W / 4);
-  for (let i = 0; i < bars; i++) {
-    const x = i * 4;
-    const seed = Math.sin(i * 0.37) * Math.cos(i * 0.11) * Math.sin(i * 0.73 + 1.2);
-    const amp = Math.abs(seed) * 0.85 + 0.05;
-    const barH = amp * H * 0.92;
-    const played = (x / W) < (wavePosition / 100);
-    ctx.fillStyle = played ? '#4f9cf9' : '#2a2a30';
-    ctx.fillRect(x, (H - barH) / 2, 2, barH);
-  }
-  // Playhead
-  const px = (wavePosition / 100) * W;
-  ctx.fillStyle = '#4f9cf9';
-  ctx.fillRect(px - 1, 0, 2, H);
-  // Time display
-  const dur = 213;
-  const cur = Math.round((wavePosition / 100) * dur);
-  document.getElementById('time-display').textContent = `${fmt(cur)} / ${fmt(dur)}`;
-}
-
-function fmt(s) { return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}` }
-
-function startWaveformAnim() {
-  stopWaveformAnim();
-  waveTimer = setInterval(() => {
-    wavePosition = Math.min(100, wavePosition + 0.2);
-    drawWaveform();
-    if (wavePosition >= 100) { wavePosition = 0; stopWaveformAnim(); }
-  }, 100);
-}
-function stopWaveformAnim() { clearInterval(waveTimer); }
-function seekWaveform(e, el) {
-  wavePosition = (e.offsetX / el.offsetWidth) * 100;
-  drawWaveform();
-}
-
-// ────────────────────────────────────────────────
-// MARKET
-// ────────────────────────────────────────────────
-
-function renderMarket() {
-  const grid = document.getElementById('market-grid');
-  grid.innerHTML = '';
-  MARKET_ITEMS.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'market-card';
-    div.innerHTML = `
-      <div class="market-img" style="background-image:url('${item.img}')">
-        <div class="market-badge" style="background:var(--bg3);color:var(--text3);border:1px solid var(--border)">${item.badge}</div>
+  g.innerHTML=mine.map(r=>`
+    <div class="reel-thumb" onclick="playReelById(${r.id})">
+      <div class="reel-thumb-bg" style="background-image:url('${r.bg}')"></div>
+      <div class="reel-thumb-ov">
+        <div class="reel-thumb-play">▶</div>
+        <div class="reel-thumb-creator">${r.creator}</div>
+        <div class="reel-thumb-desc">${r.desc}</div>
+        <div class="reel-thumb-stats"><span>❤️ ${r.likes}</span><span>💬 ${r.comments}</span></div>
       </div>
-      <div class="market-info">
-        <h4>${item.name}</h4>
-        <div class="price">${item.price}</div>
-        <p>${item.desc}</p>
-        <button class="btn btn-ghost btn-sm btn-full" onclick="toast('Opening inquiry thread...')">Inquire →</button>
-      </div>`;
-    grid.appendChild(div);
-  });
-}
-
-function openListingForm() { document.getElementById('list-form-wrap').style.display = 'block'; }
-function closeListingForm() { document.getElementById('list-form-wrap').style.display = 'none'; }
-function submitListing() {
-  const title = document.getElementById('m-title').value.trim();
-  const price = document.getElementById('m-price').value.trim();
-  const desc = document.getElementById('m-desc').value.trim();
-  const cat = document.getElementById('m-cat').value;
-  if (!title) { toast('Please enter an item name.'); return; }
-  MARKET_ITEMS.unshift({id:Date.now(),name:title,price:price?`$${price}`:'POA',category:cat,img:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400',desc:desc||'No description.',badge:cat.toUpperCase()});
-  closeListingForm();
-  renderMarket();
-  ['m-title','m-price','m-desc'].forEach(id => document.getElementById(id).value = '');
-  toast('Listing published to marketplace.');
-}
-
-// ────────────────────────────────────────────────
-// GIGS
-// ────────────────────────────────────────────────
-
-function renderGigs() {
-  const wrap = document.getElementById('gigs-list');
-  wrap.innerHTML = '';
-  GIGS.forEach(g => {
-    const div = document.createElement('div');
-    div.className = 'gig-card';
-    div.innerHTML = `
-      <div class="gig-top">
-        <h4>${g.title}</h4>
-        <span class="gig-pay">${g.pay}</span>
-      </div>
-      <div class="gig-meta">${g.tags.map(t=>`<span class="gig-tag ${t==='FEATURED'?'featured':''}">${t}</span>`).join('')}</div>
-      <p>${g.desc}</p>
-      <button class="btn ${g.applied?'btn-ghost':'btn-primary'} btn-sm" onclick="applyGig(${g.id}, this)">
-        ${g.applied?'Applied ✓':'Apply Now'}
-      </button>`;
-    wrap.appendChild(div);
-  });
-}
-
-function openGigForm() { document.getElementById('gig-form-wrap').style.display = 'block'; }
-function closeGigForm() { document.getElementById('gig-form-wrap').style.display = 'none'; }
-function submitGig() {
-  const title = document.getElementById('g-title').value.trim();
-  const pay = document.getElementById('g-pay').value.trim();
-  const desc = document.getElementById('g-desc').value.trim();
-  if (!title) { toast('Please enter a role title.'); return; }
-  GIGS.unshift({id:Date.now(),title,pay:pay||'Negotiable',tags:['NEW'],desc:desc||'Details TBA.',applied:false});
-  closeGigForm();
-  renderGigs();
-  ['g-title','g-pay','g-desc'].forEach(id => document.getElementById(id).value = '');
-  toast('Gig posted to board.');
-}
-
-function applyGig(id, btn) {
-  const g = GIGS.find(x => x.id === id);
-  if (!g || g.applied) return;
-  g.applied = true;
-  btn.textContent = 'Applied ✓';
-  btn.classList.remove('btn-primary');
-  btn.classList.add('btn-ghost');
-  toast('Portfolio dispatched to listing owner.');
-}
-
-// ────────────────────────────────────────────────
-// BOOKINGS
-// ────────────────────────────────────────────────
-
-function renderBookings() {
-  const wrap = document.getElementById('bookings-list');
-  wrap.innerHTML = '';
-  BOOKINGS.forEach(b => {
-    const statusClass = {confirmed:'status-confirmed',pending:'status-pending',cancelled:'status-cancelled'}[b.status];
-    const div = document.createElement('div');
-    div.className = 'booking-item';
-    div.innerHTML = `
-      <div class="booking-date">
-        <div class="month">${b.date.month}</div>
-        <div class="day">${b.date.day}</div>
-      </div>
-      <div class="booking-info">
-        <h4>${b.artist}</h4>
-        <p>${b.venue} · <strong style="color:var(--accent)">${b.fee.toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:0})}</strong></p>
-        <span class="status-pill ${statusClass}">${b.status.toUpperCase()}</span>
-        <p style="margin-top:6px;font-size:11px;color:var(--text3)">${b.notes}</p>
-        <div style="display:flex;gap:6px;margin-top:8px">
-          <button class="btn btn-ghost btn-sm" onclick="toast('Opening rider documents...')">View Rider</button>
-          ${b.status==='pending'?`<button class="btn btn-primary btn-sm" onclick="confirmBooking(${b.id},this)">Confirm</button>`:''}
-        </div>
-      </div>`;
-    wrap.appendChild(div);
-  });
-}
-
-function openBookingForm() { document.getElementById('booking-form-wrap').style.display = 'block'; }
-function closeBookingForm() { document.getElementById('booking-form-wrap').style.display = 'none'; }
-function submitBooking() {
-  const artist = document.getElementById('b-artist').value.trim();
-  const venue = document.getElementById('b-venue').value.trim();
-  const date = document.getElementById('b-date').value.trim();
-  const fee = parseInt(document.getElementById('b-fee').value) || 0;
-  if (!artist) { toast('Please enter an artist name.'); return; }
-  const parts = date.split(' ');
-  BOOKINGS.unshift({id:Date.now(),artist,venue:venue||'TBD',date:{month:parts[0]||'TBD',day:parts[1]||'—'},fee,status:'pending',notes:'Offer dispatched. Awaiting response.'});
-  closeBookingForm();
-  renderBookings();
-  ['b-artist','b-venue','b-date','b-fee'].forEach(id => document.getElementById(id).value = '');
-  toast('Booking offer dispatched.');
-}
-function confirmBooking(id, btn) {
-  const b = BOOKINGS.find(x => x.id === id);
-  if (!b) return;
-  b.status = 'confirmed';
-  renderBookings();
-  toast('Booking confirmed!');
-}
-
-// ────────────────────────────────────────────────
-// MANAGEMENT LEDGER
-// ────────────────────────────────────────────────
-
-function renderLedger() {
-  const wrap = document.getElementById('ledger-list');
-  wrap.innerHTML = LEDGER.map(l => `
-    <div class="ledger-row">
-      <span class="ledger-name">${l.name}</span>
-      <span class="ledger-split">${l.split}</span>
-      <span class="ledger-amount">${l.amount}</span>
     </div>`).join('');
 }
+function playReelById(id){
+  const idx=DB.reels().findIndex(r=>r.id===id);
+  if(idx!==-1){cReelIdx=idx;renderReel();}
+}
+function renderReel(){
+  const reels=DB.reels();if(!reels.length)return;
+  const r=reels[cReelIdx%reels.length];
+  const vid=document.getElementById('reel-video');
+  const bg=document.getElementById('reel-bg');
+  if(r.videoUrl&&r.videoUrl.startsWith('data:video')){
+    vid.src=r.videoUrl;vid.style.display='block';bg.style.backgroundImage='none';vid.play().catch(()=>{});
+  }else{vid.style.display='none';vid.src='';bg.style.backgroundImage=`url('${r.bg}')`;}
+  document.getElementById('reel-creator').textContent=r.creator;
+  document.getElementById('reel-desc').textContent=r.desc;
+  document.getElementById('reel-likes').textContent=r.likes;
+  document.getElementById('reel-comments').textContent=r.comments;
+  document.getElementById('reel-idx-lbl').textContent=`${cReelIdx%reels.length+1} / ${reels.length}`;
+  document.getElementById('reel-prog').style.width=`${((cReelIdx%reels.length+1)/reels.length)*100}%`;
+}
+function nextReel(){cReelIdx=(cReelIdx+1)%DB.reels().length;renderReel();}
+function prevReel(){const l=DB.reels().length;cReelIdx=(cReelIdx-1+l)%l;renderReel();}
+function likeReel(){toast('Added to saved inspirations!');}
+function scrubReel(e,el){cReelIdx=Math.floor((e.offsetX/el.offsetWidth)*DB.reels().length);renderReel();}
 
-function addLedgerEntry() {
-  const name = prompt('Artist / Party name:');
-  if (!name) return;
-  const split = prompt('Split percentage (e.g. 10%):') || '0%';
-  const amount = prompt('Amount (e.g. $500):') || '$0';
-  LEDGER.push({name, split, amount});
-  renderLedger();
-  toast('Ledger entry added.');
+// ── SOUNDS ─────────────────────────────────────────────
+let cSoundFilter='all',mainPlaying=false,wfPos=0,wfTimer=null,activeSid=-1,activeAud=null;
+
+function renderSounds(filter){
+  cSoundFilter=filter||'all';
+  let snd=DB.sounds();
+  if(filter==='mine')snd=snd.filter(s=>s.username===(CU&&CU.username));
+  else if(filter&&filter!=='all')snd=snd.filter(s=>s.type===filter);
+  const list=document.getElementById('sounds-list');
+  if(!snd.length){list.innerHTML='<div style="text-align:center;padding:30px;color:var(--text3);font-size:13px">No sounds found. <span style="color:var(--accent);cursor:pointer" onclick="openUploadModal(\'audio\')">Upload your first →</span></div>';return;}
+  list.innerHTML='';
+  snd.forEach(s=>{
+    const own=CU&&s.username===CU.username;
+    const d=document.createElement('div');d.className='sound-item';
+    d.innerHTML=`
+      <button class="play-btn${s.playing?' playing':''}" onclick="toggleSound(${s.id})">${s.playing?'⏸':'▶'}</button>
+      <div class="sound-info">
+        <h4>${s.name}${own?'<span class="mine-badge">MINE</span>':''}</h4>
+        <span>By ${s.artist} · ${s.bpm?s.bpm+' BPM':'SFX'} · ${s.key}</span>
+      </div>
+      <div class="sbpm">${s.bpm?s.bpm+' BPM':'SFX'}</div>
+      ${own?`<button class="btn btn-danger btn-sm" style="margin-left:6px" onclick="delSound(${s.id})">🗑</button>`:
+        `<button class="btn btn-ghost btn-sm" style="margin-left:6px" onclick="toast('Syncing to workstation...')">Sync</button>`}`;
+    list.appendChild(d);
+  });
+}
+function filterSounds(type,el){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active'); renderSounds(type);
+}
+function delSound(id){
+  DB.setSounds(DB.sounds().filter(s=>s.id!==id));
+  renderSounds(cSoundFilter); toast('Sound deleted.');
+}
+function toggleSound(id){
+  const snd=DB.sounds();const s=snd.find(x=>x.id===id);if(!s)return;
+  snd.forEach(x=>x.playing=false);
+  if(activeSid!==id){
+    s.playing=true;activeSid=id;mainPlaying=true;
+    document.getElementById('player-status').textContent='PLAYING';
+    document.getElementById('player-status').style.color='var(--green)';
+    document.getElementById('main-play-btn').textContent='⏸ Pause';
+    startWFAnim();
+    if(activeAud){activeAud.pause();}
+    if(s.fileUrl){activeAud=new Audio(s.fileUrl);activeAud.play().catch(()=>{});}
+  }else{
+    activeSid=-1;mainPlaying=false;
+    if(activeAud){activeAud.pause();activeAud=null;}
+    document.getElementById('player-status').textContent='STOPPED';
+    document.getElementById('player-status').style.color='var(--text3)';
+    document.getElementById('main-play-btn').textContent='▶ Play';
+    stopWFAnim();
+  }
+  DB.setSounds(snd); renderSounds(cSoundFilter);
+}
+function toggleMainPlay(){
+  const snd=DB.sounds();
+  if(activeSid===-1&&snd.length>0){toggleSound(snd[0].id);return;}
+  if(mainPlaying){
+    mainPlaying=false;stopWFAnim();
+    if(activeAud)activeAud.pause();
+    document.getElementById('main-play-btn').textContent='▶ Play';
+    document.getElementById('player-status').textContent='PAUSED';
+    document.getElementById('player-status').style.color='var(--amber)';
+  }else{
+    mainPlaying=true;startWFAnim();
+    if(activeAud)activeAud.play().catch(()=>{});
+    document.getElementById('main-play-btn').textContent='⏸ Pause';
+    document.getElementById('player-status').textContent='PLAYING';
+    document.getElementById('player-status').style.color='var(--green)';
+  }
+}
+function wfPrev(){wfPos=0;drawWF();toast('Rewound to start.');}
+function wfNext(){toast('Next track...');}
+
+function drawWF(){
+  const c=document.getElementById('waveform');if(!c)return;
+  const ctx=c.getContext('2d');const W=c.offsetWidth||600;const H=60;
+  c.width=W;c.height=H;ctx.clearRect(0,0,W,H);
+  const bars=Math.floor(W/4);
+  for(let i=0;i<bars;i++){
+    const x=i*4;const seed=Math.sin(i*.37)*Math.cos(i*.11)*Math.sin(i*.73+1.2);
+    const amp=Math.abs(seed)*.85+.05;const bh=amp*H*.92;
+    ctx.fillStyle=(x/W)<(wfPos/100)?'#4f9cf9':'#2a2a30';
+    ctx.fillRect(x,(H-bh)/2,2,bh);
+  }
+  const px=(wfPos/100)*W;ctx.fillStyle='#4f9cf9';ctx.fillRect(px-1,0,2,H);
+  const dur=213;const cur=Math.round((wfPos/100)*dur);
+  const el=document.getElementById('time-display');
+  if(el)el.textContent=`${fmtT(cur)} / ${fmtT(dur)}`;
+}
+function fmtT(s){return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
+function startWFAnim(){
+  stopWFAnim();
+  wfTimer=setInterval(()=>{wfPos=Math.min(100,wfPos+.2);drawWF();if(wfPos>=100){wfPos=0;stopWFAnim();}},100);
+}
+function stopWFAnim(){clearInterval(wfTimer);}
+function seekWF(e,el){wfPos=(e.offsetX/el.offsetWidth)*100;drawWF();}
+window.addEventListener('resize',()=>drawWF());
+
+// ── STATIC DATA ────────────────────────────────────────
+const MARKET_ITEMS=[
+  {id:1,name:'"Dre Force Ones" Monitor Stands',price:'Custom',img:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400',desc:'Tensegrity-based monitor alignment units.',badge:'CUSTOM'},
+  {id:2,name:'Neve 1073 Clone Channel Strip',price:'$2,400',img:'https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=400',desc:'Hand-wired replica with transformer-balanced I/O.',badge:'IN STOCK'},
+  {id:3,name:'Hyphy Starter Preset Pack',price:'$29',img:'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400',desc:'60 curated presets for Bay Area sound.',badge:'DIGITAL'},
+  {id:4,name:'Full Album Mix Session',price:'$800',img:'https://images.unsplash.com/photo-1516280440614-37939bbacd6a?w=400',desc:'Professional mixing for up to 12 stems. 3-day turnaround.',badge:'SERVICE'}
+];
+let GIGS=[
+  {id:1,title:'CHI Lounge Resident DJ Set',pay:'$350/night',tags:['FEATURED','RECURRING'],desc:'Seeking multi-genre pacing, deep bass coordination. Weekly Friday residency.',applied:false},
+  {id:2,title:'Album Mix Engineer — 12 Tracks',pay:'$1,200',tags:['REMOTE','URGENT'],desc:'10-12 song project needs mixing in 2 weeks. Hip-hop / R&B blend.',applied:false},
+  {id:3,title:'Festival Stage Manager — Bay Area',pay:'$600',tags:['ON-SITE'],desc:'3-day festival in July. Coordinate stage transitions and sound checks.',applied:false}
+];
+let BOOKINGS=[
+  {id:1,artist:'Keak da Sneak',venue:'CHI Lounge',date:{month:'JUN',day:'13'},fee:2500,status:'confirmed',notes:'Headliner set. 90 min.'},
+  {id:2,artist:'Too Short',venue:'Oakland Arena',date:{month:'JUL',day:'4'},fee:8000,status:'pending',notes:'Offer sheet sent. Awaiting management approval.'},
+  {id:3,artist:'E-40',venue:'The Paramount',date:{month:'AUG',day:'18'},fee:6500,status:'confirmed',notes:'Contract signed.'}
+];
+let LEDGER=[
+  {name:'Keak da Sneak',split:'15%',amount:'$375'},{name:'Tommy Lam (Mix)',split:'12%',amount:'$300'},
+  {name:'Elias Vance (Master)',split:'8%',amount:'$200'},{name:'Kayla Rents (A&R)',split:'10%',amount:'$250'},
+  {name:'Studio Overhead',split:'5%',amount:'$125'}
+];
+const COURSES=[
+  {key:'spatial',title:'Spatial Audio & Dolby Atmos',level:'Advanced Operator',img:'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400',tag:'ADVANCED',tc:'rgba(167,139,250,.2)',tt:'#a78bfa',progress:0,status:'Not Enrolled'},
+  {key:'legal',title:'Music Rights, Licensing & Splits',level:'Administrative Lead',img:'https://images.unsplash.com/photo-1516280440614-37939bbacd6a?w=400',tag:'BUSINESS',tc:'rgba(245,166,35,.2)',tt:'#f5a623',progress:0,status:'Not Enrolled'},
+  {key:'mixing',title:'Advanced Mixing Techniques',level:'Intermediate',img:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400',tag:'POPULAR',tc:'rgba(63,207,142,.2)',tt:'#3fcf8e',progress:65,status:'65% Complete'},
+  {key:'biz',title:'Music Business Fundamentals',level:'Beginner',img:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400',tag:'BEGINNER',tc:'rgba(79,156,249,.2)',tt:'#4f9cf9',progress:100,status:'Completed ✓'}
+];
+const CHATS={
+  marcus:{name:'Marcus Thorne',av:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80',online:true,messages:[{text:'Yo! Did you complete verification on the Dolby Atmos array track curves?',type:'in',time:'2:14 PM'},{text:'Yes, alignment tracking coefficients fully deployed. Runs clean at 7.1.4.',type:'out',time:'2:16 PM'},{text:'Perfect. Can you send me the session file? Need to check the LFE bleed.',type:'in',time:'2:18 PM'},{text:'Dropping it in the shared Drive folder now.',type:'out',time:'2:19 PM'}]},
+  elias:{name:'Elias Vance',av:'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80',online:false,messages:[{text:'Hey, the master files are ready for review.',type:'in',time:'Yesterday'},{text:'Will check today and get back to you.',type:'out',time:'Yesterday'}]},
+  tommy:{name:'Tommy Lam',av:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80',online:true,messages:[{text:'That 808 patch I sent — does it work for the new project?',type:'in',time:'10:30 AM'}]}
+};
+const GEO=[{city:'Oakland, CA',pct:34},{city:'Los Angeles, CA',pct:22},{city:'Atlanta, GA',pct:14},{city:'New York, NY',pct:12},{city:'Chicago, IL',pct:8},{city:'Other',pct:10}];
+const TRENDING=[{rank:1,name:'Bay Area Hyphy Bounce',count:'14.2k uses'},{rank:2,name:'Drill 808 Pack v3',count:'11.8k uses'},{rank:3,name:'Melodic Trap Loop',count:'9.1k uses'},{rank:4,name:'Vintage Room Verb',count:'7.3k uses'},{rank:5,name:'Lo-fi Crate Drums',count:'5.6k uses'}];
+const SUGGESTS=[{name:'Marcus Thorne',role:'Mix Engineer',av:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80'},{name:'Elias Vance',role:'Mastering',av:'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80'},{name:'Kayla Rents',role:'A&R Coordinator',av:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80'}];
+
+// ── MARKET ─────────────────────────────────────────────
+function renderMarket(){
+  const g=document.getElementById('market-grid');g.innerHTML='';
+  MARKET_ITEMS.forEach(i=>{
+    const d=document.createElement('div');d.className='market-card';
+    d.innerHTML=`<div class="market-img" style="background-image:url('${i.img}')"><div class="market-badge">${i.badge}</div></div>
+    <div class="market-info"><h4>${i.name}</h4><div class="price">${i.price}</div><p>${i.desc}</p>
+    <button class="btn btn-ghost btn-sm btn-full" onclick="toast('Opening inquiry...')">Inquire →</button></div>`;
+    g.appendChild(d);
+  });
+}
+function openListingForm(){document.getElementById('list-form-wrap').style.display='block';}
+function closeListingForm(){document.getElementById('list-form-wrap').style.display='none';}
+function submitListing(){
+  const t=document.getElementById('m-title').value.trim();if(!t){toast('Enter item name.');return;}
+  const p=document.getElementById('m-price').value.trim();
+  const desc=document.getElementById('m-desc').value.trim();
+  const cat=document.getElementById('m-cat').value;
+  MARKET_ITEMS.unshift({id:Date.now(),name:t,price:p?`$${p}`:'POA',img:'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400',desc:desc||'No description.',badge:cat.toUpperCase()});
+  closeListingForm();renderMarket();
+  ['m-title','m-price','m-desc'].forEach(id=>document.getElementById(id).value='');
+  toast('Listing published!');
 }
 
-// ────────────────────────────────────────────────
-// PROMOTER
-// ────────────────────────────────────────────────
+// ── GIGS ───────────────────────────────────────────────
+function renderGigs(){
+  const w=document.getElementById('gigs-list');w.innerHTML='';
+  GIGS.forEach(g=>{
+    const d=document.createElement('div');d.className='gig-card';
+    d.innerHTML=`<div class="gig-top"><h4>${g.title}</h4><span class="gig-pay">${g.pay}</span></div>
+    <div class="gig-meta">${g.tags.map(t=>`<span class="gig-tag${t==='FEATURED'?' feat':''}">${t}</span>`).join('')}</div>
+    <p>${g.desc}</p>
+    <button class="btn ${g.applied?'btn-ghost':'btn-primary'} btn-sm" onclick="applyGig(${g.id},this)">${g.applied?'Applied ✓':'Apply Now'}</button>`;
+    w.appendChild(d);
+  });
+}
+function openGigForm(){document.getElementById('gig-form-wrap').style.display='block';}
+function closeGigForm(){document.getElementById('gig-form-wrap').style.display='none';}
+function submitGig(){
+  const t=document.getElementById('g-title').value.trim();if(!t){toast('Enter role title.');return;}
+  const p=document.getElementById('g-pay').value.trim();
+  const desc=document.getElementById('g-desc').value.trim();
+  GIGS.unshift({id:Date.now(),title:t,pay:p||'Negotiable',tags:['NEW'],desc:desc||'Details TBA.',applied:false});
+  closeGigForm();renderGigs();
+  ['g-title','g-pay','g-desc'].forEach(id=>document.getElementById(id).value='');
+  toast('Gig posted!');
+}
+function applyGig(id,btn){
+  const g=GIGS.find(x=>x.id===id);if(!g||g.applied)return;
+  g.applied=true;btn.textContent='Applied ✓';btn.classList.replace('btn-primary','btn-ghost');
+  toast('Portfolio dispatched!');
+}
 
-function sellTickets() {
-  const el = document.getElementById('p-sold');
-  const bar = document.getElementById('ticket-bar');
-  const lbl = document.getElementById('ticket-pct');
-  let sold = parseInt(el.textContent.replace(',',''));
-  sold = Math.min(500, sold + 10);
-  el.textContent = sold.toLocaleString();
-  lbl.textContent = `${sold} / 500`;
-  bar.style.width = `${(sold/500)*100}%`;
+// ── BOOKINGS ───────────────────────────────────────────
+function renderBookings(){
+  const w=document.getElementById('bookings-list');w.innerHTML='';
+  BOOKINGS.forEach(b=>{
+    const sc={confirmed:'s-confirmed',pending:'s-pending',cancelled:'s-cancelled'}[b.status];
+    const d=document.createElement('div');d.className='booking-item';
+    d.innerHTML=`<div class="bk-date"><div class="month">${b.date.month}</div><div class="day">${b.date.day}</div></div>
+    <div class="bk-info"><h4>${b.artist}</h4>
+    <p>${b.venue} · <strong style="color:var(--accent)">${b.fee.toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:0})}</strong></p>
+    <span class="spill ${sc}">${b.status.toUpperCase()}</span>
+    <p style="margin-top:6px;font-size:11px;color:var(--text3)">${b.notes}</p>
+    <div style="display:flex;gap:6px;margin-top:8px">
+      <button class="btn btn-ghost btn-sm" onclick="toast('Opening rider...')">View Rider</button>
+      ${b.status==='pending'?`<button class="btn btn-primary btn-sm" onclick="confirmBk(${b.id})">Confirm</button>`:''}
+    </div></div>`;
+    w.appendChild(d);
+  });
+}
+function openBookingForm(){document.getElementById('booking-form-wrap').style.display='block';}
+function closeBookingForm(){document.getElementById('booking-form-wrap').style.display='none';}
+function submitBooking(){
+  const a=document.getElementById('b-artist').value.trim();if(!a){toast('Enter artist name.');return;}
+  const v=document.getElementById('b-venue').value.trim();
+  const dt=document.getElementById('b-date').value.trim().split(' ');
+  const fee=parseInt(document.getElementById('b-fee').value)||0;
+  BOOKINGS.unshift({id:Date.now(),artist:a,venue:v||'TBD',date:{month:dt[0]||'TBD',day:dt[1]||'—'},fee,status:'pending',notes:'Offer dispatched.'});
+  closeBookingForm();renderBookings();
+  ['b-artist','b-venue','b-date','b-fee'].forEach(id=>document.getElementById(id).value='');
+  toast('Booking offer dispatched!');
+}
+function confirmBk(id){const b=BOOKINGS.find(x=>x.id===id);if(!b)return;b.status='confirmed';renderBookings();toast('Booking confirmed!');}
+
+// ── LEDGER / PROMOTER ──────────────────────────────────
+function renderLedger(){
+  document.getElementById('ledger-list').innerHTML=LEDGER.map(l=>`
+    <div class="ledger-row"><span class="l-name">${l.name}</span><span class="l-split">${l.split}</span><span class="l-amt">${l.amount}</span></div>`).join('');
+}
+function addLedger(){
+  const n=prompt('Artist / Party name:');if(!n)return;
+  const s=prompt('Split % (e.g. 10%):')||'0%';const a=prompt('Amount (e.g. $500):')||'$0';
+  LEDGER.push({name:n,split:s,amount:a});renderLedger();toast('Entry added.');
+}
+function sellTickets(){
+  const el=document.getElementById('p-sold');const bar=document.getElementById('tix-bar');const lbl=document.getElementById('tix-pct');
+  let sold=parseInt(el.textContent.replace(',',''));sold=Math.min(500,sold+10);
+  el.textContent=sold.toLocaleString();lbl.textContent=`${sold} / 500`;bar.style.width=`${(sold/500)*100}%`;
   toast(`${sold} tickets sold. ${500-sold} remaining.`);
 }
 
-// ────────────────────────────────────────────────
-// ACADEMY
-// ────────────────────────────────────────────────
-
-function renderCourses() {
-  const grid = document.getElementById('course-grid');
-  grid.innerHTML = '';
-  COURSES.forEach(c => {
-    const enrolled = c.progress > 0 && c.progress < 100;
-    const done = c.progress >= 100;
-    const div = document.createElement('div');
-    div.className = 'course-card';
-    div.innerHTML = `
-      <div class="course-thumb" style="background-image:url('${c.img}')">
-        <div class="course-tag" style="background:${c.tagColor};color:${c.tagText}">${c.tag}</div>
-      </div>
-      <div class="course-body">
-        <h4>${c.title}</h4>
-        <span class="level">${c.level}</span>
-        <div class="progress-wrap"><div class="progress-fill" id="prog-${c.key}" style="width:${c.progress}%"></div></div>
-        <div class="progress-meta">
-          <span id="status-${c.key}">${c.status}</span>
-          <span id="pct-${c.key}">${c.progress}%</span>
-        </div>
-        <button class="btn ${done?'btn-ghost':'btn-primary'} btn-sm btn-full" onclick="enrollCourse('${c.key}')" ${done?'disabled':''}>
-          ${done?'Completed ✓':enrolled?'Continue →':'Enroll Now'}
-        </button>
-      </div>`;
-    grid.appendChild(div);
+// ── ACADEMY ────────────────────────────────────────────
+function renderCourses(){
+  const g=document.getElementById('course-grid');g.innerHTML='';
+  COURSES.forEach(c=>{
+    const done=c.progress>=100;const enr=c.progress>0&&!done;
+    const d=document.createElement('div');d.className='course-card';
+    d.innerHTML=`<div class="course-thumb" style="background-image:url('${c.img}')">
+      <div class="course-tag" style="background:${c.tc};color:${c.tt}">${c.tag}</div></div>
+    <div class="course-body"><h4>${c.title}</h4><span class="level">${c.level}</span>
+    <div class="prog-wrap"><div class="prog-fill" id="pf-${c.key}" style="width:${c.progress}%"></div></div>
+    <div class="prog-meta"><span id="ps-${c.key}">${c.status}</span><span id="pp-${c.key}">${c.progress}%</span></div>
+    <button class="btn ${done?'btn-ghost':'btn-primary'} btn-sm btn-full" onclick="enrollCourse('${c.key}')" ${done?'disabled':''}>
+      ${done?'Completed ✓':enr?'Continue →':'Enroll Now'}</button></div>`;
+    g.appendChild(d);
   });
 }
-
-function enrollCourse(key) {
-  const c = COURSES.find(x => x.key === key);
-  if (!c || c.progress >= 100) return;
-  const status = document.getElementById('status-' + key);
-  const pct = document.getElementById('pct-' + key);
-  const fill = document.getElementById('prog-' + key);
-  status.textContent = 'In Progress...';
-  status.style.color = 'var(--accent)';
-  let p = c.progress;
-  const iv = setInterval(() => {
-    p = Math.min(100, p + 10);
-    c.progress = p;
-    fill.style.width = p + '%';
-    pct.textContent = p + '%';
-    if (p >= 100) {
-      clearInterval(iv);
-      status.textContent = 'Completed ✓';
-      status.style.color = 'var(--green)';
-      c.status = 'Completed ✓';
-      renderCourses();
-      toast('Course complete! Certification added to your profile.');
-    }
-  }, 300);
+function enrollCourse(key){
+  const c=COURSES.find(x=>x.key===key);if(!c||c.progress>=100)return;
+  document.getElementById('ps-'+key).textContent='In Progress...';
+  document.getElementById('ps-'+key).style.color='var(--accent)';
+  let p=c.progress;
+  const iv=setInterval(()=>{
+    p=Math.min(100,p+10);c.progress=p;
+    document.getElementById('pf-'+key).style.width=p+'%';
+    document.getElementById('pp-'+key).textContent=p+'%';
+    if(p>=100){clearInterval(iv);c.status='Completed ✓';renderCourses();toast('Course complete! Certification added to profile.');}
+  },300);
 }
 
-// ────────────────────────────────────────────────
-// MESSAGING
-// ────────────────────────────────────────────────
-
-function renderInbox() {
-  const inbox = document.getElementById('inbox');
-  inbox.innerHTML = '';
-  Object.keys(CHATS).forEach(key => {
-    const c = CHATS[key];
-    const last = c.messages[c.messages.length - 1];
-    const div = document.createElement('div');
-    div.className = `inbox-item${key===currentChat?' active':''}`;
-    div.id = 'inbox-' + key;
-    div.onclick = () => loadChat(key);
-    div.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px">
-        <h5>${c.name}</h5>
-        ${c.online?'<div class="unread-dot"></div>':''}
-      </div>
+// ── MESSAGING ──────────────────────────────────────────
+let curChat='marcus';
+function renderInbox(){
+  const ib=document.getElementById('inbox');ib.innerHTML='';
+  Object.keys(CHATS).forEach(k=>{
+    const c=CHATS[k];const last=c.messages[c.messages.length-1];
+    const d=document.createElement('div');d.className=`inbox-item${k===curChat?' active':''}`;
+    d.id='ib-'+k;d.onclick=()=>loadChat(k);
+    d.innerHTML=`<div style="display:flex;justify-content:space-between;margin-bottom:3px">
+      <h5>${c.name}</h5>${c.online?'<div class="unread-dot"></div>':''}</div>
       <p>${last.text.substring(0,40)}${last.text.length>40?'…':''}</p>
       <div class="time">${last.time}</div>`;
-    inbox.appendChild(div);
+    ib.appendChild(d);
   });
 }
-
-function loadChat(key) {
-  currentChat = key;
-  const c = CHATS[key];
-  document.getElementById('chat-name').textContent = c.name;
-  document.querySelectorAll('.inbox-item').forEach(el => el.classList.remove('active'));
-  const inboxItem = document.getElementById('inbox-' + key);
-  if (inboxItem) inboxItem.classList.add('active');
-  const msgs = document.getElementById('chat-msgs');
-  msgs.innerHTML = '';
-  c.messages.forEach(m => {
-    const div = document.createElement('div');
-    div.className = `bubble ${m.type}`;
-    div.innerHTML = `${m.text}<span class="ts">${m.time}</span>`;
-    msgs.appendChild(div);
+function loadChat(k){
+  curChat=k;const c=CHATS[k];
+  document.getElementById('chat-name').textContent=c.name;
+  document.querySelectorAll('.inbox-item').forEach(el=>el.classList.remove('active'));
+  const ib=document.getElementById('ib-'+k);if(ib)ib.classList.add('active');
+  const msgs=document.getElementById('chat-msgs');msgs.innerHTML='';
+  c.messages.forEach(m=>{
+    const d=document.createElement('div');d.className=`bubble ${m.type}`;
+    d.innerHTML=`${m.text}<span class="ts">${m.time}</span>`;msgs.appendChild(d);
   });
-  msgs.scrollTop = msgs.scrollHeight;
+  msgs.scrollTop=msgs.scrollHeight;
 }
-
-function sendMessage() {
-  const input = document.getElementById('chat-input');
-  const txt = input.value.trim();
-  if (!txt) return;
-  const now = new Date();
-  const time = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  CHATS[currentChat].messages.push({text: txt, type: 'out', time});
-  input.value = '';
-  loadChat(currentChat);
-  renderInbox();
-  // Simulate reply after delay
-  const typing = document.getElementById('typing-area');
-  const c = CHATS[currentChat];
-  if (c.online) {
-    typing.style.display = 'block';
-    setTimeout(() => {
-      typing.style.display = 'none';
-      const replies = [
-        'Got it, on it now.',
-        'Thanks for the update. Will circle back shortly.',
-        'Sounds good. Let me know if you need anything else.',
-        '🔥 Appreciate it.',
-        'Perfect timing. Just finishing up this session.'
-      ];
-      const reply = replies[Math.floor(Math.random() * replies.length)];
-      const t2 = new Date();
-      CHATS[currentChat].messages.push({text: reply, type: 'in', time: t2.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})});
-      loadChat(currentChat);
-      renderInbox();
-    }, 1400 + Math.random() * 800);
+function sendMsg(){
+  const inp=document.getElementById('chat-input');const txt=inp.value.trim();if(!txt)return;
+  const t=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  CHATS[curChat].messages.push({text:txt,type:'out',time:t});
+  inp.value='';loadChat(curChat);renderInbox();
+  const typ=document.getElementById('typing-area');const c=CHATS[curChat];
+  if(c.online){
+    typ.style.display='block';
+    setTimeout(()=>{
+      typ.style.display='none';
+      const reps=['Got it, on it now.','Thanks for the update!','Sounds good.','🔥 Appreciate it.','Perfect timing.'];
+      const t2=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+      CHATS[curChat].messages.push({text:reps[Math.floor(Math.random()*reps.length)],type:'in',time:t2});
+      loadChat(curChat);renderInbox();
+    },1200+Math.random()*1000);
   }
 }
 
-// ────────────────────────────────────────────────
-// ANALYTICS
-// ────────────────────────────────────────────────
-
-const ANALYTICS_DATA = {
-  '7d': { streams:'42.1k', royalties:'$284', playlists:'114', streamsDelta:'+12.4%', royDelta:'+8.2%', plDelta:'+7',
-    labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-    data:[3200,4100,3800,5200,6100,7800,4900] },
-  '30d': { streams:'182k', royalties:'$1,240', playlists:'381', streamsDelta:'+34.1%', royDelta:'+28.9%', plDelta:'+42',
-    labels:['Wk 1','Wk 2','Wk 3','Wk 4'],
-    data:[38000,48000,52000,44000] },
-  '90d': { streams:'540k', royalties:'$3,720', playlists:'829', streamsDelta:'+18.2%', royDelta:'+15.1%', plDelta:'+115',
-    labels:['Jan','Feb','Mar'],
-    data:[160000,185000,195000] },
-  '1y': { streams:'2.1M', royalties:'$14,480', playlists:'2,304', streamsDelta:'+62.4%', royDelta:'+71.2%', plDelta:'+490',
-    labels:['Q1','Q2','Q3','Q4'],
-    data:[420000,480000,620000,580000] }
+// ── ANALYTICS ──────────────────────────────────────────
+const AD={
+  '7d':{s:'42.1k',r:'$284',p:'114',sd:'+12.4%',rd:'+8.2%',pd:'+7',labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],data:[3200,4100,3800,5200,6100,7800,4900]},
+  '30d':{s:'182k',r:'$1,240',p:'381',sd:'+34.1%',rd:'+28.9%',pd:'+42',labels:['Wk 1','Wk 2','Wk 3','Wk 4'],data:[38000,48000,52000,44000]},
+  '90d':{s:'540k',r:'$3,720',p:'829',sd:'+18.2%',rd:'+15.1%',pd:'+115',labels:['Jan','Feb','Mar'],data:[160000,185000,195000]},
+  '1y':{s:'2.1M',r:'$14,480',p:'2,304',sd:'+62.4%',rd:'+71.2%',pd:'+490',labels:['Q1','Q2','Q3','Q4'],data:[420000,480000,620000,580000]}
 };
-
-function updateAnalytics(range, el) {
-  document.querySelectorAll('#tab-analytics .pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  const d = ANALYTICS_DATA[range];
-  document.getElementById('a-streams').textContent = d.streams;
-  document.getElementById('a-royalties').textContent = d.royalties;
-  document.getElementById('a-playlists').textContent = d.playlists;
-  document.getElementById('a-streams-d').textContent = d.streamsDelta;
-  document.getElementById('a-royalties-d').textContent = d.royDelta;
-  document.getElementById('a-playlists-d').textContent = d.plDelta;
-  if (analyticsChart) {
-    analyticsChart.data.labels = d.labels;
-    analyticsChart.data.datasets[0].data = d.data;
-    analyticsChart.update();
-  }
+let aChart=null,pChart=null,mChart=null;
+function updateAnalytics(range,el){
+  document.querySelectorAll('#tab-analytics .pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');
+  const d=AD[range];
+  document.getElementById('a-streams').textContent=d.s;document.getElementById('a-roy').textContent=d.r;document.getElementById('a-pl').textContent=d.p;
+  document.getElementById('a-sd').textContent=d.sd;document.getElementById('a-rd').textContent=d.rd;document.getElementById('a-pd').textContent=d.pd;
+  if(aChart){aChart.data.labels=d.labels;aChart.data.datasets[0].data=d.data;aChart.update();}
+}
+function initAChart(){
+  if(aChart)return;const d=AD['7d'];
+  aChart=new Chart(document.getElementById('analytics-chart'),{type:'line',data:{labels:d.labels,datasets:[{label:'Streams',data:d.data,borderColor:'#4f9cf9',backgroundColor:'rgba(79,156,249,0.1)',fill:true,tension:.4,pointBackgroundColor:'#4f9cf9',pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#5e5c58',font:{family:'Space Mono',size:10}},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'#5e5c58',font:{family:'Space Mono',size:10}},grid:{color:'rgba(255,255,255,0.04)'}}}}});
+}
+function initPChart(){
+  if(pChart)return;
+  pChart=new Chart(document.getElementById('promo-chart'),{type:'doughnut',data:{labels:['Online','Door','Presale'],datasets:[{data:[45,28,27],backgroundColor:['#4f9cf9','#3fcf8e','#a78bfa'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'right',labels:{color:'#9d9a95',font:{family:'Space Mono',size:10},boxWidth:10}}}}});
+}
+function initMChart(){
+  if(mChart)return;
+  mChart=new Chart(document.getElementById('mgmt-chart'),{type:'bar',data:{labels:['Dec','Jan','Feb','Mar','Apr','May'],datasets:[{label:'Revenue',data:[4200,5100,3800,6200,5600,4900],backgroundColor:'rgba(79,156,249,0.6)',borderColor:'#4f9cf9',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#5e5c58',font:{family:'Space Mono',size:10}},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'#5e5c58',font:{family:'Space Mono',size:10},callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(255,255,255,0.04)'}}}}});
 }
 
-function initAnalyticsChart() {
-  if (analyticsChart) return;
-  const d = ANALYTICS_DATA['7d'];
-  analyticsChart = new Chart(document.getElementById('analytics-chart'), {
-    type: 'line',
-    data: {
-      labels: d.labels,
-      datasets: [{
-        label: 'Streams',
-        data: d.data,
-        borderColor: '#4f9cf9',
-        backgroundColor: 'rgba(79,156,249,0.1)',
-        fill: true,
-        tension: 0.4,
-        pointBackgroundColor: '#4f9cf9',
-        pointRadius: 4
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { ticks: { color: '#5e5c58', font: { family: 'Space Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
-        y: { ticks: { color: '#5e5c58', font: { family: 'Space Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
-      }
-    }
-  });
-}
-
-function initPromoChart() {
-  if (promoChart) return;
-  promoChart = new Chart(document.getElementById('promo-chart'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Online', 'Door', 'Presale'],
-      datasets: [{
-        data: [45, 28, 27],
-        backgroundColor: ['#4f9cf9', '#3fcf8e', '#a78bfa'],
-        borderWidth: 0
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: true, position: 'right', labels: { color: '#9d9a95', font: { family: 'Space Mono', size: 10 }, boxWidth: 10 } }
-      }
-    }
-  });
-}
-
-function initMgmtChart() {
-  if (mgmtChart) return;
-  mgmtChart = new Chart(document.getElementById('mgmt-chart'), {
-    type: 'bar',
-    data: {
-      labels: ['Dec','Jan','Feb','Mar','Apr','May'],
-      datasets: [{
-        label: 'Revenue',
-        data: [4200, 5100, 3800, 6200, 5600, 4900],
-        backgroundColor: 'rgba(79,156,249,0.6)',
-        borderColor: '#4f9cf9',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { ticks: { color: '#5e5c58', font: { family: 'Space Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
-        y: { ticks: { color: '#5e5c58', font: { family: 'Space Mono', size: 10 }, callback: v => '$'+v.toLocaleString() }, grid: { color: 'rgba(255,255,255,0.04)' } }
-      }
-    }
-  });
-}
-
-function initCharts() {
-  // Charts init lazily on tab open, but analytics is shown first
-  // Pre-init analytics when page loads if visible
-}
-
-// ────────────────────────────────────────────────
-// RIGHT PANEL
-// ────────────────────────────────────────────────
-
-function renderTrending() {
-  document.getElementById('trending-sounds').innerHTML = TRENDING_SOUNDS.map(t => `
-    <div class="trending-item" onclick="toast('Loading sound: ${t.name}')">
-      <span class="trending-rank">${t.rank}</span>
-      <div class="trending-info" style="flex:1">
-        <h5>${t.name}</h5>
-        <span>${t.count}</span>
-      </div>
+// ── RIGHT PANEL ────────────────────────────────────────
+function renderTrending(){
+  document.getElementById('trending-sounds').innerHTML=TRENDING.map(t=>`
+    <div class="trending-item" onclick="toast('Loading: ${t.name}')">
+      <span class="t-rank">${t.rank}</span>
+      <div class="t-info" style="flex:1"><h5>${t.name}</h5><span>${t.count}</span></div>
     </div>`).join('');
 }
-
-function renderSuggestions() {
-  document.getElementById('suggestions').innerHTML = SUGGESTIONS.map(s => `
-    <div class="suggest-item">
-      <div class="suggest-av" style="background-image:url('${s.av}')"></div>
-      <div style="flex:1">
-        <div style="font-size:12px;font-weight:600;color:var(--text)">${s.name}</div>
-        <div style="font-size:10px;color:var(--text3);font-family:'Space Mono',monospace">${s.role}</div>
-      </div>
-      <button class="btn btn-ghost btn-sm" style="font-size:11px" onclick="toast('Following ${s.name}...')">Follow</button>
+function renderSuggestions(){
+  document.getElementById('suggestions').innerHTML=SUGGESTS.map(s=>`
+    <div class="sug-item">
+      <div class="sug-av" style="background-image:url('${s.av}')"></div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--text)">${s.name}</div><div style="font-size:10px;color:var(--text3);font-family:var(--mono)">${s.role}</div></div>
+      <button class="btn btn-ghost btn-sm" style="font-size:11px" onclick="toast('Following ${s.name}!')">Follow</button>
     </div>`).join('');
 }
-
-function renderGeo() {
-  document.getElementById('geo-list').innerHTML = GEO_DATA.map(g => `
+function renderGeo(){
+  document.getElementById('geo-list').innerHTML=GEO.map(g=>`
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
         <span style="color:var(--text)">${g.city}</span>
-        <span style="font-family:'Space Mono',monospace;color:var(--accent)">${g.pct}%</span>
+        <span style="font-family:var(--mono);color:var(--accent)">${g.pct}%</span>
       </div>
       <div style="height:4px;background:var(--bg4);border-radius:2px;overflow:hidden">
         <div style="height:100%;width:${g.pct}%;background:var(--accent);border-radius:2px"></div>
@@ -1592,24 +1822,15 @@ function renderGeo() {
     </div>`).join('');
 }
 
-// ────────────────────────────────────────────────
-// MISC UTILITY
-// ────────────────────────────────────────────────
+// ── CHART LAZY INIT ────────────────────────────────────
+document.querySelector('[data-tab="analytics"]').addEventListener('click',()=>setTimeout(initAChart,100));
+document.querySelector('[data-tab="promoter"]').addEventListener('click',()=>setTimeout(initPChart,100));
+document.querySelector('[data-tab="management"]').addEventListener('click',()=>setTimeout(initMChart,100));
 
-// Smooth rerender on resize for waveform
-window.addEventListener('resize', () => drawWaveform());
-
-// Kick off charts on first analytics view
-document.querySelector('[data-tab="analytics"]').addEventListener('click', () => {
-  setTimeout(initAnalyticsChart, 100);
-});
-document.querySelector('[data-tab="promoter"]').addEventListener('click', () => {
-  setTimeout(initPromoChart, 100);
-});
-document.querySelector('[data-tab="management"]').addEventListener('click', () => {
-  setTimeout(initMgmtChart, 100);
-});
-
+// ── BOOT ───────────────────────────────────────────────
+seedDefaults();
+const sess=DB.session();
+if(sess&&sess.username){startSession(sess.username);}
 </script>
 </body>
 </html>
